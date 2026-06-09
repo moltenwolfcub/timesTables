@@ -38,6 +38,9 @@ public class HistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
+        View rootView = findViewById(R.id.history_root);
+        ThemeUtils.applySystemBarInsets(rootView);
+
         db = AppDatabase.getDatabase(this);
 
         btnAll = findViewById(R.id.filter_all);

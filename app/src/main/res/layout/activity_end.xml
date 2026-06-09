@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/end_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:background="#0F172A"
+    android:orientation="vertical"
     android:padding="16dp">
 
     <TextView
@@ -15,24 +16,24 @@
         android:layout_marginBottom="24dp"
         android:paddingVertical="30sp"
         android:text="Game Summary"
-        android:textColor="#38BDF8"
         android:textAlignment="center"
+        android:textColor="#38BDF8"
         android:textSize="32sp"
         android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_marginBottom="20dp"
         android:background="#1E293B"
-        android:padding="16dp"
-        android:layout_marginBottom="20dp">
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
@@ -41,23 +42,23 @@
                 android:text="Max Table:"
                 android:textColor="#94A3B8"
                 android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
-                tools:text="12"
                 android:id="@+id/tableMax"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                tools:text="12" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
@@ -66,16 +67,16 @@
                 android:text="Problems Answered:"
                 android:textColor="#94A3B8"
                 android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
-                tools:text="10"
                 android:id="@+id/questionCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                tools:text="10" />
         </LinearLayout>
 
         <LinearLayout
@@ -90,16 +91,16 @@
                 android:text="Average Speed:"
                 android:textColor="#94A3B8"
                 android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
-                tools:text="1.523s"
                 android:id="@+id/speed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#FBBF24"
                 android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                tools:text="1.523s" />
 
         </LinearLayout>
 
@@ -108,29 +109,30 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:letterSpacing="0.05"
+        android:paddingHorizontal="4dp"
         android:text="PROBLEMS SOLVED"
         android:textColor="#475569"
         android:textSize="12sp"
-        android:textStyle="bold"
-        android:letterSpacing="0.05"
-        android:layout_marginBottom="6dp"
-        android:paddingHorizontal="4dp"/>
-    
+        android:textStyle="bold" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
         android:layout_weight="1"
         android:background="#151F32"
-        android:layout_marginBottom="16dp"
         android:padding="8dp">
+
         <TextView
-            tools:text="Result 1\nResult 2\nResult 3"
             android:id="@+id/results"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#94A3B8"
             android:lineSpacingExtra="6dp"
-            android:textSize="15sp"/>
+            android:textColor="#94A3B8"
+            android:textSize="15sp"
+            tools:text="Result 1\nResult 2\nResult 3" />
 
     </ScrollView>
 
@@ -139,10 +141,10 @@
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:text="DONE"
+        android:textColor="#0F172A"
         android:textSize="15sp"
         android:textStyle="bold"
         app:backgroundTint="#34D399"
-        android:textColor="#0F172A"
         app:cornerRadius="8dp" />
 
 </LinearLayout>

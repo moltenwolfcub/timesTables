@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/history_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:background="#0F172A"
+    android:orientation="vertical"
     android:padding="16dp">
 
     <TextView
@@ -14,77 +15,77 @@
         android:layout_marginTop="12dp"
         android:layout_marginBottom="20dp"
         android:text="Performance Dashboard"
-        android:textColor="#38BDF8"
         android:textAlignment="center"
+        android:textColor="#38BDF8"
         android:textSize="24sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/filter_all"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="2dp"
             android:layout_weight="1"
-            android:text="All"
-            android:textSize="13sp"
-            android:paddingHorizontal="4dp"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:layout_marginHorizontal="2dp"
+            android:paddingHorizontal="4dp"
+            android:text="All"
+            android:textSize="13sp"
             app:cornerRadius="6dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/filter_month"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="2dp"
             android:layout_weight="1"
-            android:text="Month"
-            android:textSize="13sp"
-            android:paddingHorizontal="4dp"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:layout_marginHorizontal="2dp"
+            android:paddingHorizontal="4dp"
+            android:text="Month"
+            android:textSize="13sp"
             app:cornerRadius="6dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/filter_week"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="2dp"
             android:layout_weight="1"
-            android:text="Week"
-            android:textSize="13sp"
-            android:paddingHorizontal="4dp"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:layout_marginHorizontal="2dp"
+            android:paddingHorizontal="4dp"
+            android:text="Week"
+            android:textSize="13sp"
             app:cornerRadius="6dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/filter_today"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="2dp"
             android:layout_weight="1"
-            android:text="Today"
-            android:textSize="13sp"
-            android:paddingHorizontal="4dp"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:layout_marginHorizontal="2dp"
+            android:paddingHorizontal="4dp"
+            android:text="Today"
+            android:textSize="13sp"
             app:cornerRadius="6dp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:background="#1E293B"
         android:orientation="vertical"
-        android:padding="16dp"
-        android:layout_marginBottom="16dp">
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/stat_total_games"
@@ -120,48 +121,50 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
+        android:layout_marginBottom="24dp"
         android:background="#1E293B"
-        android:padding="12dp"
-        android:layout_marginBottom="24dp">
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingEnd="12dp"
             android:text="Filter by Max Table:"
             android:textColor="#94A3B8"
             android:textSize="14sp"
-            android:textStyle="bold"
-            android:paddingEnd="12dp"/>
+            android:textStyle="bold" />
+
         <EditText
             android:id="@+id/et_filter_table"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="e.g. 12 (Leave blank for all)"
             android:background="#0F172A"
+            android:hint="e.g. 12 (Leave blank for all)"
+            android:inputType="number"
+            android:padding="8dp"
             android:textColor="#38BDF8"
             android:textColorHint="#475569"
-            android:padding="8dp"
-            android:inputType="number"
             android:textSize="14sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
     </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:letterSpacing="0.05"
+        android:paddingHorizontal="4dp"
         android:text="Previous Games"
         android:textColor="#475569"
-        android:textStyle="bold"
         android:textSize="12sp"
-        android:letterSpacing="0.05"
-        android:layout_marginBottom="8dp"
-        android:paddingHorizontal="4dp"/>
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_history_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        tools:listitem="@layout/item_history_row"/>
+        tools:listitem="@layout/item_history_row" />
 </LinearLayout>
