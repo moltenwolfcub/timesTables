@@ -77,8 +77,10 @@ public class GameActivity extends AppCompatActivity {
             updateUI();
         } else {
             Intent intent = new Intent(this, EndActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             intent.putExtra("game", game);
             startActivity(intent);
+            finish();
         }
     }
 
