@@ -62,14 +62,13 @@ public class MainActivity extends AppCompatActivity {
                 int first = rand.nextInt(maxTableValue)+1;
                 int second = rand.nextInt(maxTableValue)+1;
                 questionSet.add(new Question(first,second));
-
-                Game game = new Game(questionSet);
-
-                Intent intent = new Intent(this, GameActivity.class);
-                intent.putExtra("game", game);
-
-                startActivity(intent);
             }
+            Game game = new Game(questionSet, maxTableValue);
+
+            Intent intent = new Intent(this, GameActivity.class);
+            intent.putExtra("game", game);
+
+            startActivity(intent);
         });
     }
 

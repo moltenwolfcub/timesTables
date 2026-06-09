@@ -76,10 +76,9 @@ public class GameActivity extends AppCompatActivity {
             game.nextQuestion();
             updateUI();
         } else {
-            Toast.makeText(this, "Out of questions", Toast.LENGTH_SHORT).show();
-//            Intent intent = new Intent(this, DiscussionActivity.class);
-//            intent.putExtra("game", game);
-//            startActivity(intent);
+            Intent intent = new Intent(this, EndActivity.class);
+            intent.putExtra("game", game);
+            startActivity(intent);
         }
     }
 

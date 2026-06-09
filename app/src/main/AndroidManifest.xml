@@ -22,7 +22,10 @@
         <activity
             android:name=".GameActivity"
             android:exported="false">
-
+        </activity>
+        <activity
+            android:name=".EndActivity"
+            android:exported="false">
         </activity>
     </application>
 
