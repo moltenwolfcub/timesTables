@@ -5,23 +5,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:padding="6dp">
+    android:padding="2dp">
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_key"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:textColor="#FFFFFF"
-        android:textSize="32sp"
+        android:textColor="#F8FAFC"
+        android:textSize="28sp"
         android:textStyle="bold"
-        app:backgroundTint="#2C3E50"
-        app:cornerRadius="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:backgroundTint="#1E293B"
+        app:cornerRadius="8dp"
+        app:rippleColor="#38BDF8"
         app:layout_constraintTop_toTopOf="parent"
-        app:rippleColor="#FFFFFF"
-        tools:text="5"
-        android:padding="2dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        tools:text="5" />
 </androidx.constraintlayout.widget.ConstraintLayout>

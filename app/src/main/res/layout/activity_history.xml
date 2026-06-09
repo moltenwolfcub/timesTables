@@ -3,14 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="#0F172A"
     android:padding="16dp">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20sp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="20dp"
         android:text="Performance Dashboard"
+        android:textColor="#38BDF8"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"/>
@@ -26,60 +30,74 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="All"/>
+            android:text="All"
+            android:layout_marginHorizontal="2dp"
+            app:cornerRadius="6dp"/>
 
         <Button
             android:id="@+id/filter_month"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Month"/>
+            android:text="Month"
+            android:layout_marginHorizontal="2dp"
+            app:cornerRadius="6dp"/>
 
         <Button
             android:id="@+id/filter_week"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Week"/>
+            android:text="Week"
+            android:layout_marginHorizontal="2dp"
+            app:cornerRadius="6dp"/>
 
         <Button
             android:id="@+id/filter_today"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Today"/>
+            android:text="Today"
+            android:layout_marginHorizontal="2dp"
+            app:cornerRadius="6dp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:background="@color/cardview_dark_background"
+        android:background="#1E293B"
         android:orientation="vertical"
-        android:padding="12dp">
+        android:padding="16dp"
+        android:layout_marginBottom="16dp">
 
         <TextView
             android:id="@+id/stat_total_games"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="6dp"
             android:text="Total Games: --"
-            android:textSize="16sp" />
+            android:textColor="#94A3B8"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/stat_avg_speed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="6dp"
             android:text="Overall Avg Speed: --"
-            android:textSize="16sp" />
+            android:textColor="#94A3B8"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/stat_best_speed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Personal Best Speed: --"
-            android:textSize="16sp" />
+            android:textColor="#FBBF24"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -88,30 +106,41 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:layout_marginBottom="16dp">
+        android:background="#1E293B"
+        android:padding="12dp"
+        android:layout_marginBottom="24dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Filter by Max Table:"
+            android:textColor="#94A3B8"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:paddingEnd="8dp"/>
+            android:paddingEnd="12dp"/>
         <EditText
             android:id="@+id/et_filter_table"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="e.g. 12 (Leave blank for all)"
+            android:background="#0F172A"
+            android:textColor="#38BDF8"
+            android:textColorHint="#475569"
+            android:padding="8dp"
             android:inputType="number"
-            android:textSize="14sp"/>
+            android:textSize="14sp"
+            android:textStyle="bold"/>
     </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Previous Games"
+        android:textColor="#475569"
         android:textStyle="bold"
-        android:textSize="16sp"
-        android:layout_marginBottom="8dp"/>
+        android:textSize="12sp"
+        android:letterSpacing="0.05"
+        android:layout_marginBottom="8dp"
+        android:paddingHorizontal="4dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_history_list"
