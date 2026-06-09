@@ -21,6 +21,7 @@ public class EndActivity extends AppCompatActivity {
 
     private TextView maxTable;
     private TextView questionCount;
+    private TextView speed;
     private Button done;
     private TextView results;
 
@@ -33,11 +34,20 @@ public class EndActivity extends AppCompatActivity {
 
         maxTable = findViewById(R.id.tableMax);
         questionCount = findViewById(R.id.questionCount);
+        speed = findViewById(R.id.speed);
         done = findViewById(R.id.done);
         results = findViewById(R.id.results);
 
         maxTable.setText(""+game.MaxTable());
         questionCount.setText(""+game.QuestionCount());
+
+        long sum = 0;
+        for (int i = 0; i<game.GetQuestions().size();i++) {
+            sum+= game.GetQuestions().get(i).Duration();
+        }
+        double avg = (double) sum /game.QuestionCount();
+        String avgText = (Math.round((avg/1_000_000_000.0)*1000.0)/1000.0)+"s";
+        speed.setText(avgText);
 
         StringBuilder questionResults = new StringBuilder();
         for (int i = 0; i<game.GetQuestions().size();i++) {
