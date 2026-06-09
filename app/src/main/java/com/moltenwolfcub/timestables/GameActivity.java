@@ -42,6 +42,7 @@ public class GameActivity extends AppCompatActivity {
         KeypadAdapter adapter = new KeypadAdapter(keys, this::handleKeyInput);
         keypad.setAdapter(adapter);
 
+        game.getCurrentQuestion().Start();
         updateUI();
     }
 
@@ -71,9 +72,11 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void correctAnswer() {
+        game.getCurrentQuestion().End();
         typedAnswer.setText("");
         if (game.hasNextQuestion()) {
             game.nextQuestion();
+            game.getCurrentQuestion().Start();
             updateUI();
         } else {
             Intent intent = new Intent(this, EndActivity.class);

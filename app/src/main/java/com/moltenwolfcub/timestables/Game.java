@@ -33,6 +33,10 @@ public class Game implements Parcelable {
         return null;
     }
 
+    public List<Question> GetQuestions() {
+        return questions;
+    }
+
     public int QuestionCount() {
         return questions.size();
     }

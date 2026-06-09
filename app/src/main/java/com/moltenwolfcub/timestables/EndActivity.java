@@ -22,6 +22,7 @@ public class EndActivity extends AppCompatActivity {
     private TextView maxTable;
     private TextView questionCount;
     private Button done;
+    private TextView results;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,9 +34,11 @@ public class EndActivity extends AppCompatActivity {
         maxTable = findViewById(R.id.tableMax);
         questionCount = findViewById(R.id.questionCount);
         done = findViewById(R.id.done);
+        results = findViewById(R.id.results);
 
         maxTable.setText(""+game.MaxTable());
         questionCount.setText(""+game.QuestionCount());
+        results.setText(game.GetQuestions().get(0).toString());
 
         done.setOnClickListener(view -> {
             Intent intent = new Intent(this, MainActivity.class);
