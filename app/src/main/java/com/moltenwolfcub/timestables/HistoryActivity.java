@@ -7,6 +7,7 @@ import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ import java.util.Locale;
 
 public class HistoryActivity extends AppCompatActivity {
 
+    private Button btnAll, btnMonth, btnWeek, btnToday;
     private TextView tvTotalGames, tvAvgSpeed, tvBestSpeed;
     private EditText etFilterTable;
     private RecyclerView rvHistory;
@@ -38,6 +40,11 @@ public class HistoryActivity extends AppCompatActivity {
 
         db = AppDatabase.getDatabase(this);
 
+        btnAll = findViewById(R.id.filter_all);
+        btnMonth = findViewById(R.id.filter_month);
+        btnWeek = findViewById(R.id.filter_week);
+        btnToday = findViewById(R.id.filter_today);
+
         tvTotalGames = findViewById(R.id.stat_total_games);
         tvAvgSpeed = findViewById(R.id.stat_avg_speed);
         tvBestSpeed = findViewById(R.id.stat_best_speed);
@@ -48,10 +55,22 @@ public class HistoryActivity extends AppCompatActivity {
         adapter = new HistoryAdapter(new ArrayList<>());
         rvHistory.setAdapter(adapter);
 
-        findViewById(R.id.filter_all).setOnClickListener(v -> updateTimeFilter(0));
-        findViewById(R.id.filter_month).setOnClickListener(v -> updateTimeFilter(getCutoffTimestamp(Calendar.MONTH, -1)));
-        findViewById(R.id.filter_week).setOnClickListener(v -> updateTimeFilter(getCutoffTimestamp(Calendar.WEEK_OF_YEAR, -1)));
-        findViewById(R.id.filter_today).setOnClickListener(v -> updateTimeFilter(getCutoffTimestamp(Calendar.DAY_OF_YEAR, 0)));
+        btnAll.setOnClickListener(v -> {
+            updateTimeFilter(0);
+            setActiveButton(btnAll);
+        });
+        btnMonth.setOnClickListener(v -> {
+            updateTimeFilter(getCutoffTimestamp(Calendar.MONTH, -1));
+            setActiveButton(btnMonth);
+        });
+        btnWeek.setOnClickListener(v -> {
+            updateTimeFilter(getCutoffTimestamp(Calendar.WEEK_OF_YEAR, -1));
+            setActiveButton(btnWeek);
+        });
+        btnToday.setOnClickListener(v -> {
+            updateTimeFilter(getCutoffTimestamp(Calendar.DAY_OF_YEAR, 0));
+            setActiveButton(btnToday);
+        });
 
         etFilterTable.addTextChangedListener(new TextWatcher() {
             @Override
@@ -76,6 +95,7 @@ public class HistoryActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {}
         });
 
+        setActiveButton(btnAll);
         loadDashboardData();
     }
 
@@ -94,6 +114,20 @@ public class HistoryActivity extends AppCompatActivity {
         }
         cal.add(calendarField, amount);
         return cal.getTimeInMillis();
+    }
+
+    private void setActiveButton(Button activeIntent) {
+        Button[] allButtons = {btnAll, btnMonth, btnWeek, btnToday};
+
+        for (Button btn : allButtons) {
+            if (btn == activeIntent) {
+                btn.setBackgroundColor(android.graphics.Color.parseColor("#5A595B"));
+                btn.setTypeface(null, android.graphics.Typeface.BOLD);
+            } else {
+                btn.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+                btn.setTypeface(null, android.graphics.Typeface.NORMAL);
+            }
+        }
     }
 
     private void loadDashboardData() {
@@ -137,7 +171,7 @@ public class HistoryActivity extends AppCompatActivity {
             GameRecord r = items.get(pos);
             h.date.setText(DateFormat.format("dd MMM yyyy HH:mm", r.getTimestamp()));
             h.table.setText("Max Table: " + r.getMaxTable());
-            h.score.setText(r.getTotalQuestions() + " Problems");
+            h.score.setText(r.getTotalQuestions() + " Questions");
             h.speed.setText(String.format(Locale.UK, "%s avg", Question.formatDuration(r.getAverageSpeed())));
         }
 
