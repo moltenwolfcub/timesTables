@@ -34,7 +34,7 @@ public class GameActivity extends AppCompatActivity {
 
         typedAnswer.setShowSoftInputOnFocus(false);
 
-        List<String> keys = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "⌫", "0", "");
+        List<String> keys = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "⌫", "0", "[C]");
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         keypad.setLayoutManager(gridLayoutManager);
@@ -49,12 +49,14 @@ public class GameActivity extends AppCompatActivity {
         String currentText = typedAnswer.getText().toString();
 
         switch (key) {
-            case "":
-                break;
             case "⌫":
                 if (!currentText.isEmpty()) {
                     typedAnswer.setText(currentText.substring(0, currentText.length() - 1));
                 }
+                break;
+
+            case "[C]":
+                typedAnswer.setText("");
                 break;
 
             default:
