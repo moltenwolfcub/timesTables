@@ -119,12 +119,20 @@ public class HistoryActivity extends AppCompatActivity {
     private void setActiveButton(Button activeIntent) {
         Button[] allButtons = {btnAll, btnMonth, btnWeek, btnToday};
 
+        int selectedBg = android.graphics.Color.parseColor("#38BDF8");
+        int selectedText = android.graphics.Color.parseColor("#0F172A");
+
+        int unselectedBg = android.graphics.Color.parseColor("#1E293B");
+        int unselectedText = android.graphics.Color.parseColor("#64748B");
+
         for (Button btn : allButtons) {
             if (btn == activeIntent) {
-                btn.setBackgroundColor(android.graphics.Color.parseColor("#5A595B"));
+                btn.setBackgroundTintList(android.content.res.ColorStateList.valueOf(selectedBg));
+                btn.setTextColor(selectedText);
                 btn.setTypeface(null, android.graphics.Typeface.BOLD);
             } else {
-                btn.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+                btn.setBackgroundTintList(android.content.res.ColorStateList.valueOf(unselectedBg));
+                btn.setTextColor(unselectedText);
                 btn.setTypeface(null, android.graphics.Typeface.NORMAL);
             }
         }

@@ -25,41 +25,57 @@
         android:orientation="horizontal"
         android:layout_marginBottom="16dp">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/filter_all"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="All"
+            android:textSize="13sp"
+            android:paddingHorizontal="4dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             android:layout_marginHorizontal="2dp"
-            app:cornerRadius="6dp"/>
+            app:cornerRadius="6dp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/filter_month"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Month"
+            android:textSize="13sp"
+            android:paddingHorizontal="4dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             android:layout_marginHorizontal="2dp"
-            app:cornerRadius="6dp"/>
+            app:cornerRadius="6dp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/filter_week"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Week"
+            android:textSize="13sp"
+            android:paddingHorizontal="4dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             android:layout_marginHorizontal="2dp"
-            app:cornerRadius="6dp"/>
+            app:cornerRadius="6dp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/filter_today"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Today"
+            android:textSize="13sp"
+            android:paddingHorizontal="4dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             android:layout_marginHorizontal="2dp"
-            app:cornerRadius="6dp"/>
+            app:cornerRadius="6dp" />
     </LinearLayout>
 
     <LinearLayout
