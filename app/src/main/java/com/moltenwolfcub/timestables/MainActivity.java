@@ -13,6 +13,7 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText maxTable;
     private EditText questionCountInput;
     private Button go;
+
+    private Button history;
 
     private int maxTableValue;
     private int questionCount;
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         maxTable = findViewById(R.id.editTextNumber);
         questionCountInput = findViewById(R.id.editTextNumber2);
         go = findViewById(R.id.go);
+        history = findViewById(R.id.btn_view_history);
 
         rand = new Random();
 
@@ -77,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("game", game);
 
             startActivity(intent);
+        });
+        history.setOnClickListener(v -> {
+            startActivity(new Intent(this, HistoryActivity.class));
         });
     }
 

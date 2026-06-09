@@ -56,7 +56,14 @@ public class Question implements Parcelable {
     @NonNull
     @Override
     public String toString() {
-        return this.first + " × " + this.second + " = " + this.Answer()+"; "+(Math.round((this.Duration()/1_000_000_000.0)*1000.0)/1000.0)+"s";
+        return this.first + " × " + this.second + " = " + this.Answer()+"; "+formatDuration(this.Duration());
+    }
+
+    public static String formatDuration(long d) {
+        return (Math.round((d/1_000_000_000.0)*1000.0)/1000.0)+"s";
+    }
+    public static String formatDuration(double d) {
+        return (Math.round((d/1_000_000_000.0)*1000.0)/1000.0)+"s";
     }
 
     @Override

@@ -46,8 +46,7 @@ public class EndActivity extends AppCompatActivity {
             sum+= game.GetQuestions().get(i).Duration();
         }
         double avg = (double) sum /game.QuestionCount();
-        String avgText = (Math.round((avg/1_000_000_000.0)*1000.0)/1000.0)+"s";
-        speed.setText(avgText);
+        speed.setText(Question.formatDuration(avg));
 
         StringBuilder questionResults = new StringBuilder();
         for (int i = 0; i<game.GetQuestions().size();i++) {
@@ -63,6 +62,22 @@ public class EndActivity extends AppCompatActivity {
 
             startActivity(intent);
             finish();
+        });
+        saveResults(game.MaxTable(), game.QuestionCount(), avg);
+    }
+
+    private void saveResults(int maxTable, int totalQuestions, double avgSpeed) {
+        AppDatabase db = AppDatabase.getDatabase(this);
+
+        GameRecord newRecord = new GameRecord(
+                maxTable,
+                totalQuestions,
+                avgSpeed,
+                System.currentTimeMillis()
+        );
+
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            db.gameHistoryDao().insertGame(newRecord);
         });
     }
 }
