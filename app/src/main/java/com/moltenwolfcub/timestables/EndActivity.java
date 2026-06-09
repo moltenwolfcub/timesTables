@@ -38,7 +38,13 @@ public class EndActivity extends AppCompatActivity {
 
         maxTable.setText(""+game.MaxTable());
         questionCount.setText(""+game.QuestionCount());
-        results.setText(game.GetQuestions().get(0).toString());
+
+        StringBuilder questionResults = new StringBuilder();
+        for (int i = 0; i<game.GetQuestions().size();i++) {
+            questionResults.append(game.GetQuestions().get(i).toString()).append("\n");
+        }
+
+        results.setText(questionResults.toString());
 
         done.setOnClickListener(view -> {
             Intent intent = new Intent(this, MainActivity.class);

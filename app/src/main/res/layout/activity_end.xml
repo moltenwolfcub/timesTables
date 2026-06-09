@@ -8,7 +8,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="40sp"
+        android:layout_marginTop="20sp"
+        android:paddingVertical="30sp"
         android:text="Results"
         android:textAlignment="center"
         android:textSize="40sp"
@@ -74,6 +75,10 @@
         android:id="@+id/results"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Results" />
+        android:layout_marginTop="18sp"
+        android:lineSpacingExtra="4dp"
+        android:paddingHorizontal="10sp"
+        android:textSize="18sp"
+        tools:text="Result 1\nResult 2\nResult 3" />
 
 </LinearLayout>
