@@ -31,14 +31,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        rand = new Random();
-
-        maxTableValue = 1;
-        questionCount = 1;
-
         maxTable = findViewById(R.id.editTextNumber);
         questionCountInput = findViewById(R.id.editTextNumber2);
         go = findViewById(R.id.go);
+
+        rand = new Random();
+
+        Game prevGame = getIntent().getParcelableExtra("game");
+        if (prevGame != null) {
+            maxTableValue = prevGame.MaxTable();
+            questionCount = prevGame.QuestionCount();
+        } else {
+            maxTableValue = 1;
+            questionCount = 1;
+        }
+        maxTable.setText(""+maxTableValue);
+        questionCountInput.setText(""+questionCount);
 
         maxTable.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)) {
