@@ -1,0 +1,24 @@
+package com.moltenwolfcub.timestables;
+
+import android.os.Bundle;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class GameActivity extends AppCompatActivity {
+    private Game game;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game);
+
+        game = getIntent().getParcelableExtra("game");
+
+        updateUI();
+    }
+
+    private void updateUI() {
+        Question current = game.getCurrentQuestion();
+    }
+}
