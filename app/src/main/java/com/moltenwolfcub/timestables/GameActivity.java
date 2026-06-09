@@ -1,7 +1,9 @@
 package com.moltenwolfcub.timestables;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -15,6 +17,7 @@ import java.util.List;
 public class GameActivity extends AppCompatActivity {
     private Game game;
 
+    private TextView questionText;
     private EditText typedAnswer;
     private RecyclerView keypad;
 
@@ -25,12 +28,13 @@ public class GameActivity extends AppCompatActivity {
 
         game = getIntent().getParcelableExtra("game");
 
+        questionText = findViewById(R.id.q);
         typedAnswer = findViewById(R.id.editTextNumber3);
         keypad = findViewById(R.id.keypad);
 
         typedAnswer.setShowSoftInputOnFocus(false);
 
-        List<String> keys = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "⌫", "0", "Enter");
+        List<String> keys = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "⌫", "0", "");
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         keypad.setLayoutManager(gridLayoutManager);
@@ -45,29 +49,40 @@ public class GameActivity extends AppCompatActivity {
         String currentText = typedAnswer.getText().toString();
 
         switch (key) {
+            case "":
+                break;
             case "⌫":
                 if (!currentText.isEmpty()) {
                     typedAnswer.setText(currentText.substring(0, currentText.length() - 1));
                 }
                 break;
 
-            case "Enter":
-                String playerAnswer = typedAnswer.getText().toString();
-                if (!playerAnswer.isEmpty()) {
-                    Toast.makeText(this, "Submitted: " + playerAnswer, Toast.LENGTH_SHORT).show();
-                    typedAnswer.setText(""); // Clear field for next question
-                }
-                break;
-
             default:
                 typedAnswer.setText(currentText + key);
+                if (Integer.parseInt(typedAnswer.getText().toString()) == game.getCurrentQuestion().Answer()) {
+                    correctAnswer();
+                }
                 break;
         }
 
         typedAnswer.setSelection(typedAnswer.getText().length());
     }
 
+    private void correctAnswer() {
+        typedAnswer.setText("");
+        if (game.hasNextQuestion()) {
+            game.nextQuestion();
+            updateUI();
+        } else {
+            Toast.makeText(this, "Out of questions", Toast.LENGTH_SHORT).show();
+//            Intent intent = new Intent(this, DiscussionActivity.class);
+//            intent.putExtra("game", game);
+//            startActivity(intent);
+        }
+    }
+
     private void updateUI() {
         Question current = game.getCurrentQuestion();
+        questionText.setText(current.first + " × " + current.second + " = ");
     }
 }

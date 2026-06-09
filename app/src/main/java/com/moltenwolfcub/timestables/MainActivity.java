@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 maxTable.getGlobalVisibleRect(outRect);
 
                 if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+                    maxTableValue = Integer.parseInt(maxTable.getText().toString());
                     maxTable.clearFocus();
 
                     InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -94,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
                 questionCountInput.getGlobalVisibleRect(outRect);
 
                 if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+                    questionCount = Integer.parseInt(questionCountInput.getText().toString());
                     questionCountInput.clearFocus();
 
                     InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
