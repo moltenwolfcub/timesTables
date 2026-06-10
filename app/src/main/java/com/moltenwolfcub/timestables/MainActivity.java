@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;
 
@@ -88,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Question Count should be a number", Toast.LENGTH_SHORT).show();
                 return;
             }
-            String currentPlayerName = playerName.getText().toString().trim().isEmpty() ? "Guest" : playerName.getText().toString().trim();
+            String currentPlayerName = playerName.getText().toString().trim().isEmpty() ? "Guest" : playerName.getText().toString().trim().toLowerCase(Locale.ROOT);
 
             List<Question> questionSet = new ArrayList<>();
             for (int i = 0; i < questionCount; i++) {

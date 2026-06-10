@@ -122,12 +122,12 @@
             android:layout_weight="0.8"
             android:background="#0F172A"
             android:gravity="center"
-            android:inputType="textPersonName"
+            android:inputType="textCapCharacters"
             android:padding="10dp"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:hint="Guest"
+            android:hint="GUEST"
             android:textColorHint="#475569" />
     </LinearLayout>
 

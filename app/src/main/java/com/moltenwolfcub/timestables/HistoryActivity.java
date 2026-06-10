@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 public class HistoryActivity extends AppCompatActivity {
 
@@ -197,7 +198,7 @@ public class HistoryActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull ViewHolder h, int pos) {
             GameRecord r = items.get(pos);
             h.date.setText(DateFormat.format("dd MMM yyyy HH:mm", r.getTimestamp()));
-            h.player.setText("Player: " + r.getPlayerName());
+            h.player.setText("Player: " + Pattern.compile("^.").matcher(r.getPlayerName().toLowerCase(Locale.ROOT)).replaceFirst(m -> m.group().toUpperCase(Locale.ROOT)));
             h.table.setText("Max Table: " + r.getMaxTable());
             h.score.setText(r.getTotalQuestions() + " Questions");
             h.speed.setText(String.format(Locale.UK, "%s avg", Question.formatDuration(r.getAverageSpeed())));
