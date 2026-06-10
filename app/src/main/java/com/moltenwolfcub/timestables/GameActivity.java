@@ -3,6 +3,7 @@ package com.moltenwolfcub.timestables;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +23,8 @@ public class GameActivity extends AppCompatActivity {
     private EditText typedAnswer;
     private RecyclerView keypad;
 
+    private Button btnExitGame;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +39,8 @@ public class GameActivity extends AppCompatActivity {
         typedAnswer = findViewById(R.id.editTextNumber3);
         keypad = findViewById(R.id.keypad);
 
+        btnExitGame = findViewById(R.id.btn_exit_game);
+
         typedAnswer.setShowSoftInputOnFocus(false);
 
         List<String> keys = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "⌫", "0", "[C]");
@@ -45,6 +50,15 @@ public class GameActivity extends AppCompatActivity {
 
         KeypadAdapter adapter = new KeypadAdapter(keys, this::handleKeyInput);
         keypad.setAdapter(adapter);
+
+        btnExitGame.setOnClickListener(v -> {
+            game.FinishEarly();
+            Intent intent = new Intent(this, EndActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intent.putExtra("game", game);
+            startActivity(intent);
+            finish();
+        });
 
         game.getCurrentQuestion().Start();
         updateUI();

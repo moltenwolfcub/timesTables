@@ -31,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
 
     private Button history;
 
+    private EditText infiniteTarget;
+    private Button startInfinite;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,13 +47,18 @@ public class MainActivity extends AppCompatActivity {
         playerName = findViewById(R.id.et_player_name);
         go = findViewById(R.id.go);
         history = findViewById(R.id.btn_view_history);
+        infiniteTarget = findViewById(R.id.et_infinite_focus_target);
+        startInfinite = findViewById(R.id.btn_start_infinite);
 
         rand = new Random();
 
         Game prevGame = getIntent().getParcelableExtra("game");
         if (prevGame != null) {
             maxTable.setText(String.valueOf(prevGame.MaxTable()));
-            questionCountInput.setText(String.valueOf(prevGame.QuestionCount()));
+
+            if (prevGame.HasFiniteQuestions()) {
+                questionCountInput.setText(String.valueOf(prevGame.QuestionCount()));
+            }
 
             String lastName = prevGame.GetPlayerName();
             playerName.setText(Objects.equals(lastName, "Guest") ? "" : lastName);
@@ -84,11 +92,9 @@ public class MainActivity extends AppCompatActivity {
 
             List<Question> questionSet = new ArrayList<>();
             for (int i = 0; i < questionCount; i++) {
-                int first = rand.nextInt(maxTableValue)+1;
-                int second = rand.nextInt(maxTableValue)+1;
-                questionSet.add(new Question(first,second));
+                questionSet.add(Question.makeQuestion(rand, maxTableValue));
             }
-            Game game = new Game(currentPlayerName, questionSet, maxTableValue);
+            Game game = new Game(rand, Game.GameMode.REGULAR, currentPlayerName, questionSet, maxTableValue, 0);
 
             Intent intent = new Intent(this, GameActivity.class);
             intent.putExtra("game", game);
@@ -97,6 +103,40 @@ public class MainActivity extends AppCompatActivity {
         });
         history.setOnClickListener(v -> {
             startActivity(new Intent(this, HistoryActivity.class));
+        });
+
+        startInfinite.setOnClickListener(view -> {
+            int maxTableValue, focusValue;
+            try {
+                String val = maxTable.getText().toString().trim();
+                if (val.isEmpty()) {
+                    Toast.makeText(this, "Enter a value for Max Table", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                maxTableValue = Integer.parseInt(val);
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Max table should be a number", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            String currentPlayerName = playerName.getText().toString().trim().isEmpty() ? "Guest" : playerName.getText().toString().trim();
+            try {
+                String val = infiniteTarget.getText().toString().trim();
+                if (val.isEmpty()) {
+                    Toast.makeText(this, "Enter a value for Focus Table Target", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                focusValue = Integer.parseInt(val);
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Focus Table Target should be a number", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Game game = new Game(rand, Game.GameMode.FOCUS, currentPlayerName, new ArrayList<>(), maxTableValue, focusValue);
+
+            Intent intent = new Intent(this, GameActivity.class);
+            intent.putExtra("game", game);
+
+            startActivity(intent);
         });
     }
 
@@ -139,6 +179,19 @@ public class MainActivity extends AppCompatActivity {
                     InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                     if (manager != null) {
                         manager.hideSoftInputFromWindow(playerName.getWindowToken(), 0);
+                    }
+                }
+            }
+            if (infiniteTarget.hasFocus()) {
+                Rect outRect = new Rect();
+                infiniteTarget.getGlobalVisibleRect(outRect);
+
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+                    infiniteTarget.clearFocus();
+
+                    InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    if (manager != null) {
+                        manager.hideSoftInputFromWindow(infiniteTarget.getWindowToken(), 0);
                     }
                 }
             }

@@ -5,7 +5,21 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.util.Random;
+
 public class Question implements Parcelable {
+
+    public static Question makeQuestion(Random rand, int maxTable) {
+        int first = rand.nextInt(maxTable)+1;
+        int second = rand.nextInt(maxTable)+1;
+        return new Question(first,second);
+    }
+
+    public static Question makeQuestion(Random rand, int maxTable, int focusTable) {
+        int first = rand.nextInt(maxTable)+1;
+        return new Question(first,focusTable);
+    }
+
     public int first;
     public int second;
 

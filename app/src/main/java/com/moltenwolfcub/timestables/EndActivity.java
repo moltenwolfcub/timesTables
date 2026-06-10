@@ -70,7 +70,9 @@ public class EndActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
-        saveResults(game.GetPlayerName(), game.MaxTable(), game.QuestionCount(), avg);
+        if (game.ShouldStore()) {
+            saveResults(game.GetPlayerName(), game.MaxTable(), game.QuestionCount(), avg);
+        }
     }
 
     private void saveResults(String playerName, int maxTable, int totalQuestions, double avgSpeed) {
