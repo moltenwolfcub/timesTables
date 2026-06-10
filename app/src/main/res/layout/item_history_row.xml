@@ -30,21 +30,21 @@
             android:textSize="12sp"
             android:textStyle="bold"/>
         <TextView
-            android:id="@+id/row_table_info"
+            android:id="@+id/row_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Max Table: 12"
-            android:textColor="#64748B"
+            tools:text="25 Problems"
+            android:textColor="#94A3B8"
             android:textSize="12sp"
             android:layout_marginTop="2dp"/>
     </LinearLayout>
 
     <TextView
-        android:id="@+id/row_score"
+        android:id="@+id/row_table_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        tools:text="25 Problems"
+        tools:text="Max Table: 12"
         android:textColor="#94A3B8"
         android:textSize="14sp"
         android:layout_gravity="center_vertical"/>
