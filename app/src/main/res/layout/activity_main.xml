@@ -208,7 +208,7 @@
             android:id="@+id/btn_start_infinite"
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:text="Launch Infinite Run"
+            android:text="Start Infinite Run"
             android:textColor="#0F172A"
             android:textSize="15sp"
             android:textStyle="bold"
