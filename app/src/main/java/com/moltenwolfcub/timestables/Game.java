@@ -8,11 +8,13 @@ import androidx.annotation.NonNull;
 import java.util.List;
 
 public class Game implements Parcelable {
+    private final String playerName;
     private final int maxTable;
     private final List<Question> questions;
     private int index = 0;
 
-    public Game(List<Question> questions, int maxTable) {
+    public Game(String playerName, List<Question> questions, int maxTable) {
+        this.playerName = playerName;
         this.questions = questions;
         this.maxTable = maxTable;
     }
@@ -45,7 +47,12 @@ public class Game implements Parcelable {
         return maxTable;
     }
 
+    public String GetPlayerName() {
+        return playerName;
+    }
+
     protected Game(Parcel in) {
+        playerName = in.readString();
         maxTable = in.readInt();
         questions = in.createTypedArrayList(Question.CREATOR);
     }
@@ -69,6 +76,7 @@ public class Game implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(playerName);
         dest.writeInt(maxTable);
         dest.writeTypedList(questions);
     }

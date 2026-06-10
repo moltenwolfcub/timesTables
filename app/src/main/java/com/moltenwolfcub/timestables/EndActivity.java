@@ -20,6 +20,7 @@ import java.util.List;
 public class EndActivity extends AppCompatActivity {
     private Game game;
 
+    private TextView playerName;
     private TextView maxTable;
     private TextView questionCount;
     private TextView speed;
@@ -36,14 +37,16 @@ public class EndActivity extends AppCompatActivity {
 
         game = getIntent().getParcelableExtra("game");
 
+        playerName = findViewById(R.id.playerName);
         maxTable = findViewById(R.id.tableMax);
         questionCount = findViewById(R.id.questionCount);
         speed = findViewById(R.id.speed);
         done = findViewById(R.id.done);
         results = findViewById(R.id.results);
 
-        maxTable.setText(""+game.MaxTable());
-        questionCount.setText(""+game.QuestionCount());
+        playerName.setText(game.GetPlayerName());
+        maxTable.setText(String.valueOf(game.MaxTable()));
+        questionCount.setText(String.valueOf(game.QuestionCount()));
 
         long sum = 0;
         for (int i = 0; i<game.GetQuestions().size();i++) {
@@ -67,13 +70,14 @@ public class EndActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
-        saveResults(game.MaxTable(), game.QuestionCount(), avg);
+        saveResults(game.GetPlayerName(), game.MaxTable(), game.QuestionCount(), avg);
     }
 
-    private void saveResults(int maxTable, int totalQuestions, double avgSpeed) {
+    private void saveResults(String playerName, int maxTable, int totalQuestions, double avgSpeed) {
         AppDatabase db = AppDatabase.getDatabase(this);
 
         GameRecord newRecord = new GameRecord(
+                playerName,
                 maxTable,
                 totalQuestions,
                 avgSpeed,

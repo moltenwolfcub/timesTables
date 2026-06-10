@@ -23,12 +23,14 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText maxTable;
     private EditText questionCountInput;
+    private EditText playerName;
     private Button go;
 
     private Button history;
 
     private int maxTableValue;
     private int questionCount;
+    private String currentPlayerName = "Guest";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         maxTable = findViewById(R.id.editTextNumber);
         questionCountInput = findViewById(R.id.editTextNumber2);
+        playerName = findViewById(R.id.et_player_name);
         go = findViewById(R.id.go);
         history = findViewById(R.id.btn_view_history);
 
@@ -49,12 +52,15 @@ public class MainActivity extends AppCompatActivity {
         if (prevGame != null) {
             maxTableValue = prevGame.MaxTable();
             questionCount = prevGame.QuestionCount();
+            currentPlayerName = prevGame.GetPlayerName();
         } else {
             maxTableValue = 1;
             questionCount = 1;
+            currentPlayerName = "Guest";
         }
-        maxTable.setText(""+maxTableValue);
-        questionCountInput.setText(""+questionCount);
+        maxTable.setText(String.valueOf(maxTableValue));
+        questionCountInput.setText(String.valueOf(questionCount));
+        playerName.setText(currentPlayerName);
 
         maxTable.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)) {
@@ -72,6 +78,15 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
+        playerName.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)) {
+                String input = playerName.getText().toString().trim();
+                currentPlayerName = input.isEmpty() ? "Guest" : input;
+                return true;
+            }
+            return false;
+        });
+
         go.setOnClickListener(view -> {
             List<Question> questionSet = new ArrayList<>();
             for (int i = 0; i < questionCount; i++) {
@@ -79,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 int second = rand.nextInt(maxTableValue)+1;
                 questionSet.add(new Question(first,second));
             }
-            Game game = new Game(questionSet, maxTableValue);
+            Game game = new Game(currentPlayerName, questionSet, maxTableValue);
 
             Intent intent = new Intent(this, GameActivity.class);
             intent.putExtra("game", game);
@@ -119,6 +134,20 @@ public class MainActivity extends AppCompatActivity {
                     InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                     if (manager != null) {
                         manager.hideSoftInputFromWindow(questionCountInput.getWindowToken(), 0);
+                    }
+                }
+            }
+            if (playerName.hasFocus()) {
+                Rect outRect = new Rect();
+                playerName.getGlobalVisibleRect(outRect);
+
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+                    currentPlayerName = playerName.getText().toString().trim().isEmpty() ? "Guest" : playerName.getText().toString().trim();
+                    playerName.clearFocus();
+
+                    InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    if (manager != null) {
+                        manager.hideSoftInputFromWindow(playerName.getWindowToken(), 0);
                     }
                 }
             }

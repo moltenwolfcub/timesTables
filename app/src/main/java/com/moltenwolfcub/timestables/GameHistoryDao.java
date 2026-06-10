@@ -12,15 +12,15 @@ public interface GameHistoryDao {
     @Insert
     void insertGame(GameRecord record);
 
-    @Query("SELECT * FROM game_history WHERE timestamp >= :cuttoffTime AND (:maxTable = 0 OR maxTable=:maxTable) ORDER BY timestamp DESC")
-    List<GameRecord> getGamesFiltered(long cuttoffTime, int maxTable);
+    @Query("SELECT * FROM game_history WHERE timestamp >= :cuttoffTime AND (:maxTable = 0 OR maxTable=:maxTable) AND (:playerName = '' OR playerName = :playerName) ORDER BY timestamp DESC")
+    List<GameRecord> getGamesFiltered(long cuttoffTime, int maxTable, String playerName);
 
-    @Query("SELECT COUNT(*) FROM game_history WHERE timestamp >= :cutoffTime AND (:maxTable = 0 OR maxTable=:maxTable)")
-    int getGameCount(long cutoffTime, int maxTable);
+    @Query("SELECT COUNT(*) FROM game_history WHERE timestamp >= :cutoffTime AND (:maxTable = 0 OR maxTable=:maxTable) AND (:playerName = '' OR playerName = :playerName)")
+    int getGameCount(long cutoffTime, int maxTable, String playerName);
 
-    @Query("SELECT AVG(averageSpeed) FROM game_history WHERE timestamp >= :cutoffTime AND (:maxTable = 0 OR maxTable=:maxTable)")
-    double getAverageSpeed(long cutoffTime, int maxTable);
+    @Query("SELECT AVG(averageSpeed) FROM game_history WHERE timestamp >= :cutoffTime AND (:maxTable = 0 OR maxTable=:maxTable) AND (:playerName = '' OR playerName = :playerName)")
+    double getAverageSpeed(long cutoffTime, int maxTable, String playerName);
 
-    @Query("SELECT MIN(averageSpeed) FROM game_history WHERE timestamp >= :cutoffTime AND (:maxTable = 0 OR maxTable = :maxTable)")
-    double getBestMatchSpeed(long cutoffTime, int maxTable);
+    @Query("SELECT MIN(averageSpeed) FROM game_history WHERE timestamp >= :cutoffTime AND (:maxTable = 0 OR maxTable = :maxTable) AND (:playerName = '' OR playerName = :playerName)")
+    double getBestMatchSpeed(long cutoffTime, int maxTable, String playerName);
 }

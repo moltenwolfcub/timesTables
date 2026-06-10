@@ -25,13 +25,14 @@ public class HistoryActivity extends AppCompatActivity {
 
     private Button btnAll, btnMonth, btnWeek, btnToday;
     private TextView tvTotalGames, tvAvgSpeed, tvBestSpeed;
-    private EditText etFilterTable;
+    private EditText etFilterTable, etFilterPlayer;
     private RecyclerView rvHistory;
     private HistoryAdapter adapter;
     private AppDatabase db;
 
     private long currentCutoffTime = 0;
     private int currentMaxTableFilter = 0;
+    private String currentPlayerFilter = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,7 @@ public class HistoryActivity extends AppCompatActivity {
         tvAvgSpeed = findViewById(R.id.stat_avg_speed);
         tvBestSpeed = findViewById(R.id.stat_best_speed);
         etFilterTable = findViewById(R.id.et_filter_table);
+        etFilterPlayer = findViewById(R.id.et_filter_player);
         rvHistory = findViewById(R.id.rv_history_list);
 
         rvHistory.setLayoutManager(new LinearLayoutManager(this));
@@ -91,6 +93,20 @@ public class HistoryActivity extends AppCompatActivity {
                         currentMaxTableFilter = 0;
                     }
                 }
+                loadDashboardData();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+        etFilterPlayer.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String input = s.toString().trim();
+                currentPlayerFilter = input;
                 loadDashboardData();
             }
 
@@ -144,10 +160,10 @@ public class HistoryActivity extends AppCompatActivity {
     private void loadDashboardData() {
         // Run database queries on a background thread
         AppDatabase.databaseWriteExecutor.execute(() -> {
-            int totalGames = db.gameHistoryDao().getGameCount(currentCutoffTime, currentMaxTableFilter);
-            double avgSpeed = db.gameHistoryDao().getAverageSpeed(currentCutoffTime, currentMaxTableFilter);
-            double bestSpeed = db.gameHistoryDao().getBestMatchSpeed(currentCutoffTime, currentMaxTableFilter);
-            List<GameRecord> records = db.gameHistoryDao().getGamesFiltered(currentCutoffTime, currentMaxTableFilter);
+            int totalGames = db.gameHistoryDao().getGameCount(currentCutoffTime, currentMaxTableFilter, currentPlayerFilter);
+            double avgSpeed = db.gameHistoryDao().getAverageSpeed(currentCutoffTime, currentMaxTableFilter, currentPlayerFilter);
+            double bestSpeed = db.gameHistoryDao().getBestMatchSpeed(currentCutoffTime, currentMaxTableFilter, currentPlayerFilter);
+            List<GameRecord> records = db.gameHistoryDao().getGamesFiltered(currentCutoffTime, currentMaxTableFilter, currentPlayerFilter);
 
             runOnUiThread(() -> {
                 tvTotalGames.setText("Total Games: " + totalGames);
@@ -181,6 +197,7 @@ public class HistoryActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull ViewHolder h, int pos) {
             GameRecord r = items.get(pos);
             h.date.setText(DateFormat.format("dd MMM yyyy HH:mm", r.getTimestamp()));
+            h.player.setText("Player: " + r.getPlayerName());
             h.table.setText("Max Table: " + r.getMaxTable());
             h.score.setText(r.getTotalQuestions() + " Questions");
             h.speed.setText(String.format(Locale.UK, "%s avg", Question.formatDuration(r.getAverageSpeed())));
@@ -192,10 +209,11 @@ public class HistoryActivity extends AppCompatActivity {
         }
 
         static class ViewHolder extends RecyclerView.ViewHolder {
-            TextView date, table, score, speed;
+            TextView date, player, table, score, speed;
             ViewHolder(View v) {
                 super(v);
                 date = v.findViewById(R.id.row_date);
+                player = v.findViewById(R.id.row_player_display);
                 table = v.findViewById(R.id.row_table_info);
                 score = v.findViewById(R.id.row_score);
                 speed = v.findViewById(R.id.row_speed);
