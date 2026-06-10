@@ -89,16 +89,12 @@ public class Game implements Parcelable {
         return playerName;
     }
 
-    public boolean HasFiniteQuestions() {
-        return gameMode.isFinite();
-    }
-
-    public boolean ShouldStore() {
-        return gameMode.isInHistory();
+    public GameMode getGameMode() {
+        return gameMode;
     }
 
     public void FinishEarly() {
-        if (!HasFiniteQuestions()) {
+        if (!getGameMode().isFinite()) {
             questions.removeLast();
         }
     }
@@ -140,23 +136,29 @@ public class Game implements Parcelable {
     }
 
     public enum GameMode {
-        REGULAR(true, true),
-        FOCUS(false, false);
+        REGULAR(true, true, false),
+        FOCUS(false, false, true);
 
         private boolean finite;
         private boolean inHistory;
+        private boolean hasExitButton;
 
-        GameMode(boolean finite, boolean history) {
+        GameMode(boolean finite, boolean history, boolean exit) {
             this.finite = finite;
             this.inHistory = history;
+            this.hasExitButton = exit;
         }
 
         public boolean isFinite() {
             return finite;
         }
 
-        public boolean isInHistory() {
+        public boolean shouldStore() {
             return inHistory;
+        }
+
+        public boolean hasExitButton() {
+            return hasExitButton;
         }
     }
 }

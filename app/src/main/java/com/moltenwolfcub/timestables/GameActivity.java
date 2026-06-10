@@ -40,6 +40,20 @@ public class GameActivity extends AppCompatActivity {
         keypad = findViewById(R.id.keypad);
 
         btnExitGame = findViewById(R.id.btn_exit_game);
+        if (game.getGameMode().hasExitButton()) {
+            btnExitGame.setVisibility(View.VISIBLE);
+
+            btnExitGame.setOnClickListener(v -> {
+                game.FinishEarly();
+                Intent intent = new Intent(this, EndActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent.putExtra("game", game);
+                startActivity(intent);
+                finish();
+            });
+        } else {
+            btnExitGame.setVisibility(View.GONE);
+        }
 
         typedAnswer.setShowSoftInputOnFocus(false);
 
@@ -51,14 +65,6 @@ public class GameActivity extends AppCompatActivity {
         KeypadAdapter adapter = new KeypadAdapter(keys, this::handleKeyInput);
         keypad.setAdapter(adapter);
 
-        btnExitGame.setOnClickListener(v -> {
-            game.FinishEarly();
-            Intent intent = new Intent(this, EndActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            intent.putExtra("game", game);
-            startActivity(intent);
-            finish();
-        });
 
         game.getCurrentQuestion().Start();
         updateUI();

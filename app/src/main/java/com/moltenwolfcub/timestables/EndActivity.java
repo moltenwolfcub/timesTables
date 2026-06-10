@@ -4,18 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class EndActivity extends AppCompatActivity {
     private Game game;
@@ -70,7 +62,7 @@ public class EndActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
-        if (game.ShouldStore()) {
+        if (game.getGameMode().shouldStore()) {
             saveResults(game.GetPlayerName(), game.MaxTable(), game.QuestionCount(), avg);
         }
     }

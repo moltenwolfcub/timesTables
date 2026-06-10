@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         if (prevGame != null) {
             maxTable.setText(String.valueOf(prevGame.MaxTable()));
 
-            if (prevGame.HasFiniteQuestions()) {
+            if (prevGame.getGameMode().isFinite()) {
                 questionCountInput.setText(String.valueOf(prevGame.QuestionCount()));
             }
 
