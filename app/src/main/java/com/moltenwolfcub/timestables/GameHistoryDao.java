@@ -31,6 +31,12 @@ public interface GameHistoryDao {
             " AND (:playerName = '' OR playerName LIKE :playerName || '%')")
     double getAverageSpeed(long cutoffTime, int maxTable, String playerName);
 
+    @Query("SELECT AVG(standardDeviation) FROM game_history" +
+            " WHERE timestamp >= :cutoffTime" +
+            " AND (:maxTable = 0 OR maxTable=:maxTable)" +
+            " AND (:playerName = '' OR playerName LIKE :playerName || '%')")
+    double getAverageSD(long cutoffTime, int maxTable, String playerName);
+
     @Query("SELECT MIN(averageSpeed) FROM game_history" +
             " WHERE timestamp >= :cutoffTime" +
             " AND (:maxTable = 0 OR maxTable = :maxTable)" +

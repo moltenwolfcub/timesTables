@@ -111,10 +111,21 @@
             android:id="@+id/stat_best_speed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
             android:text="Personal Best Speed: --"
             android:textColor="#FBBF24"
             android:textSize="16sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/stat_avg_deviation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Avg Consistency (dev): --"
+            android:textColor="#A78BFA"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
 
     </LinearLayout>
 

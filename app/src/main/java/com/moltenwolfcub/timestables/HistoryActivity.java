@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 public class HistoryActivity extends AppCompatActivity {
 
     private Button btnAll, btnMonth, btnWeek, btnToday;
-    private TextView tvTotalGames, tvAvgSpeed, tvBestSpeed;
+    private TextView tvTotalGames, tvAvgSpeed, tvBestSpeed, tvAvgDev;
     private EditText etFilterTable, etFilterPlayer;
     private RecyclerView rvHistory;
     private HistoryAdapter adapter;
@@ -53,6 +53,7 @@ public class HistoryActivity extends AppCompatActivity {
         tvTotalGames = findViewById(R.id.stat_total_games);
         tvAvgSpeed = findViewById(R.id.stat_avg_speed);
         tvBestSpeed = findViewById(R.id.stat_best_speed);
+        tvAvgDev = findViewById(R.id.stat_avg_deviation);
         etFilterTable = findViewById(R.id.et_filter_table);
         etFilterPlayer = findViewById(R.id.et_filter_player);
         rvHistory = findViewById(R.id.rv_history_list);
@@ -164,12 +165,14 @@ public class HistoryActivity extends AppCompatActivity {
             int totalGames = db.gameHistoryDao().getGameCount(currentCutoffTime, currentMaxTableFilter, currentPlayerFilter);
             double avgSpeed = db.gameHistoryDao().getAverageSpeed(currentCutoffTime, currentMaxTableFilter, currentPlayerFilter);
             double bestSpeed = db.gameHistoryDao().getBestMatchSpeed(currentCutoffTime, currentMaxTableFilter, currentPlayerFilter);
+            double avgDev = db.gameHistoryDao().getAverageSD(currentCutoffTime, currentMaxTableFilter, currentPlayerFilter);
             List<GameRecord> records = db.gameHistoryDao().getGamesFiltered(currentCutoffTime, currentMaxTableFilter, currentPlayerFilter);
 
             runOnUiThread(() -> {
                 tvTotalGames.setText("Total Games: " + totalGames);
                 tvAvgSpeed.setText(totalGames > 0 ? String.format(Locale.UK, "Overall Avg Speed: %s", Question.formatDuration(avgSpeed)) : "Overall Avg Speed: --");
                 tvBestSpeed.setText(totalGames > 0 ? String.format(Locale.UK, "Personal Best Speed: %s", Question.formatDuration(bestSpeed)) : "Personal Best Speed: --");
+                tvAvgDev.setText(totalGames > 0 ? String.format(Locale.UK, "Avg Consistency (dev): %s", Question.formatDuration(avgDev)) : "Avg Consistency (dev): --");
                 adapter.updateList(records);
             });
         });
@@ -202,6 +205,7 @@ public class HistoryActivity extends AppCompatActivity {
             h.table.setText("Max Table: " + r.getMaxTable());
             h.score.setText(r.getTotalQuestions() + " Questions");
             h.speed.setText(String.format(Locale.UK, "%s avg", Question.formatDuration(r.getAverageSpeed())));
+            h.stdev.setText(String.format(Locale.UK, "%s dev", Question.formatDuration(r.getStandardDeviation())));
         }
 
         @Override
@@ -210,7 +214,7 @@ public class HistoryActivity extends AppCompatActivity {
         }
 
         static class ViewHolder extends RecyclerView.ViewHolder {
-            TextView date, player, table, score, speed;
+            TextView date, player, table, score, speed, stdev;
             ViewHolder(View v) {
                 super(v);
                 date = v.findViewById(R.id.row_date);
@@ -218,6 +222,7 @@ public class HistoryActivity extends AppCompatActivity {
                 table = v.findViewById(R.id.row_table_info);
                 score = v.findViewById(R.id.row_score);
                 speed = v.findViewById(R.id.row_speed);
+                stdev = v.findViewById(R.id.row_consistency);
             }
         }
     }

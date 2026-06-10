@@ -16,6 +16,7 @@ public class EndActivity extends AppCompatActivity {
     private TextView maxTable;
     private TextView questionCount;
     private TextView speed;
+    private TextView consistency;
     private Button done;
     private TextView results;
 
@@ -33,6 +34,7 @@ public class EndActivity extends AppCompatActivity {
         maxTable = findViewById(R.id.tableMax);
         questionCount = findViewById(R.id.questionCount);
         speed = findViewById(R.id.speed);
+        consistency = findViewById(R.id.standardDeviation);
         done = findViewById(R.id.done);
         results = findViewById(R.id.results);
 
@@ -44,8 +46,16 @@ public class EndActivity extends AppCompatActivity {
         for (int i = 0; i<game.GetQuestions().size();i++) {
             sum+= game.GetQuestions().get(i).Duration();
         }
-        double avg = (double) sum /game.QuestionCount();
+        double avg = (double) sum / game.QuestionCount();
         speed.setText(Question.formatDuration(avg));
+
+        double varianceSum = 0;
+        for (int i = 0; i < game.GetQuestions().size(); i++) {
+            double diff = game.GetQuestions().get(i).Duration() - avg;
+            varianceSum += diff * diff;
+        }
+        double stddev = Math.sqrt(varianceSum / game.QuestionCount());
+        consistency.setText(Question.formatDuration(stddev));
 
         StringBuilder questionResults = new StringBuilder();
         for (int i = 0; i<game.GetQuestions().size();i++) {
@@ -63,11 +73,11 @@ public class EndActivity extends AppCompatActivity {
             finish();
         });
         if (game.getGameMode().shouldStore()) {
-            saveResults(game.GetPlayerName(), game.MaxTable(), game.QuestionCount(), avg);
+            saveResults(game.GetPlayerName(), game.MaxTable(), game.QuestionCount(), avg,stddev);
         }
     }
 
-    private void saveResults(String playerName, int maxTable, int totalQuestions, double avgSpeed) {
+    private void saveResults(String playerName, int maxTable, int totalQuestions, double avgSpeed, double standardDeviation) {
         AppDatabase db = AppDatabase.getDatabase(this);
 
         GameRecord newRecord = new GameRecord(
@@ -75,6 +85,7 @@ public class EndActivity extends AppCompatActivity {
                 maxTable,
                 totalQuestions,
                 avgSpeed,
+                standardDeviation,
                 System.currentTimeMillis()
         );
 
