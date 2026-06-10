@@ -58,7 +58,8 @@
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             android:textStyle="bold"
-            tools:text="24" />
+            android:hint="e.g. 12"
+            android:textColorHint="#475569" />
     </LinearLayout>
 
     <LinearLayout
@@ -92,7 +93,8 @@
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             android:textStyle="bold"
-            tools:text="10" />
+            android:hint="e.g. 10"
+            android:textColorHint="#475569" />
     </LinearLayout>
 
     <LinearLayout

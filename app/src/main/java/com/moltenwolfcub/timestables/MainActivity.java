@@ -1,5 +1,6 @@
 package com.moltenwolfcub.timestables;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -10,12 +11,14 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,10 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private Button go;
 
     private Button history;
-
-    private int maxTableValue;
-    private int questionCount;
-    private String currentPlayerName = "Guest";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,44 +49,39 @@ public class MainActivity extends AppCompatActivity {
 
         Game prevGame = getIntent().getParcelableExtra("game");
         if (prevGame != null) {
-            maxTableValue = prevGame.MaxTable();
-            questionCount = prevGame.QuestionCount();
-            currentPlayerName = prevGame.GetPlayerName();
-        } else {
-            maxTableValue = 1;
-            questionCount = 1;
-            currentPlayerName = "Guest";
+            maxTable.setText(String.valueOf(prevGame.MaxTable()));
+            questionCountInput.setText(String.valueOf(prevGame.QuestionCount()));
+
+            String lastName = prevGame.GetPlayerName();
+            playerName.setText(Objects.equals(lastName, "Guest") ? "" : lastName);
         }
-        maxTable.setText(String.valueOf(maxTableValue));
-        questionCountInput.setText(String.valueOf(questionCount));
-        playerName.setText(currentPlayerName);
-
-        maxTable.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)) {
-                maxTableValue = Integer.parseInt(maxTable.getText().toString());
-                return true;
-            }
-            return false;
-        });
-
-        questionCountInput.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)) {
-                questionCount = Integer.parseInt(questionCountInput.getText().toString());
-                return true;
-            }
-            return false;
-        });
-
-        playerName.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)) {
-                String input = playerName.getText().toString().trim();
-                currentPlayerName = input.isEmpty() ? "Guest" : input;
-                return true;
-            }
-            return false;
-        });
 
         go.setOnClickListener(view -> {
+            int maxTableValue, questionCount;
+            try {
+                String val = maxTable.getText().toString().trim();
+                if (val.isEmpty()) {
+                    Toast.makeText(this, "Enter a value for Max Table", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                maxTableValue = Integer.parseInt(val);
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Max table should be a number", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            try {
+                String val = questionCountInput.getText().toString().trim();
+                if (val.isEmpty()) {
+                    Toast.makeText(this, "Enter a value for # of Questions", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                questionCount = Integer.parseInt(val);
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Question Count should be a number", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            String currentPlayerName = playerName.getText().toString().trim().isEmpty() ? "Guest" : playerName.getText().toString().trim();
+
             List<Question> questionSet = new ArrayList<>();
             for (int i = 0; i < questionCount; i++) {
                 int first = rand.nextInt(maxTableValue)+1;
@@ -114,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
                 maxTable.getGlobalVisibleRect(outRect);
 
                 if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
-                    maxTableValue = Integer.parseInt(maxTable.getText().toString());
                     maxTable.clearFocus();
 
                     InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -128,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
                 questionCountInput.getGlobalVisibleRect(outRect);
 
                 if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
-                    questionCount = Integer.parseInt(questionCountInput.getText().toString());
                     questionCountInput.clearFocus();
 
                     InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -142,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
                 playerName.getGlobalVisibleRect(outRect);
 
                 if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
-                    currentPlayerName = playerName.getText().toString().trim().isEmpty() ? "Guest" : playerName.getText().toString().trim();
                     playerName.clearFocus();
 
                     InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
