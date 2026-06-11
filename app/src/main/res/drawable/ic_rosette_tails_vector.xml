@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="80dp"
+    android:viewportWidth="64"
+    android:viewportHeight="80">
+
+    <!-- LEFT RIBBON TAIL -->
+    <!-- Base Ribbon Structure -->
+    <path
+        android:pathData="M22,40 L12,76 L24,70 L30,40 Z"
+        android:fillColor="#80FFFFFF" /> <!-- Base Color Tint Layer Modulator -->
+    <!-- Internal Shadow Accent Edge -->
+    <path
+        android:pathData="M22,40 L12,76 L16,74 L25,40 Z"
+        android:fillColor="#15000000" /> <!-- Subtle Ambient Multiplier Shadow -->
+
+    <!-- RIGHT RIBBON TAIL -->
+    <!-- Base Ribbon Structure -->
+    <path
+        android:pathData="M42,40 L52,76 L40,70 L34,40 Z"
+        android:fillColor="#B3FFFFFF" /> <!-- Slightly brighter highlight variant shift -->
+    <!-- Internal Shadow Accent Edge -->
+    <path
+        android:pathData="M42,40 L34,40 L40,70 L44,72 Z"
+        android:fillColor="#25000000" /> <!-- Darker under-fold depth drop -->
+
+</vector>

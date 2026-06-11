@@ -1,54 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="76dp"
+    android:layout_width="84dp"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="6dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginHorizontal="8dp"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="54dp"
-        android:layout_height="64dp"
-        android:gravity="center">
+    <FrameLayout
+        android:layout_width="64dp"
+        android:layout_height="80dp">
 
-        <!-- Ribbon Tails Background Layer -->
-        <TextView
-            android:id="@+id/tv_rosette_tails"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:text="▼"
-            android:textColor="#10B981"
-            android:textSize="26sp" />
+        <ImageView
+            android:id="@+id/iv_rosette_tails_color"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="Ribbon Tails"
+            app:tint="#236E4C"
+            android:src="@drawable/ic_rosette_tails_vector" />
 
-        <!-- Main Rosette Center Target Circle -->
-        <TextView
-            android:id="@+id/tv_rosette_center"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:background="@android:drawable/dialog_holo_dark_frame"
-            android:backgroundTint="#10B981"
-            android:gravity="center"
-            android:text="★"
-            android:textColor="#0F172A"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </RelativeLayout>
+        <ImageView
+            android:id="@+id/iv_rosette_head_color"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="top|center_horizontal"
+            app:tint="#10B981"
+            android:contentDescription="Rosette Head Background"
+            android:src="@drawable/ic_rosette_head_vector" />
 
-    <!-- Ribbon Label Text -->
+        <ImageView
+            android:id="@+id/iv_rosette_center_plate"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="top|center_horizontal"
+            android:contentDescription="Rosette Center Plate"
+            android:src="@drawable/ic_rosette_center_plate" />
+
+    </FrameLayout>
+
     <TextView
         android:id="@+id/tv_rosette_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="4dp"
         android:gravity="center"
         android:textColor="#10B981"
-        android:textSize="10sp"
+        android:textSize="11sp"
         android:textStyle="bold"
+        android:letterSpacing="0.05"
         tools:text="ROCK STAR" />
 
 </LinearLayout>
+

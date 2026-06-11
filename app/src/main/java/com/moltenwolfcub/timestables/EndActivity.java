@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -126,7 +128,7 @@ public class EndActivity extends AppCompatActivity {
             addRosette("All SUB 5", getRankedColour(4.9));
         }
 
-        if (game.GetQuestions().size() > 20) {
+        if (game.GetQuestions().size() >= 20) {
             double stdev = rawStdev/1_000_000_000.0;
             if (stdev < 0.15) {
                 addRosette("STD 0.15", getRankedColour(0.9));
@@ -159,12 +161,16 @@ public class EndActivity extends AppCompatActivity {
     private void addRosette(String label, int color) {
         View rosetteView = LayoutInflater.from(this).inflate(R.layout.view_achievement_rosette, rosetteContainer, false);
 
-        TextView center = rosetteView.findViewById(R.id.tv_rosette_center);
-        TextView tails = rosetteView.findViewById(R.id.tv_rosette_tails);
+        ImageView headView = rosetteView.findViewById(R.id.iv_rosette_head_color);
+        ImageView tailsView = rosetteView.findViewById(R.id.iv_rosette_tails_color);
         TextView labelTv = rosetteView.findViewById(R.id.tv_rosette_label);
 
-        center.setBackgroundTintList(ColorStateList.valueOf(color));
-        tails.setTextColor(color);
+        int tint = Color.parseColor("#171717");
+        int tintedColor = ColorUtils.blendARGB(color, tint, 0.5f);
+
+        headView.setImageTintList(android.content.res.ColorStateList.valueOf(color));
+        tailsView.setImageTintList(android.content.res.ColorStateList.valueOf(tintedColor));
+
         labelTv.setText(label);
         labelTv.setTextColor(color);
 
