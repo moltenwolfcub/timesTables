@@ -85,13 +85,17 @@ public class EndActivity extends AppCompatActivity {
 
     private static int getRankedColour(double seconds) {
         if (seconds < 1.0) {
-            return Color.parseColor("#F59E0B"); // Elite Orange
-        } else if (seconds <= 2.0) {
-            return Color.parseColor("#38BDF8"); // Legend Blue
-        } else if (seconds <= 3.5) {
-            return Color.parseColor("#34D399"); // Solid Green
+            return Color.parseColor("#10B981");
+        } else if (seconds <= 1.5) {
+            return Color.parseColor("#38BDF8");
+        } else if (seconds <= 3.0) {
+            return Color.parseColor("#2563EB");
+        } else if (seconds <= 5.0) {
+            return Color.parseColor("#94A3B8");
+        } else if (seconds <= 10.0) {
+            return Color.parseColor("#F59E0B");
         } else {
-            return Color.parseColor("#94A3B8"); // Muted Building Slate
+            return Color.parseColor("#EF4444");
         }
     }
 
