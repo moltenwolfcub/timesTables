@@ -109,35 +109,35 @@ public class EndActivity extends AppCompatActivity {
 
         double avg = rawAvg/1_000_000_000.0;
         if (avg < 1.0) {
-            addRosette("AVG 1", getRankedColour(0.9));
+            addRosette("LIGHTNING", getRankedColour(0.9));
         } else if (avg < 1.5) {
-            addRosette("AVG 1.5", getRankedColour(1.4));
+            addRosette("SIXTH GEAR", getRankedColour(1.4));
         } else if (avg < 3.0) {
-            addRosette("AVG 3", getRankedColour(2.9));
+            addRosette("ON FIRE", getRankedColour(2.9));
         } else if (avg < 5.0) {
-            addRosette("AVG 5", getRankedColour(4.9));
+            addRosette("GETTING MOVING", getRankedColour(4.9));
         }
 
         if (allSub1) {
-            addRosette("All SUB 1", getRankedColour(0.9));
+            addRosette("FLAWLESS", getRankedColour(0.9));
         } else if (allSub15) {
-            addRosette("All SUB 1.5", getRankedColour(1.4));
+            addRosette("CLEAN RUN", getRankedColour(1.4));
         } else if (allSub3) {
-            addRosette("All SUB 3", getRankedColour(2.9));
+            addRosette("PERFECT 3", getRankedColour(2.9));
         } else if (allSub5) {
-            addRosette("All SUB 5", getRankedColour(4.9));
+            addRosette("UNTOUCHABLE", getRankedColour(4.9));
         }
 
         if (game.GetQuestions().size() >= 20) {
             double stdev = rawStdev/1_000_000_000.0;
             if (stdev < 0.15) {
-                addRosette("STD 0.15", getRankedColour(0.9));
+                addRosette("FLOW STATE", getRankedColour(0.9));
             } else if (stdev < 0.35) {
-                addRosette("STD 0.35", getRankedColour(1.4));
+                addRosette("METRONOME", getRankedColour(1.4));
             } else if (stdev < 0.6) {
-                addRosette("STD 0.6", getRankedColour(2.9));
+                addRosette("UNWAVERING", getRankedColour(2.9));
             } else if (stdev < 1.2) {
-                addRosette("STD 1.2", getRankedColour(4.9));
+                addRosette("STEADY RHYTHM", getRankedColour(4.9));
             }
         }
     }
