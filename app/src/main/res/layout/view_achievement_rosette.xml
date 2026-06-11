@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="76dp"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="6dp"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="54dp"
+        android:layout_height="64dp"
+        android:gravity="center">
+
+        <!-- Ribbon Tails Background Layer -->
+        <TextView
+            android:id="@+id/tv_rosette_tails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="▼"
+            android:textColor="#10B981"
+            android:textSize="26sp" />
+
+        <!-- Main Rosette Center Target Circle -->
+        <TextView
+            android:id="@+id/tv_rosette_center"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@android:drawable/dialog_holo_dark_frame"
+            android:backgroundTint="#10B981"
+            android:gravity="center"
+            android:text="★"
+            android:textColor="#0F172A"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <!-- Ribbon Label Text -->
+    <TextView
+        android:id="@+id/tv_rosette_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:gravity="center"
+        android:textColor="#10B981"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        tools:text="ROCK STAR" />
+
+</LinearLayout>

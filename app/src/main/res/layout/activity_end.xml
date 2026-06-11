@@ -13,13 +13,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="4dp"
         android:paddingVertical="30sp"
         android:text="Game Summary"
         android:textAlignment="center"
         android:textColor="#38BDF8"
         android:textSize="32sp"
         android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/ll_rosette_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <!-- Placeholders are programmatically injected here -->
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

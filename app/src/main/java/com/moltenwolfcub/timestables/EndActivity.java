@@ -1,12 +1,14 @@
 package com.moltenwolfcub.timestables;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,6 +31,7 @@ public class EndActivity extends AppCompatActivity {
     private TextView consistency;
     private Button done;
     private RecyclerView results;
+    private LinearLayout rosetteContainer;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +50,7 @@ public class EndActivity extends AppCompatActivity {
         consistency = findViewById(R.id.standardDeviation);
         done = findViewById(R.id.done);
         results = findViewById(R.id.rv_end_questions_list);
+        rosetteContainer = findViewById(R.id.ll_rosette_container);
 
         results.setLayoutManager(new LinearLayoutManager(this));
         QuestionSummaryAdapter summaryAdapter = new QuestionSummaryAdapter(game.GetQuestions());
@@ -71,6 +75,8 @@ public class EndActivity extends AppCompatActivity {
         double stddev = Math.sqrt(varianceSum / game.QuestionCount());
         consistency.setText(Question.formatDuration(stddev));
 
+        calculateRosettes(avg, stddev);
+
         done.setOnClickListener(view -> {
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -81,6 +87,56 @@ public class EndActivity extends AppCompatActivity {
         });
         if (game.getGameMode().shouldStore()) {
             saveResults(game.GetPlayerName(), game.MaxTable(), game.QuestionCount(), avg,stddev);
+        }
+    }
+
+    private void calculateRosettes(double rawAvg, double rawStdev) {
+        rosetteContainer.removeAllViews();
+
+        boolean allSub5 = true;
+        boolean allSub3 = true;
+        boolean allSub15 = true;
+        boolean allSub1 = true;
+        for (Question qItem : game.GetQuestions()) {
+            double d = qItem.Duration()/1_000_000_000.0;
+            if (d >= 5.0) allSub5 = false;
+            if (d >= 3.0) allSub3 = false;
+            if (d >= 1.5) allSub15 = false;
+            if (d >= 1.0) allSub1 = false;
+        }
+
+        double avg = rawAvg/1_000_000_000.0;
+        if (avg < 1.0) {
+            addRosette("AVG 1", getRankedColour(0.9));
+        } else if (avg < 1.5) {
+            addRosette("AVG 1.5", getRankedColour(1.4));
+        } else if (avg < 3.0) {
+            addRosette("AVG 3", getRankedColour(2.9));
+        } else if (avg < 5.0) {
+            addRosette("AVG 5", getRankedColour(4.9));
+        }
+
+        if (allSub1) {
+            addRosette("All SUB 1", getRankedColour(0.9));
+        } else if (allSub15) {
+            addRosette("All SUB 1.5", getRankedColour(1.4));
+        } else if (allSub3) {
+            addRosette("All SUB 3", getRankedColour(2.9));
+        } else if (allSub5) {
+            addRosette("All SUB 5", getRankedColour(4.9));
+        }
+
+        if (game.GetQuestions().size() > 20) {
+            double stdev = rawStdev/1_000_000_000.0;
+            if (stdev < 0.15) {
+                addRosette("STD 0.15", getRankedColour(0.9));
+            } else if (stdev < 0.35) {
+                addRosette("STD 0.35", getRankedColour(1.4));
+            } else if (stdev < 0.6) {
+                addRosette("STD 0.6", getRankedColour(2.9));
+            } else if (stdev < 1.2) {
+                addRosette("STD 1.2", getRankedColour(4.9));
+            }
         }
     }
 
@@ -98,6 +154,21 @@ public class EndActivity extends AppCompatActivity {
         } else {
             return Color.parseColor("#EF4444");
         }
+    }
+
+    private void addRosette(String label, int color) {
+        View rosetteView = LayoutInflater.from(this).inflate(R.layout.view_achievement_rosette, rosetteContainer, false);
+
+        TextView center = rosetteView.findViewById(R.id.tv_rosette_center);
+        TextView tails = rosetteView.findViewById(R.id.tv_rosette_tails);
+        TextView labelTv = rosetteView.findViewById(R.id.tv_rosette_label);
+
+        center.setBackgroundTintList(ColorStateList.valueOf(color));
+        tails.setTextColor(color);
+        labelTv.setText(label);
+        labelTv.setTextColor(color);
+
+        rosetteContainer.addView(rosetteView);
     }
 
     private void saveResults(String playerName, int maxTable, int totalQuestions, double avgSpeed, double standardDeviation) {
