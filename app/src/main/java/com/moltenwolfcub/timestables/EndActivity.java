@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 public class EndActivity extends AppCompatActivity {
     private Game game;
@@ -51,7 +52,7 @@ public class EndActivity extends AppCompatActivity {
         QuestionSummaryAdapter summaryAdapter = new QuestionSummaryAdapter(game.GetQuestions());
         results.setAdapter(summaryAdapter);
 
-        playerName.setText(game.GetPlayerName());
+        playerName.setText(Pattern.compile("^.").matcher(game.GetPlayerName().toLowerCase(Locale.ROOT)).replaceFirst(m -> m.group().toUpperCase(Locale.ROOT)));
         maxTable.setText(String.valueOf(game.MaxTable()));
         questionCount.setText(String.valueOf(game.QuestionCount()));
 
