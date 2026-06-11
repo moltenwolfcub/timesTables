@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -109,35 +110,35 @@ public class EndActivity extends AppCompatActivity {
 
         double avg = rawAvg/1_000_000_000.0;
         if (avg < 1.0) {
-            addRosette("LIGHTNING", getRankedColour(0.9));
+            addRosette("LIGHTNING", getRankedColour(0.9), "Achieved a Sub 1.0s average speed!");
         } else if (avg < 1.5) {
-            addRosette("SIXTH GEAR", getRankedColour(1.4));
+            addRosette("SIXTH GEAR", getRankedColour(1.4), "Achieved a Sub 1.5s average speed!");
         } else if (avg < 3.0) {
-            addRosette("ON FIRE", getRankedColour(2.9));
+            addRosette("ON FIRE", getRankedColour(2.9), "Achieved a Sub 3.0s average speed!");
         } else if (avg < 5.0) {
-            addRosette("GETTING MOVING", getRankedColour(4.9));
+            addRosette("GETTING MOVING", getRankedColour(4.9), "Achieved a Sub 5.0s average speed!");
         }
 
         if (allSub1) {
-            addRosette("FLAWLESS", getRankedColour(0.9));
+            addRosette("FLAWLESS", getRankedColour(0.9), "All questions answered in under 1.0s!");
         } else if (allSub15) {
-            addRosette("CLEAN RUN", getRankedColour(1.4));
+            addRosette("CLEAN RUN", getRankedColour(1.4), "All questions answered in under 1.5s!");
         } else if (allSub3) {
-            addRosette("PERFECT 3", getRankedColour(2.9));
+            addRosette("PERFECT 3", getRankedColour(2.9), "All questions answered in under 3.0s!");
         } else if (allSub5) {
-            addRosette("UNTOUCHABLE", getRankedColour(4.9));
+            addRosette("UNTOUCHABLE", getRankedColour(4.9), "All questions answered in under 5.0s!");
         }
 
         if (game.GetQuestions().size() >= 20) {
             double stdev = rawStdev/1_000_000_000.0;
             if (stdev < 0.15) {
-                addRosette("FLOW STATE", getRankedColour(0.9));
+                addRosette("FLOW STATE", getRankedColour(0.9), "Consistency of less that 0.15s!");
             } else if (stdev < 0.35) {
-                addRosette("METRONOME", getRankedColour(1.4));
+                addRosette("METRONOME", getRankedColour(1.4), "Consistency of less that 0.35s!");
             } else if (stdev < 0.6) {
-                addRosette("UNWAVERING", getRankedColour(2.9));
+                addRosette("UNWAVERING", getRankedColour(2.9), "Consistency of less that 0.6s!");
             } else if (stdev < 1.2) {
-                addRosette("STEADY RHYTHM", getRankedColour(4.9));
+                addRosette("STEADY RHYTHM", getRankedColour(4.9), "Consistency of less that 1.2s!");
             }
         }
     }
@@ -158,7 +159,7 @@ public class EndActivity extends AppCompatActivity {
         }
     }
 
-    private void addRosette(String label, int color) {
+    private void addRosette(String label, int color, String desc) {
         View rosetteView = LayoutInflater.from(this).inflate(R.layout.view_achievement_rosette, rosetteContainer, false);
 
         ImageView headView = rosetteView.findViewById(R.id.iv_rosette_head_color);
@@ -173,6 +174,10 @@ public class EndActivity extends AppCompatActivity {
 
         labelTv.setText(label);
         labelTv.setTextColor(color);
+
+        rosetteView.setOnClickListener(v -> {
+            Toast.makeText(this, desc, Toast.LENGTH_SHORT).show();
+        });
 
         rosetteContainer.addView(rosetteView);
     }
