@@ -1,13 +1,22 @@
 package com.moltenwolfcub.timestables;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
+import java.util.Locale;
 
 public class EndActivity extends AppCompatActivity {
     private Game game;
@@ -18,7 +27,7 @@ public class EndActivity extends AppCompatActivity {
     private TextView speed;
     private TextView consistency;
     private Button done;
-    private TextView results;
+    private RecyclerView results;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,7 +45,11 @@ public class EndActivity extends AppCompatActivity {
         speed = findViewById(R.id.speed);
         consistency = findViewById(R.id.standardDeviation);
         done = findViewById(R.id.done);
-        results = findViewById(R.id.results);
+        results = findViewById(R.id.rv_end_questions_list);
+
+        results.setLayoutManager(new LinearLayoutManager(this));
+        QuestionSummaryAdapter summaryAdapter = new QuestionSummaryAdapter(game.GetQuestions());
+        results.setAdapter(summaryAdapter);
 
         playerName.setText(game.GetPlayerName());
         maxTable.setText(String.valueOf(game.MaxTable()));
@@ -57,13 +70,6 @@ public class EndActivity extends AppCompatActivity {
         double stddev = Math.sqrt(varianceSum / game.QuestionCount());
         consistency.setText(Question.formatDuration(stddev));
 
-        StringBuilder questionResults = new StringBuilder();
-        for (int i = 0; i<game.GetQuestions().size();i++) {
-            questionResults.append(game.GetQuestions().get(i).toString()).append("\n");
-        }
-
-        results.setText(questionResults.toString());
-
         done.setOnClickListener(view -> {
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -74,6 +80,18 @@ public class EndActivity extends AppCompatActivity {
         });
         if (game.getGameMode().shouldStore()) {
             saveResults(game.GetPlayerName(), game.MaxTable(), game.QuestionCount(), avg,stddev);
+        }
+    }
+
+    private static int getRankedColour(double seconds) {
+        if (seconds < 1.0) {
+            return Color.parseColor("#F59E0B"); // Elite Orange
+        } else if (seconds <= 2.0) {
+            return Color.parseColor("#38BDF8"); // Legend Blue
+        } else if (seconds <= 3.5) {
+            return Color.parseColor("#34D399"); // Solid Green
+        } else {
+            return Color.parseColor("#94A3B8"); // Muted Building Slate
         }
     }
 
@@ -92,5 +110,45 @@ public class EndActivity extends AppCompatActivity {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             db.gameHistoryDao().insertGame(newRecord);
         });
+    }
+
+    private static class QuestionSummaryAdapter extends RecyclerView.Adapter<QuestionSummaryAdapter.ViewHolder> {
+        private final List<Question> questionList;
+
+        QuestionSummaryAdapter(List<Question> questionList) {
+            this.questionList = questionList;
+        }
+
+        @NonNull
+        @Override
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_end_question_row, parent, false);
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull QuestionSummaryAdapter.ViewHolder holder, int position) {
+            Question q = questionList.get(position);
+
+            holder.tvQuestion.setText(String.format(Locale.UK, "%d × %d = %d", q.first, q.second, q.Answer()));
+            holder.tvTime.setText(Question.formatDuration(q.Duration()));
+
+            double seconds = q.Duration()/1_000_000_000.0;
+            holder.tvTime.setTextColor(getRankedColour(seconds));
+        }
+
+        @Override
+        public int getItemCount() {
+            return questionList != null ? questionList.size() : 0;
+        }
+
+        static class ViewHolder extends RecyclerView.ViewHolder {
+            TextView tvQuestion, tvTime;
+            ViewHolder(View itemView) {
+                super(itemView);
+                tvQuestion = itemView.findViewById(R.id.tv_end_row_question);
+                tvTime = itemView.findViewById(R.id.tv_end_row_time);
+            }
+        }
     }
 }

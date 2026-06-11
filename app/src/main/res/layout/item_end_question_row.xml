@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:paddingVertical="10dp"
+    android:paddingHorizontal="12dp"
+    android:layout_marginBottom="6dp"
+    android:background="#151F32">
+
+    <!-- Left side: The full mathematical statement -->
+    <TextView
+        android:id="@+id/tv_end_row_question"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="#F8FAFC"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="7 × 8 = 56" />
+
+    <!-- Right side: The speed badge with dynamic coloring -->
+    <TextView
+        android:id="@+id/tv_end_row_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        tools:text="0.845s"
+        tools:textColor="#F59E0B" />
+
+</LinearLayout>

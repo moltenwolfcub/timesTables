@@ -165,24 +165,14 @@
         android:textSize="12sp"
         android:textStyle="bold" />
 
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_end_questions_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"
         android:layout_weight="1"
-        android:background="#151F32"
-        android:padding="8dp">
-
-        <TextView
-            android:id="@+id/results"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lineSpacingExtra="6dp"
-            android:textColor="#94A3B8"
-            android:textSize="15sp"
-            tools:text="Result 1\nResult 2\nResult 3" />
-
-    </ScrollView>
+        android:overScrollMode="never"
+        tools:listitem="@layout/item_end_question_row" />
 
     <Button
         android:id="@+id/done"
