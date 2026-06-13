@@ -5,7 +5,7 @@
     android:id="@+id/end_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0F172A"
+    android:background="@color/background"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -17,7 +17,7 @@
         android:paddingVertical="30sp"
         android:text="@string/end_title"
         android:textAlignment="center"
-        android:textColor="#38BDF8"
+        android:textColor="@color/primary"
         android:textSize="32sp"
         android:textStyle="bold" />
 
@@ -37,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:background="#1E293B"
+        android:background="@color/container_primary"
         android:orientation="vertical"
         android:padding="16dp">
 
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/end_stat_player"
-                android:textColor="#94A3B8"
+                android:textColor="@color/simple_text"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -60,7 +60,7 @@
                 android:id="@+id/playerName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#38BDF8"
+                android:textColor="@color/primary"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 tools:text="Guest" />
@@ -77,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/end_stat_table"
-                android:textColor="#94A3B8"
+                android:textColor="@color/simple_text"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -85,7 +85,7 @@
                 android:id="@+id/tableMax"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 tools:text="12" />
@@ -102,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/end_stat_questions"
-                android:textColor="#94A3B8"
+                android:textColor="@color/simple_text"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -110,7 +110,7 @@
                 android:id="@+id/questionCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 tools:text="10" />
@@ -126,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/end_stat_speed"
-                android:textColor="#94A3B8"
+                android:textColor="@color/simple_text"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -134,7 +134,7 @@
                 android:id="@+id/speed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#FBBF24"
+                android:textColor="@color/speed"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 tools:text="1.523s" />
@@ -151,14 +151,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/end_stat_consistency"
-                android:textColor="#94A3B8"
+                android:textColor="@color/simple_text"
                 android:textSize="16sp"
                 android:textStyle="bold" />
             <TextView
                 android:id="@+id/standardDeviation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#A78BFA"
+                android:textColor="@color/consistency"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 tools:text="0.234s" />
@@ -173,7 +173,7 @@
         android:letterSpacing="0.05"
         android:paddingHorizontal="4dp"
         android:text="@string/end_title_problems"
-        android:textColor="#475569"
+        android:textColor="@color/subheading"
         android:textSize="12sp"
         android:textStyle="bold" />
 
@@ -191,10 +191,10 @@
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:text="@string/end_button_done"
-        android:textColor="#0F172A"
+        android:textColor="@color/background"
         android:textSize="15sp"
         android:textStyle="bold"
-        app:backgroundTint="#34D399"
+        app:backgroundTint="@color/positive"
         app:cornerRadius="8dp" />
 
 </LinearLayout>

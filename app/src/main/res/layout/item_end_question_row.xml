@@ -7,14 +7,14 @@
     android:paddingVertical="10dp"
     android:paddingHorizontal="12dp"
     android:layout_marginBottom="6dp"
-    android:background="#151F32">
+    android:background="@color/container_secondary">
 
     <TextView
         android:id="@+id/tv_end_row_question"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textColor="#F8FAFC"
+        android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold"
         tools:text="7 × 8 = 56" />

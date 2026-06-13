@@ -4,7 +4,7 @@
     android:id="@+id/main_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0F172A"
+    android:background="@color/background"
     android:orientation="vertical"
     android:padding="20dp">
 
@@ -24,7 +24,7 @@
         android:letterSpacing="0.1"
         android:text="@string/app_name"
         android:textAlignment="center"
-        android:textColor="#38BDF8"
+        android:textColor="@color/primary"
         android:textSize="28sp"
         android:textStyle="bold" />
 
@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        android:background="#1E293B"
+        android:background="@color/container_primary"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="12dp">
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.2"
             android:text="@string/main_input_table"
-            android:textColor="#94A3B8"
+            android:textColor="@color/simple_text"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -51,23 +51,23 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.8"
-            android:background="#0F172A"
+            android:background="@color/background"
             android:gravity="center"
             android:inputType="number"
             android:importantForAutofill="no"
             android:padding="10dp"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
             android:hint="@string/main_input_table_hint"
-            android:textColorHint="#475569" />
+            android:textColorHint="@color/hint_text" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        android:background="#1E293B"
+        android:background="@color/container_primary"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="12dp">
@@ -77,7 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.2"
             android:text="@string/main_input_questions"
-            android:textColor="#94A3B8"
+            android:textColor="@color/simple_text"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -86,24 +86,23 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.8"
-            android:background="#0F172A"
-            android:ems="10"
+            android:background="@color/background"
             android:gravity="center"
             android:inputType="number"
             android:importantForAutofill="no"
             android:padding="10dp"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
             android:hint="@string/main_input_questions_hint"
-            android:textColorHint="#475569" />
+            android:textColorHint="@color/hint_text" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:background="#1E293B"
+        android:background="@color/container_primary"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="12dp">
@@ -113,7 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.2"
             android:text="@string/main_input_player"
-            android:textColor="#94A3B8"
+            android:textColor="@color/simple_text"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -122,16 +121,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.8"
-            android:background="#0F172A"
+            android:background="@color/background"
             android:gravity="center"
             android:inputType="textCapCharacters"
             android:autofillHints="personName"
             android:padding="10dp"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
             android:hint="@string/main_input_player_hint"
-            android:textColorHint="#475569" />
+            android:textColorHint="@color/hint_text" />
     </LinearLayout>
 
     <Button
@@ -139,9 +138,10 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:text="@string/main_button_start"
+        android:textColor="@color/background"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:backgroundTint="#38BDF8"
+        app:backgroundTint="@color/primary"
         app:cornerRadius="8dp" />
 
     <Button
@@ -151,17 +151,17 @@
         android:layout_height="52dp"
         android:layout_marginTop="12dp"
         android:text="@string/main_button_history"
-        android:textColor="#38BDF8"
+        android:textColor="@color/primary"
         android:textSize="14sp"
         app:cornerRadius="8dp"
-        app:strokeColor="#38BDF8"
+        app:strokeColor="@color/primary"
         app:strokeWidth="2dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="#1E293B"
+        android:background="@color/container_primary"
         android:orientation="vertical"
         android:padding="12dp">
 
@@ -170,7 +170,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:text="@string/main_infinite_title"
-            android:textColor="#FBBF24"
+            android:textColor="@color/secondary"
             android:textSize="12sp"
             android:textStyle="bold"
             android:letterSpacing="0.05" />
@@ -187,7 +187,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.2"
                 android:text="@string/main_input_infinite_focus"
-                android:textColor="#94A3B8"
+                android:textColor="@color/simple_text"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -196,16 +196,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
-                android:background="#0F172A"
+                android:background="@color/background"
                 android:gravity="center"
                 android:inputType="number"
                 android:importantForAutofill="no"
                 android:padding="10dp"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:hint="@string/main_input_infinite_focus_hint"
-                android:textColorHint="#475569" />
+                android:textColorHint="@color/hint_text" />
         </LinearLayout>
 
         <Button
@@ -213,10 +213,10 @@
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:text="@string/main_button_start_infinite"
-            android:textColor="#0F172A"
+            android:textColor="@color/background"
             android:textSize="15sp"
             android:textStyle="bold"
-            app:backgroundTint="#FBBF24"
+            app:backgroundTint="@color/secondary"
             app:cornerRadius="8dp" />
     </LinearLayout>
 
