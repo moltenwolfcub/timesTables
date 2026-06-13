@@ -1,5 +1,6 @@
 package com.moltenwolfcub.timestables;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -103,26 +104,26 @@ public class EndActivity extends AppCompatActivity {
 
         double avg = rawAvg/1_000_000_000.0;
         if (avg < 1.0) {
-            addRosette(getString(R.string.end_rosette_average_1), avgColor = getRankedColour(0.9), getString(R.string.end_rosette_average_hint, 1.0));
+            addRosette(getString(R.string.end_rosette_average_1), avgColor = getRankedColour(this, 0.9), getString(R.string.end_rosette_average_hint, 1.0));
         } else if (avg < 1.5) {
-            addRosette(getString(R.string.end_rosette_average_2), avgColor = getRankedColour(1.4), getString(R.string.end_rosette_average_hint, 1.5));
+            addRosette(getString(R.string.end_rosette_average_2), avgColor = getRankedColour(this, 1.4), getString(R.string.end_rosette_average_hint, 1.5));
         } else if (avg < 3.0) {
-            addRosette(getString(R.string.end_rosette_average_3), avgColor = getRankedColour(2.9), getString(R.string.end_rosette_average_hint, 3.0));
+            addRosette(getString(R.string.end_rosette_average_3), avgColor = getRankedColour(this, 2.9), getString(R.string.end_rosette_average_hint, 3.0));
         } else if (avg < 5.0) {
-            addRosette(getString(R.string.end_rosette_average_4), avgColor = getRankedColour(4.9), getString(R.string.end_rosette_average_hint, 5.0));
+            addRosette(getString(R.string.end_rosette_average_4), avgColor = getRankedColour(this, 4.9), getString(R.string.end_rosette_average_hint, 5.0));
         } else {
             avgColor = -1;
         }
         earnedColors[0] = avgColor;
 
         if (allSub1) {
-            addRosette(getString(R.string.end_rosette_all_1), allColor = getRankedColour(0.9), getString(R.string.end_rosette_all_hint, 1.0));
+            addRosette(getString(R.string.end_rosette_all_1), allColor = getRankedColour(this, 0.9), getString(R.string.end_rosette_all_hint, 1.0));
         } else if (allSub15) {
-            addRosette(getString(R.string.end_rosette_all_2), allColor = getRankedColour(1.4), getString(R.string.end_rosette_all_hint, 1.5));
+            addRosette(getString(R.string.end_rosette_all_2), allColor = getRankedColour(this, 1.4), getString(R.string.end_rosette_all_hint, 1.5));
         } else if (allSub3) {
-            addRosette(getString(R.string.end_rosette_all_3), allColor = getRankedColour(2.9), getString(R.string.end_rosette_all_hint, 3.0));
+            addRosette(getString(R.string.end_rosette_all_3), allColor = getRankedColour(this, 2.9), getString(R.string.end_rosette_all_hint, 3.0));
         } else if (allSub5) {
-            addRosette(getString(R.string.end_rosette_all_4), allColor = getRankedColour(4.9), getString(R.string.end_rosette_all_hint, 5.0));
+            addRosette(getString(R.string.end_rosette_all_4), allColor = getRankedColour(this, 4.9), getString(R.string.end_rosette_all_hint, 5.0));
         } else {
             allColor = -1;
         }
@@ -131,13 +132,13 @@ public class EndActivity extends AppCompatActivity {
         if (game.GetQuestions().size() >= 20) {
             double stdev = rawStdev/1_000_000_000.0;
             if (stdev < 0.15) {
-                addRosette(getString(R.string.end_rosette_dev_1), consistencyColor = getRankedColour(0.9), getString(R.string.end_rosette_dev_hint, 0.15));
+                addRosette(getString(R.string.end_rosette_dev_1), consistencyColor = getRankedColour(this, 0.9), getString(R.string.end_rosette_dev_hint, 0.15));
             } else if (stdev < 0.35) {
-                addRosette(getString(R.string.end_rosette_dev_2), consistencyColor = getRankedColour(1.4), getString(R.string.end_rosette_dev_hint, 0.35));
+                addRosette(getString(R.string.end_rosette_dev_2), consistencyColor = getRankedColour(this, 1.4), getString(R.string.end_rosette_dev_hint, 0.35));
             } else if (stdev < 0.6) {
-                addRosette(getString(R.string.end_rosette_dev_3), consistencyColor = getRankedColour(2.9), getString(R.string.end_rosette_dev_hint, 0.60));
+                addRosette(getString(R.string.end_rosette_dev_3), consistencyColor = getRankedColour(this, 2.9), getString(R.string.end_rosette_dev_hint, 0.60));
             } else if (stdev < 1.2) {
-                addRosette(getString(R.string.end_rosette_dev_4), consistencyColor = getRankedColour(4.9), getString(R.string.end_rosette_dev_hint, 1.20));
+                addRosette(getString(R.string.end_rosette_dev_4), consistencyColor = getRankedColour(this, 4.9), getString(R.string.end_rosette_dev_hint, 1.20));
             } else {
                 consistencyColor = -1;
             }
@@ -149,19 +150,19 @@ public class EndActivity extends AppCompatActivity {
         return earnedColors;
     }
 
-    private static int getRankedColour(double seconds) {
+    private static int getRankedColour(Context ctx, double seconds) {
         if (seconds < 1.0) {
-            return Color.parseColor("#10B981");
+            return Color.parseColor(ctx.getString(R.color.rank_1));
         } else if (seconds <= 1.5) {
-            return Color.parseColor("#38BDF8");
+            return Color.parseColor(ctx.getString(R.color.rank_2));
         } else if (seconds <= 3.0) {
-            return Color.parseColor("#2563EB");
+            return Color.parseColor(ctx.getString(R.color.rank_3));
         } else if (seconds <= 5.0) {
-            return Color.parseColor("#94A3B8");
+            return Color.parseColor(ctx.getString(R.color.rank_4));
         } else if (seconds <= 10.0) {
-            return Color.parseColor("#F59E0B");
+            return Color.parseColor(ctx.getString(R.color.rank_bad_1));
         } else {
-            return Color.parseColor("#EF4444");
+            return Color.parseColor(ctx.getString(R.color.rank_bad_2));
         }
     }
 
@@ -172,8 +173,7 @@ public class EndActivity extends AppCompatActivity {
         ImageView tailsView = rosetteView.findViewById(R.id.iv_rosette_tails_color);
         TextView labelTv = rosetteView.findViewById(R.id.tv_rosette_label);
 
-        int tint = Color.parseColor("#171717");
-        int tintedColor = ColorUtils.blendARGB(color, tint, 0.5f);
+        int tintedColor = ColorUtils.blendARGB(color, getColor(R.color.dark_tint), 0.5f);
 
         headView.setImageTintList(android.content.res.ColorStateList.valueOf(color));
         tailsView.setImageTintList(android.content.res.ColorStateList.valueOf(tintedColor));
@@ -226,7 +226,7 @@ public class EndActivity extends AppCompatActivity {
             holder.tvTime.setText(Question.formatDuration(holder.tvTime.getContext(), q.Duration()));
 
             double seconds = q.Duration()/1_000_000_000.0;
-            holder.tvTime.setTextColor(getRankedColour(seconds));
+            holder.tvTime.setTextColor(getRankedColour(holder.tvTime.getContext(), seconds));
         }
 
         @Override

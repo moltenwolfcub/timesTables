@@ -17,9 +17,17 @@
     <color name="speed">#FBBF24</color>
     <color name="consistency">#A78BFA</color>
 
+    <color name="rank_1">#10B981</color>
+    <color name="rank_2">#38BDF8</color>
+    <color name="rank_3">#2563EB</color>
+    <color name="rank_4">#94A3B8</color>
+    <color name="rank_bad_1">#F59E0B</color>
+    <color name="rank_bad_2">#EF4444</color>
+
     <color name="game_question">@color/white</color>
     <color name="game_keypad">#1E293B</color>
     <color name="history_date">#B3FFFFFF</color>
 
     <color name="white">#FFFFFF</color>
+    <color name="dark_tint">#171717</color>
 </resources>
