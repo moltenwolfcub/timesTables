@@ -3,7 +3,6 @@ package com.moltenwolfcub.timestables;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,8 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
-import java.util.regex.Pattern;
 
 public class HistoryActivity extends AppCompatActivity {
 
@@ -200,10 +197,10 @@ public class HistoryActivity extends AppCompatActivity {
             List<GameRecord> records = db.gameHistoryDao().getGamesFiltered(currentCutoffTime, currentMaxTableFilter, currentPlayerFilter);
 
             runOnUiThread(() -> {
-                tvTotalGames.setText("Total Games: " + totalGames);
-                tvAvgSpeed.setText(totalGames > 0 ? String.format(Locale.UK, "Overall Avg Speed: %s", Question.formatDuration(avgSpeed)) : "Overall Avg Speed: --");
-                tvBestSpeed.setText(totalGames > 0 ? String.format(Locale.UK, "Personal Best Speed: %s", Question.formatDuration(bestSpeed)) : "Personal Best Speed: --");
-                tvAvgDev.setText(totalGames > 0 ? String.format(Locale.UK, "Avg Consistency (dev): %s", Question.formatDuration(avgDev)) : "Avg Consistency (dev): --");
+                tvTotalGames.setText(getString(R.string.history_total_games, totalGames));
+                tvAvgSpeed.setText(totalGames > 0 ? getString(R.string.history_average_speed, Question.formatDuration(this, avgSpeed)) : getString(R.string.history_average_speed_empty));
+                tvBestSpeed.setText(totalGames > 0 ? getString(R.string.history_best_speed, Question.formatDuration(this, bestSpeed)) : getString(R.string.history_best_speed_empty));
+                tvAvgDev.setText(totalGames > 0 ? getString(R.string.history_average_consistency, Question.formatDuration(this, avgDev)) : getString(R.string.history_average_consistency_empty));
                 adapter.updateList(records);
             });
         });
@@ -232,47 +229,41 @@ public class HistoryActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull ViewHolder h, int pos) {
             GameRecord r = items.get(pos);
             h.date.setText(DateFormat.format("dd MMM yyyy HH:mm", r.getTimestamp()));
-            h.player.setText("Player: " + Pattern.compile("^.").matcher(r.getPlayerName().toLowerCase(Locale.ROOT)).replaceFirst(m -> m.group().toUpperCase(Locale.ROOT)));
-            h.table.setText("Max Table: " + r.getMaxTable());
-            h.score.setText(r.getTotalQuestions() + " Questions");
-            h.speed.setText(String.format(Locale.UK, "%s avg", Question.formatDuration(r.getAverageSpeed())));
-            h.stdev.setText(String.format(Locale.UK, "%s dev", Question.formatDuration(r.getStandardDeviation())));
+            h.player.setText(h.player.getContext().getString(R.string.history_game_player, StringUtils.Title(r.getPlayerName())));
+            h.table.setText(h.table.getContext().getString(R.string.history_game_table, r.getMaxTable()));
+            h.questions.setText(h.questions.getContext().getResources().getQuantityString(R.plurals.history_game_question, r.getTotalQuestions(), r.getTotalQuestions()));
+            h.speed.setText(h.speed.getContext().getString(R.string.history_game_speed, Question.formatDuration(h.speed.getContext(), r.getAverageSpeed())));
+            h.stdev.setText(h.stdev.getContext().getString(R.string.history_game_consistency, Question.formatDuration(h.stdev.getContext(), r.getStandardDeviation())));
 
             Context context = h.rosette1.getContext();
 
             // ROSETTE 1
             int colRos1 = r.getRosette1();
             if (colRos1 == -1) {
-                Drawable emptyShape = ContextCompat.getDrawable(context, R.drawable.ic_rosette_history_empty).mutate();
-                h.rosette1.setBackground(emptyShape);
+                h.rosette1.setBackground(ContextCompat.getDrawable(context, R.drawable.ic_rosette_history_empty));
                 h.rosette1.setBackgroundTintList(null);
             } else {
-                Drawable filledShape = ContextCompat.getDrawable(context, R.drawable.ic_rosette_history).mutate();
-                h.rosette1.setBackground(filledShape);
+                h.rosette1.setBackground(ContextCompat.getDrawable(context, R.drawable.ic_rosette_history));
                 h.rosette1.setBackgroundTintList(ColorStateList.valueOf(colRos1));
             }
 
             // ROSETTE 2
             int colRos2 = r.getRosette2();
             if (colRos2 == -1) {
-                Drawable emptyShape = ContextCompat.getDrawable(context, R.drawable.ic_rosette_history_empty).mutate();
-                h.rosette2.setBackground(emptyShape);
+                h.rosette2.setBackground(ContextCompat.getDrawable(context, R.drawable.ic_rosette_history_empty));
                 h.rosette2.setBackgroundTintList(null);
             } else {
-                Drawable filledShape = ContextCompat.getDrawable(context, R.drawable.ic_rosette_history).mutate();
-                h.rosette2.setBackground(filledShape);
+                h.rosette2.setBackground(ContextCompat.getDrawable(context, R.drawable.ic_rosette_history));
                 h.rosette2.setBackgroundTintList(ColorStateList.valueOf(colRos2));
             }
 
             // ROSETTE 3
             int colRos3 = r.getRosette3();
             if (colRos3 == -1) {
-                Drawable emptyShape = ContextCompat.getDrawable(context, R.drawable.ic_rosette_history_empty).mutate();
-                h.rosette3.setBackground(emptyShape);
+                h.rosette3.setBackground(ContextCompat.getDrawable(context, R.drawable.ic_rosette_history_empty));
                 h.rosette3.setBackgroundTintList(null);
             } else {
-                Drawable filledShape = ContextCompat.getDrawable(context, R.drawable.ic_rosette_history).mutate();
-                h.rosette3.setBackground(filledShape);
+                h.rosette3.setBackground(ContextCompat.getDrawable(context, R.drawable.ic_rosette_history));
                 h.rosette3.setBackgroundTintList(ColorStateList.valueOf(colRos3));
             }
         }
@@ -283,14 +274,14 @@ public class HistoryActivity extends AppCompatActivity {
         }
 
         static class ViewHolder extends RecyclerView.ViewHolder {
-            TextView date, player, table, score, speed, stdev;
+            TextView date, player, table, questions, speed, stdev;
             View rosette1, rosette2, rosette3;
             ViewHolder(View v) {
                 super(v);
                 date = v.findViewById(R.id.row_date);
                 player = v.findViewById(R.id.row_player_display);
                 table = v.findViewById(R.id.row_table_info);
-                score = v.findViewById(R.id.row_score);
+                questions = v.findViewById(R.id.row_score);
                 speed = v.findViewById(R.id.row_speed);
                 stdev = v.findViewById(R.id.row_consistency);
 

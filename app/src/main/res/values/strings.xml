@@ -1,45 +1,60 @@
 <resources>
     <string name="app_name">Times Tables</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
-    <string name="lorem_ipsum">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
-        volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
-        dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
-        litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse blandit eleifend
-        diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,
-        ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.\n\n
-        Suspendisse interdum ornare ante. Aliquam nec cursus lorem. Morbi id magna felis. Vivamus
-        egestas, est a condimentum egestas, turpis nisl iaculis ipsum, in dictum tellus dolor sed
-        neque. Morbi tellus erat, dapibus ut sem a, iaculis tincidunt dui. Interdum et malesuada
-        fames ac ante ipsum primis in faucibus. Curabitur et eros porttitor, ultricies urna vitae,
-        molestie nibh. Phasellus at commodo eros, non aliquet metus. Sed maximus nisl nec dolor
-        bibendum, vel congue leo egestas.\n\n
-        Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit
-        amet auctor at, mollis non turpis. Nullam pretium libero vestibulum, finibus orci vel,
-        molestie quam. Fusce blandit tincidunt nulla, quis sollicitudin libero facilisis et. Integer
-        interdum nunc ligula, et fermentum metus hendrerit id. Vestibulum lectus felis, dictum at
-        lacinia sit amet, tristique id quam. Cras eu consequat dui. Suspendisse sodales nunc ligula,
-        in lobortis sem porta sed. Integer id ultrices magna, in luctus elit. Sed a pellentesque
-        est.\n\n
-        Aenean nunc velit, lacinia sed dolor sed, ultrices viverra nulla. Etiam a venenatis nibh.
-        Morbi laoreet, tortor sed facilisis varius, nibh orci rhoncus nulla, id elementum leo dui
-        non lorem. Nam mollis ipsum quis auctor varius. Quisque elementum eu libero sed commodo. In
-        eros nisl, imperdiet vel imperdiet et, scelerisque a mauris. Pellentesque varius ex nunc,
-        quis imperdiet eros placerat ac. Duis finibus orci et est auctor tincidunt. Sed non viverra
-        ipsum. Nunc quis augue egestas, cursus lorem at, molestie sem. Morbi a consectetur ipsum, a
-        placerat diam. Etiam vulputate dignissim convallis. Integer faucibus mauris sit amet finibus
-        convallis.\n\n
-        Phasellus in aliquet mi. Pellentesque habitant morbi tristique senectus et netus et
-        malesuada fames ac turpis egestas. In volutpat arcu ut felis sagittis, in finibus massa
-        gravida. Pellentesque id tellus orci. Integer dictum, lorem sed efficitur ullamcorper,
-        libero justo consectetur ipsum, in mollis nisl ex sed nisl. Donec maximus ullamcorper
-        sodales. Praesent bibendum rhoncus tellus nec feugiat. In a ornare nulla. Donec rhoncus
-        libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
-        vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
-    </string>
+    <string name="end_question">%1$d × %2$d = %3$d</string>
+    <string name="end_rosette_average_1">LIGHTNING</string>
+    <string name="end_rosette_average_2">SIXTH GEAR</string>
+    <string name="end_rosette_average_3">ON FIRE</string>
+    <string name="end_rosette_average_4">GETTING MOVING</string>
+    <string name="end_rosette_average_hint">Achieved a Sub %1$ds average speed!</string>
+    <string name="end_rosette_all_1">FLAWLESS</string>
+    <string name="end_rosette_all_2">CLEAN RUN</string>
+    <string name="end_rosette_all_3">PERFECT 3</string>
+    <string name="end_rosette_all_4">UNTOUCHABLE</string>
+    <string name="end_rosette_all_hint">All questions answered in under %1$ds!</string>
+    <string name="end_rosette_dev_1">FLOW STATE</string>
+    <string name="end_rosette_dev_2">METRONOME</string>
+    <string name="end_rosette_dev_3">UNWAVERING</string>
+    <string name="end_rosette_dev_4">STEADY RHYTHM</string>
+    <string name="end_rosette_dev_hint">Consistency of less than %1$ds!</string>
+    
+    <string name="game_question">%1$d × %2$d = </string>
+    <string name="game_keypad_1">1</string>
+    <string name="game_keypad_2">2</string>
+    <string name="game_keypad_3">3</string>
+    <string name="game_keypad_4">4</string>
+    <string name="game_keypad_5">5</string>
+    <string name="game_keypad_6">6</string>
+    <string name="game_keypad_7">7</string>
+    <string name="game_keypad_8">8</string>
+    <string name="game_keypad_9">9</string>
+    <string name="game_keypad_0">0</string>
+    <string name="game_keypad_delete">⌫</string>
+    <string name="game_keypad_clear">[C]</string>
+    
+    <string name="history_total_games">Total Games: %1$d</string>
+    <string name="history_average_speed">Overall Avg Speed: %1$s</string>
+    <string name="history_average_speed_empty">Overall Avg Speed: -</string>
+    <string name="history_best_speed">Personal Best Speed: %1$s</string>
+    <string name="history_best_speed_empty">Personal Best Speed: -</string>
+    <string name="history_average_consistency">Avg Consistency (dev): %1$s</string>
+    <string name="history_average_consistency_empty">Avg Consistency (dev): -</string>
+
+    <string name="history_game_player">Player: %1$s</string>
+    <string name="history_game_table">Max Table: %1$d</string>
+    <plurals name="history_game_question">
+        <item quantity="one">%1$d Question</item>
+        <item quantity="other">%1$d Questions</item>
+    </plurals>
+    <string name="history_game_speed">%1$s avg</string>
+    <string name="history_game_consistency">%1$s dev</string>
+
+    <string name="main_toast_table_empty">Enter a value for Max Table</string>
+    <string name="main_toast_table_nan">Max table should be a number</string>
+    <string name="main_toast_questions_empty">Enter a value for # of Questions</string>
+    <string name="main_toast_questions_nan">Question Count should be a number</string>
+    <string name="main_toast_infinite_table_empty">Enter a value for Focus Table Target</string>
+    <string name="main_toast_infinite_table_nan">Focus Table Target should be a number</string>
+
+    <string name="question_duration">%1$ss</string>
 </resources>

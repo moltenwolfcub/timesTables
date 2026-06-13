@@ -20,8 +20,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-import java.util.Locale;
-import java.util.regex.Pattern;
 
 public class EndActivity extends AppCompatActivity {
     private Game game;
@@ -51,7 +49,7 @@ public class EndActivity extends AppCompatActivity {
         QuestionSummaryAdapter summaryAdapter = new QuestionSummaryAdapter(game.GetQuestions());
         results.setAdapter(summaryAdapter);
 
-        playerName.setText(Pattern.compile("^.").matcher(game.GetPlayerName().toLowerCase(Locale.ROOT)).replaceFirst(m -> m.group().toUpperCase(Locale.ROOT)));
+        playerName.setText(StringUtils.Title(game.GetPlayerName()));
         maxTable.setText(String.valueOf(game.MaxTable()));
         questionCount.setText(String.valueOf(game.QuestionCount()));
 
@@ -60,7 +58,7 @@ public class EndActivity extends AppCompatActivity {
             sum+= game.GetQuestions().get(i).Duration();
         }
         double avg = (double) sum / game.QuestionCount();
-        speed.setText(Question.formatDuration(avg));
+        speed.setText(Question.formatDuration(this, avg));
 
         double varianceSum = 0;
         for (int i = 0; i < game.GetQuestions().size(); i++) {
@@ -68,7 +66,7 @@ public class EndActivity extends AppCompatActivity {
             varianceSum += diff * diff;
         }
         double stddev = Math.sqrt(varianceSum / game.QuestionCount());
-        consistency.setText(Question.formatDuration(stddev));
+        consistency.setText(Question.formatDuration(this, stddev));
 
         int[] rosetteColors = calculateRosettes(avg, stddev);
 
@@ -105,26 +103,26 @@ public class EndActivity extends AppCompatActivity {
 
         double avg = rawAvg/1_000_000_000.0;
         if (avg < 1.0) {
-            addRosette("LIGHTNING", avgColor = getRankedColour(0.9), "Achieved a Sub 1.0s average speed!");
+            addRosette(getString(R.string.end_rosette_average_1), avgColor = getRankedColour(0.9), getString(R.string.end_rosette_average_hint, 1.0));
         } else if (avg < 1.5) {
-            addRosette("SIXTH GEAR", avgColor = getRankedColour(1.4), "Achieved a Sub 1.5s average speed!");
+            addRosette(getString(R.string.end_rosette_average_2), avgColor = getRankedColour(1.4), getString(R.string.end_rosette_average_hint, 1.5));
         } else if (avg < 3.0) {
-            addRosette("ON FIRE", avgColor = getRankedColour(2.9), "Achieved a Sub 3.0s average speed!");
+            addRosette(getString(R.string.end_rosette_average_3), avgColor = getRankedColour(2.9), getString(R.string.end_rosette_average_hint, 3.0));
         } else if (avg < 5.0) {
-            addRosette("GETTING MOVING", avgColor = getRankedColour(4.9), "Achieved a Sub 5.0s average speed!");
+            addRosette(getString(R.string.end_rosette_average_4), avgColor = getRankedColour(4.9), getString(R.string.end_rosette_average_hint, 5.0));
         } else {
             avgColor = -1;
         }
         earnedColors[0] = avgColor;
 
         if (allSub1) {
-            addRosette("FLAWLESS", allColor = getRankedColour(0.9), "All questions answered in under 1.0s!");
+            addRosette(getString(R.string.end_rosette_all_1), allColor = getRankedColour(0.9), getString(R.string.end_rosette_all_hint, 1.0));
         } else if (allSub15) {
-            addRosette("CLEAN RUN", allColor = getRankedColour(1.4), "All questions answered in under 1.5s!");
+            addRosette(getString(R.string.end_rosette_all_2), allColor = getRankedColour(1.4), getString(R.string.end_rosette_all_hint, 1.5));
         } else if (allSub3) {
-            addRosette("PERFECT 3", allColor = getRankedColour(2.9), "All questions answered in under 3.0s!");
+            addRosette(getString(R.string.end_rosette_all_3), allColor = getRankedColour(2.9), getString(R.string.end_rosette_all_hint, 3.0));
         } else if (allSub5) {
-            addRosette("UNTOUCHABLE", allColor = getRankedColour(4.9), "All questions answered in under 5.0s!");
+            addRosette(getString(R.string.end_rosette_all_4), allColor = getRankedColour(4.9), getString(R.string.end_rosette_all_hint, 5.0));
         } else {
             allColor = -1;
         }
@@ -133,13 +131,13 @@ public class EndActivity extends AppCompatActivity {
         if (game.GetQuestions().size() >= 20) {
             double stdev = rawStdev/1_000_000_000.0;
             if (stdev < 0.15) {
-                addRosette("FLOW STATE", consistencyColor = getRankedColour(0.9), "Consistency of less that 0.15s!");
+                addRosette(getString(R.string.end_rosette_dev_1), consistencyColor = getRankedColour(0.9), getString(R.string.end_rosette_dev_hint, 0.15));
             } else if (stdev < 0.35) {
-                addRosette("METRONOME", consistencyColor = getRankedColour(1.4), "Consistency of less that 0.35s!");
+                addRosette(getString(R.string.end_rosette_dev_2), consistencyColor = getRankedColour(1.4), getString(R.string.end_rosette_dev_hint, 0.35));
             } else if (stdev < 0.6) {
-                addRosette("UNWAVERING", consistencyColor = getRankedColour(2.9), "Consistency of less that 0.6s!");
+                addRosette(getString(R.string.end_rosette_dev_3), consistencyColor = getRankedColour(2.9), getString(R.string.end_rosette_dev_hint, 0.60));
             } else if (stdev < 1.2) {
-                addRosette("STEADY RHYTHM", consistencyColor = getRankedColour(4.9), "Consistency of less that 1.2s!");
+                addRosette(getString(R.string.end_rosette_dev_4), consistencyColor = getRankedColour(4.9), getString(R.string.end_rosette_dev_hint, 1.20));
             } else {
                 consistencyColor = -1;
             }
@@ -224,8 +222,8 @@ public class EndActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull QuestionSummaryAdapter.ViewHolder holder, int position) {
             Question q = questionList.get(position);
 
-            holder.tvQuestion.setText(String.format(Locale.UK, "%d × %d = %d", q.first, q.second, q.Answer()));
-            holder.tvTime.setText(Question.formatDuration(q.Duration()));
+            holder.tvQuestion.setText(holder.tvQuestion.getContext().getString(R.string.end_question, q.first, q.second, q.Answer()));
+            holder.tvTime.setText(Question.formatDuration(holder.tvTime.getContext(), q.Duration()));
 
             double seconds = q.Duration()/1_000_000_000.0;
             holder.tvTime.setTextColor(getRankedColour(seconds));

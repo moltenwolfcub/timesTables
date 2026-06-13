@@ -1,10 +1,12 @@
 package com.moltenwolfcub.timestables;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.text.DecimalFormat;
 import java.util.Random;
 
 public class Question implements Parcelable {
@@ -40,7 +42,7 @@ public class Question implements Parcelable {
         endTime = in.readLong();
     }
 
-    public static final Creator<Question> CREATOR = new Creator<Question>() {
+    public static final Creator<Question> CREATOR = new Creator<>() {
         @Override
         public Question createFromParcel(Parcel in) {
             return new Question(in);
@@ -67,17 +69,12 @@ public class Question implements Parcelable {
         return endTime-startTime;
     }
 
-    @NonNull
-    @Override
-    public String toString() {
-        return this.first + " × " + this.second + " = " + this.Answer()+"; "+formatDuration(this.Duration());
+    public static String formatDuration(Context ctx, long d) {
+        return formatDuration(ctx, (double) d);
     }
-
-    public static String formatDuration(long d) {
-        return (Math.round((d/1_000_000_000.0)*1000.0)/1000.0)+"s";
-    }
-    public static String formatDuration(double d) {
-        return (Math.round((d/1_000_000_000.0)*1000.0)/1000.0)+"s";
+    public static String formatDuration(Context ctx, double d) {
+        DecimalFormat df = new DecimalFormat("#.###");
+        return ctx.getString(R.string.question_duration, df.format(d/1_000_000_000.0));
     }
 
     @Override

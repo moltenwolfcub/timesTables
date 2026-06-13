@@ -12,7 +12,6 @@ import java.util.List;
 
 public class KeypadAdapter extends RecyclerView.Adapter<KeypadAdapter.KeyViewHolder> {
 
-    // Interface to communicate button clicks back to your Activity
     public interface OnKeyClickListener {
         void onKeyClick(String key);
     }
@@ -38,7 +37,6 @@ public class KeypadAdapter extends RecyclerView.Adapter<KeypadAdapter.KeyViewHol
         String keyLabel = keyList.get(position);
         holder.buttonKey.setText(keyLabel);
 
-        // Single click listener manages all interactions
         holder.buttonKey.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onKeyClick(keyLabel);

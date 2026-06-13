@@ -62,23 +62,23 @@ public class MainActivity extends AppCompatActivity {
             try {
                 String val = maxTable.getText().toString().trim();
                 if (val.isEmpty()) {
-                    Toast.makeText(this, "Enter a value for Max Table", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.main_toast_table_empty), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 maxTableValue = Integer.parseInt(val);
             } catch (NumberFormatException e) {
-                Toast.makeText(this, "Max table should be a number", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.main_toast_table_nan), Toast.LENGTH_SHORT).show();
                 return;
             }
             try {
                 String val = questionCountInput.getText().toString().trim();
                 if (val.isEmpty()) {
-                    Toast.makeText(this, "Enter a value for # of Questions", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.main_toast_questions_empty), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 questionCount = Integer.parseInt(val);
             } catch (NumberFormatException e) {
-                Toast.makeText(this, "Question Count should be a number", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.main_toast_questions_nan), Toast.LENGTH_SHORT).show();
                 return;
             }
             String currentPlayerName = playerName.getText().toString().trim().isEmpty() ? "Guest" : playerName.getText().toString().trim().toLowerCase(Locale.ROOT);
@@ -101,24 +101,24 @@ public class MainActivity extends AppCompatActivity {
             try {
                 String val = maxTable.getText().toString().trim();
                 if (val.isEmpty()) {
-                    Toast.makeText(this, "Enter a value for Max Table", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.main_toast_table_empty), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 maxTableValue = Integer.parseInt(val);
             } catch (NumberFormatException e) {
-                Toast.makeText(this, "Max table should be a number", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.main_toast_table_nan), Toast.LENGTH_SHORT).show();
                 return;
             }
             String currentPlayerName = playerName.getText().toString().trim().isEmpty() ? "Guest" : playerName.getText().toString().trim();
             try {
                 String val = infiniteTarget.getText().toString().trim();
                 if (val.isEmpty()) {
-                    Toast.makeText(this, "Enter a value for Focus Table Target", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.main_toast_infinite_table_empty), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 focusValue = Integer.parseInt(val);
             } catch (NumberFormatException e) {
-                Toast.makeText(this, "Focus Table Target should be a number", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.main_toast_infinite_table_nan), Toast.LENGTH_SHORT).show();
                 return;
             }
 

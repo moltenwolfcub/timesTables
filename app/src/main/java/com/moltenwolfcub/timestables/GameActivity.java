@@ -53,7 +53,20 @@ public class GameActivity extends AppCompatActivity {
 
         typedAnswer.setShowSoftInputOnFocus(false);
 
-        List<String> keys = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "⌫", "0", "[C]");
+        List<String> keys = Arrays.asList(
+                getString(R.string.game_keypad_1),
+                getString(R.string.game_keypad_2),
+                getString(R.string.game_keypad_3),
+                getString(R.string.game_keypad_4),
+                getString(R.string.game_keypad_5),
+                getString(R.string.game_keypad_6),
+                getString(R.string.game_keypad_7),
+                getString(R.string.game_keypad_8),
+                getString(R.string.game_keypad_9),
+                getString(R.string.game_keypad_delete),
+                getString(R.string.game_keypad_0),
+                getString(R.string.game_keypad_clear)
+        );
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         keypad.setLayoutManager(gridLayoutManager);
@@ -69,24 +82,20 @@ public class GameActivity extends AppCompatActivity {
     private void handleKeyInput(String key) {
         String currentText = typedAnswer.getText().toString();
 
-        switch (key) {
-            case "⌫":
-                if (!currentText.isEmpty()) {
-                    typedAnswer.setText(currentText.substring(0, currentText.length() - 1));
-                }
-                break;
+        if (key.equals(getString(R.string.game_keypad_delete))) {
+            if (!currentText.isEmpty()) {
+                typedAnswer.setText(currentText.substring(0, currentText.length() - 1));
+            }
 
-            case "[C]":
-                typedAnswer.setText("");
-                break;
+        } else if (key.equals(getString(R.string.game_keypad_clear))) {
+            typedAnswer.setText("");
 
-            default:
-                String answer = currentText+key;
-                typedAnswer.setText(answer);
-                if (Integer.parseInt(typedAnswer.getText().toString()) == game.getCurrentQuestion().Answer()) {
-                    correctAnswer();
-                }
-                break;
+        } else {
+            String answer = currentText+key;
+            typedAnswer.setText(answer);
+            if (Integer.parseInt(typedAnswer.getText().toString()) == game.getCurrentQuestion().Answer()) {
+                correctAnswer();
+            }
         }
 
         typedAnswer.setSelection(typedAnswer.getText().length());
@@ -110,6 +119,6 @@ public class GameActivity extends AppCompatActivity {
 
     private void updateUI() {
         Question current = game.getCurrentQuestion();
-        questionText.setText(current.first + " × " + current.second + " = ");
+        questionText.setText(getString(R.string.game_question, current.first, current.second));
     }
 }
