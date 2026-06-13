@@ -15,7 +15,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="4dp"
         android:paddingVertical="30sp"
-        android:text="Game Summary"
+        android:text="@string/end_title"
         android:textAlignment="center"
         android:textColor="#38BDF8"
         android:textSize="32sp"
@@ -51,7 +51,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Player:"
+                android:text="@string/end_stat_player"
                 android:textColor="#94A3B8"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -76,7 +76,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Max Table:"
+                android:text="@string/end_stat_table"
                 android:textColor="#94A3B8"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -101,7 +101,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Problems Answered:"
+                android:text="@string/end_stat_questions"
                 android:textColor="#94A3B8"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -125,7 +125,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Average Speed:"
+                android:text="@string/end_stat_speed"
                 android:textColor="#94A3B8"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -150,7 +150,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Consistency (Std Dev):"
+                android:text="@string/end_stat_consistency"
                 android:textColor="#94A3B8"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -172,7 +172,7 @@
         android:layout_marginBottom="6dp"
         android:letterSpacing="0.05"
         android:paddingHorizontal="4dp"
-        android:text="PROBLEMS SOLVED"
+        android:text="@string/end_title_problems"
         android:textColor="#475569"
         android:textSize="12sp"
         android:textStyle="bold" />
@@ -190,7 +190,7 @@
         android:id="@+id/done"
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:text="DONE"
+        android:text="@string/end_button_done"
         android:textColor="#0F172A"
         android:textSize="15sp"
         android:textStyle="bold"

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:letterSpacing="0.1"
-        android:text="Times Tables"
+        android:text="@string/app_name"
         android:textAlignment="center"
         android:textColor="#38BDF8"
         android:textSize="28sp"
@@ -41,7 +40,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.2"
-            android:text="Maximum Table"
+            android:text="@string/main_input_table"
             android:textColor="#94A3B8"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -58,7 +57,7 @@
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:hint="e.g. 12"
+            android:hint="@string/main_input_table_hint"
             android:textColorHint="#475569" />
     </LinearLayout>
 
@@ -75,7 +74,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.2"
-            android:text="# of Questions"
+            android:text="@string/main_input_questions"
             android:textColor="#94A3B8"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -93,7 +92,7 @@
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:hint="e.g. 10"
+            android:hint="@string/main_input_questions_hint"
             android:textColorHint="#475569" />
     </LinearLayout>
 
@@ -110,7 +109,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.2"
-            android:text="Player Name"
+            android:text="@string/main_input_player"
             android:textColor="#94A3B8"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -127,7 +126,7 @@
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:hint="GUEST"
+            android:hint="@string/main_input_player_hint"
             android:textColorHint="#475569" />
     </LinearLayout>
 
@@ -135,7 +134,7 @@
         android:id="@+id/go"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:text="Start"
+        android:text="@string/main_button_start"
         android:textSize="16sp"
         android:textStyle="bold"
         app:backgroundTint="#38BDF8"
@@ -147,7 +146,7 @@
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:layout_marginTop="12dp"
-        android:text="View History &amp; Stats"
+        android:text="@string/main_button_history"
         android:textColor="#38BDF8"
         android:textSize="14sp"
         app:cornerRadius="8dp"
@@ -166,7 +165,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:text="FOCUSED INFINITE MODE"
+            android:text="@string/main_infinite_title"
             android:textColor="#FBBF24"
             android:textSize="12sp"
             android:textStyle="bold"
@@ -183,7 +182,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.2"
-                android:text="Focus Table Target"
+                android:text="@string/main_input_infinite_focus"
                 android:textColor="#94A3B8"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -200,7 +199,7 @@
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:hint="e.g. 13"
+                android:hint="@string/main_input_infinite_focus_hint"
                 android:textColorHint="#475569" />
         </LinearLayout>
 
@@ -208,7 +207,7 @@
             android:id="@+id/btn_start_infinite"
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:text="Start Infinite Run"
+            android:text="@string/main_button_start_infinite"
             android:textColor="#0F172A"
             android:textSize="15sp"
             android:textStyle="bold"

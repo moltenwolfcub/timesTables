@@ -17,6 +17,14 @@
     <string name="end_rosette_dev_3">UNWAVERING</string>
     <string name="end_rosette_dev_4">STEADY RHYTHM</string>
     <string name="end_rosette_dev_hint">Consistency of less than %1$fs!</string>
+    <string name="end_title">Game Summary</string>
+    <string name="end_title_problems">PROBLEMS SOLVED</string>
+    <string name="end_stat_player">Player:</string>
+    <string name="end_stat_table">Max Table:</string>
+    <string name="end_stat_questions">Problems Answered:</string>
+    <string name="end_stat_speed">Average Speed:</string>
+    <string name="end_stat_consistency">Consistency (Std Dev):</string>
+    <string name="end_button_done">DONE</string>
     
     <string name="game_question">%1$d × %2$d = </string>
     <string name="game_keypad_1">1</string>
@@ -31,14 +39,26 @@
     <string name="game_keypad_0">0</string>
     <string name="game_keypad_delete">⌫</string>
     <string name="game_keypad_clear">[C]</string>
+    <string name="game_button_end">End Run</string>
     
     <string name="history_total_games">Total Games: %1$d</string>
+    <string name="history_total_games_empty">Total Games: 0</string>
     <string name="history_average_speed">Overall Avg Speed: %1$s</string>
     <string name="history_average_speed_empty">Overall Avg Speed: -</string>
     <string name="history_best_speed">Personal Best Speed: %1$s</string>
     <string name="history_best_speed_empty">Personal Best Speed: -</string>
     <string name="history_average_consistency">Avg Consistency (dev): %1$s</string>
     <string name="history_average_consistency_empty">Avg Consistency (dev): -</string>
+    <string name="history_title">Performance Dashboard</string>
+    <string name="history_title_games">Previous Games</string>
+    <string name="history_filter_date_all">All</string>
+    <string name="history_filter_date_month">Month</string>
+    <string name="history_filter_date_week">Week</string>
+    <string name="history_filter_date_today">Today</string>
+    <string name="history_filter_table">Max Table:</string>
+    <string name="history_filter_table_hint">All</string>
+    <string name="history_filter_player">Player Name:</string>
+    <string name="history_filter_player_hint">All Players</string>
 
     <string name="history_game_player">Player: %1$s</string>
     <string name="history_game_table">Max Table: %1$d</string>
@@ -58,6 +78,18 @@
     <string name="main_toast_infinite_table_empty">Enter a value for Focus Table Target</string>
     <string name="main_toast_infinite_table_nan">Focus Table Target should be a number</string>
     <string name="main_toast_infinite_table_negative">Focus Table Target should be at least 1</string>
+    <string name="main_input_table">Maximum Table</string>
+    <string name="main_input_table_hint">e.g. 12</string>
+    <string name="main_input_questions"># of Questions</string>
+    <string name="main_input_questions_hint">e.g. 10</string>
+    <string name="main_input_player">Player Name</string>
+    <string name="main_input_player_hint">GUEST</string>
+    <string name="main_input_infinite_focus">Focus Table Target</string>
+    <string name="main_input_infinite_focus_hint">e.g. 13</string>
+    <string name="main_button_start">Start</string>
+    <string name="main_button_history"><![CDATA[View History & Stats]]></string>
+    <string name="main_button_start_infinite">Start Infinite Run</string>
+    <string name="main_infinite_title">FOCUSED INFINITE MODE</string>
 
     <string name="question_duration">%1$ss</string>
 </resources>
