@@ -66,6 +66,10 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 maxTableValue = Integer.parseInt(val);
+                if (maxTableValue < 1) {
+                    Toast.makeText(this, getString(R.string.main_toast_table_negative), Toast.LENGTH_SHORT).show();
+                    return;
+                }
             } catch (NumberFormatException e) {
                 Toast.makeText(this, getString(R.string.main_toast_table_nan), Toast.LENGTH_SHORT).show();
                 return;
@@ -77,6 +81,10 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 questionCount = Integer.parseInt(val);
+                if (questionCount < 1) {
+                    Toast.makeText(this, getString(R.string.main_toast_questions_negative), Toast.LENGTH_SHORT).show();
+                    return;
+                }
             } catch (NumberFormatException e) {
                 Toast.makeText(this, getString(R.string.main_toast_questions_nan), Toast.LENGTH_SHORT).show();
                 return;
@@ -105,6 +113,10 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 maxTableValue = Integer.parseInt(val);
+                if (maxTableValue < 1) {
+                    Toast.makeText(this, getString(R.string.main_toast_table_negative), Toast.LENGTH_SHORT).show();
+                    return;
+                }
             } catch (NumberFormatException e) {
                 Toast.makeText(this, getString(R.string.main_toast_table_nan), Toast.LENGTH_SHORT).show();
                 return;
@@ -117,6 +129,10 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 focusValue = Integer.parseInt(val);
+                if (focusValue < 1) {
+                    Toast.makeText(this, getString(R.string.main_toast_infinite_table_negative), Toast.LENGTH_SHORT).show();
+                    return;
+                }
             } catch (NumberFormatException e) {
                 Toast.makeText(this, getString(R.string.main_toast_infinite_table_nan), Toast.LENGTH_SHORT).show();
                 return;

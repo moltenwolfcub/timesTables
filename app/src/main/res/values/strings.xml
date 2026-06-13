@@ -6,17 +6,17 @@
     <string name="end_rosette_average_2">SIXTH GEAR</string>
     <string name="end_rosette_average_3">ON FIRE</string>
     <string name="end_rosette_average_4">GETTING MOVING</string>
-    <string name="end_rosette_average_hint">Achieved a Sub %1$ds average speed!</string>
+    <string name="end_rosette_average_hint">Achieved a Sub %1$fs average speed!</string>
     <string name="end_rosette_all_1">FLAWLESS</string>
     <string name="end_rosette_all_2">CLEAN RUN</string>
     <string name="end_rosette_all_3">PERFECT 3</string>
     <string name="end_rosette_all_4">UNTOUCHABLE</string>
-    <string name="end_rosette_all_hint">All questions answered in under %1$ds!</string>
+    <string name="end_rosette_all_hint">All questions answered in under %1$fs!</string>
     <string name="end_rosette_dev_1">FLOW STATE</string>
     <string name="end_rosette_dev_2">METRONOME</string>
     <string name="end_rosette_dev_3">UNWAVERING</string>
     <string name="end_rosette_dev_4">STEADY RHYTHM</string>
-    <string name="end_rosette_dev_hint">Consistency of less than %1$ds!</string>
+    <string name="end_rosette_dev_hint">Consistency of less than %1$fs!</string>
     
     <string name="game_question">%1$d × %2$d = </string>
     <string name="game_keypad_1">1</string>
@@ -51,10 +51,13 @@
 
     <string name="main_toast_table_empty">Enter a value for Max Table</string>
     <string name="main_toast_table_nan">Max table should be a number</string>
+    <string name="main_toast_table_negative">Max table should be at least 1</string>
     <string name="main_toast_questions_empty">Enter a value for # of Questions</string>
     <string name="main_toast_questions_nan">Question Count should be a number</string>
+    <string name="main_toast_questions_negative">Question Count should be at least 1</string>
     <string name="main_toast_infinite_table_empty">Enter a value for Focus Table Target</string>
     <string name="main_toast_infinite_table_nan">Focus Table Target should be a number</string>
+    <string name="main_toast_infinite_table_negative">Focus Table Target should be at least 1</string>
 
     <string name="question_duration">%1$ss</string>
 </resources>
