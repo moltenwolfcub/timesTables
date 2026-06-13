@@ -3,14 +3,17 @@ package com.moltenwolfcub.timestables;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -124,6 +127,32 @@ public class HistoryActivity extends AppCompatActivity {
 
         setActiveButton(btnAll);
         loadDashboardData();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            EditText[] fields = {etFilterPlayer, etFilterTable};
+            for (EditText et : fields) {
+                if (et != null && et.hasFocus()) {
+                    Rect outRect = new Rect();
+                    et.getGlobalVisibleRect(outRect);
+
+                    if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+                        et.clearFocus();
+
+                        InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                        if (manager != null) {
+                            manager.hideSoftInputFromWindow(et.getWindowToken(), 0);
+                        }
+                    }
+                    break;
+                }
+
+            }
+        }
+
+        return super.dispatchTouchEvent(event);
     }
 
     private void updateTimeFilter(long newCutoff) {

@@ -146,57 +146,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (maxTable.hasFocus()) {
-                Rect outRect = new Rect();
-                maxTable.getGlobalVisibleRect(outRect);
+            EditText[] fields = {maxTable, questionCountInput, playerName, infiniteTarget};
+            for (EditText et : fields) {
+                if (et != null && et.hasFocus()) {
+                    Rect outRect = new Rect();
+                    et.getGlobalVisibleRect(outRect);
 
-                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
-                    maxTable.clearFocus();
+                    if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+                        et.clearFocus();
 
-                    InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    if (manager != null) {
-                        manager.hideSoftInputFromWindow(maxTable.getWindowToken(), 0);
+                        InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                        if (manager != null) {
+                            manager.hideSoftInputFromWindow(et.getWindowToken(), 0);
+                        }
                     }
+                    break;
                 }
-            }
-            if (questionCountInput.hasFocus()) {
-                Rect outRect = new Rect();
-                questionCountInput.getGlobalVisibleRect(outRect);
 
-                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
-                    questionCountInput.clearFocus();
-
-                    InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    if (manager != null) {
-                        manager.hideSoftInputFromWindow(questionCountInput.getWindowToken(), 0);
-                    }
-                }
-            }
-            if (playerName.hasFocus()) {
-                Rect outRect = new Rect();
-                playerName.getGlobalVisibleRect(outRect);
-
-                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
-                    playerName.clearFocus();
-
-                    InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    if (manager != null) {
-                        manager.hideSoftInputFromWindow(playerName.getWindowToken(), 0);
-                    }
-                }
-            }
-            if (infiniteTarget.hasFocus()) {
-                Rect outRect = new Rect();
-                infiniteTarget.getGlobalVisibleRect(outRect);
-
-                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
-                    infiniteTarget.clearFocus();
-
-                    InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    if (manager != null) {
-                        manager.hideSoftInputFromWindow(infiniteTarget.getWindowToken(), 0);
-                    }
-                }
             }
         }
 
