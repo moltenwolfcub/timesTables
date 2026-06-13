@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,9 +20,6 @@ public class GameActivity extends AppCompatActivity {
 
     private TextView questionText;
     private EditText typedAnswer;
-    private RecyclerView keypad;
-
-    private Button btnExitGame;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,9 +33,9 @@ public class GameActivity extends AppCompatActivity {
 
         questionText = findViewById(R.id.q);
         typedAnswer = findViewById(R.id.editTextNumber3);
-        keypad = findViewById(R.id.keypad);
+        RecyclerView keypad = findViewById(R.id.keypad);
 
-        btnExitGame = findViewById(R.id.btn_exit_game);
+        Button btnExitGame = findViewById(R.id.btn_exit_game);
         if (game.getGameMode().hasExitButton()) {
             btnExitGame.setVisibility(View.VISIBLE);
 
@@ -85,7 +81,8 @@ public class GameActivity extends AppCompatActivity {
                 break;
 
             default:
-                typedAnswer.setText(currentText + key);
+                String answer = currentText+key;
+                typedAnswer.setText(answer);
                 if (Integer.parseInt(typedAnswer.getText().toString()) == game.getCurrentQuestion().Answer()) {
                     correctAnswer();
                 }

@@ -35,7 +35,7 @@ public class Game implements Parcelable {
                 if (questions.isEmpty()) {
                     this.addFocusQuestion();
                 }
-                return questions.getLast();
+                return questions.get(questions.size() - 1);
 
             default:
                 throw new IllegalArgumentException();
@@ -95,7 +95,7 @@ public class Game implements Parcelable {
 
     public void FinishEarly() {
         if (!getGameMode().isFinite()) {
-            questions.removeLast();
+            questions.remove(questions.size() - 1);
         }
     }
 
@@ -108,7 +108,7 @@ public class Game implements Parcelable {
         questions = in.createTypedArrayList(Question.CREATOR);
     }
 
-    public static final Creator<Game> CREATOR = new Creator<Game>() {
+    public static final Creator<Game> CREATOR = new Creator<>() {
         @Override
         public Game createFromParcel(Parcel in) {
             return new Game(in);
@@ -139,9 +139,9 @@ public class Game implements Parcelable {
         REGULAR(true, true, false),
         FOCUS(false, false, true);
 
-        private boolean finite;
-        private boolean inHistory;
-        private boolean hasExitButton;
+        private final boolean finite;
+        private final boolean inHistory;
+        private final boolean hasExitButton;
 
         GameMode(boolean finite, boolean history, boolean exit) {
             this.finite = finite;

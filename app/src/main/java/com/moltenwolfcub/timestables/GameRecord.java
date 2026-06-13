@@ -9,16 +9,16 @@ public class GameRecord {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    private String playerName;
-    private int maxTable;
-    private int totalQuestions;
-    private double averageSpeed;
-    private double standardDeviation;
-    private long timestamp;
+    private final String playerName;
+    private final int maxTable;
+    private final int totalQuestions;
+    private final double averageSpeed;
+    private final double standardDeviation;
+    private final long timestamp;
 
-    private int rosette1;
-    private int rosette2;
-    private int rosette3;
+    private final int rosette1;
+    private final int rosette2;
+    private final int rosette3;
 
     public GameRecord(String playerName, int maxTable, int totalQuestions, double averageSpeed, double standardDeviation, long timestamp, int rosette1, int rosette2, int rosette3) {
         this.playerName = playerName;

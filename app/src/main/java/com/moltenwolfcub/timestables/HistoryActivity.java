@@ -2,7 +2,6 @@ package com.moltenwolfcub.timestables;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -21,7 +20,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,7 +34,6 @@ public class HistoryActivity extends AppCompatActivity {
     private Button btnAll, btnMonth, btnWeek, btnToday;
     private TextView tvTotalGames, tvAvgSpeed, tvBestSpeed, tvAvgDev;
     private EditText etFilterTable, etFilterPlayer;
-    private RecyclerView rvHistory;
     private HistoryAdapter adapter;
     private AppDatabase db;
 
@@ -65,7 +62,7 @@ public class HistoryActivity extends AppCompatActivity {
         tvAvgDev = findViewById(R.id.stat_avg_deviation);
         etFilterTable = findViewById(R.id.et_filter_table);
         etFilterPlayer = findViewById(R.id.et_filter_player);
-        rvHistory = findViewById(R.id.rv_history_list);
+        RecyclerView rvHistory = findViewById(R.id.rv_history_list);
 
         rvHistory.setLayoutManager(new LinearLayoutManager(this));
         adapter = new HistoryAdapter(new ArrayList<>());
@@ -116,8 +113,7 @@ public class HistoryActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String input = s.toString().trim();
-                currentPlayerFilter = input;
+                currentPlayerFilter = s.toString().trim();
                 loadDashboardData();
             }
 

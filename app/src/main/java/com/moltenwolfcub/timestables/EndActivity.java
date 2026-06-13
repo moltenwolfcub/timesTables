@@ -1,7 +1,6 @@
 package com.moltenwolfcub.timestables;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -27,13 +26,6 @@ import java.util.regex.Pattern;
 public class EndActivity extends AppCompatActivity {
     private Game game;
 
-    private TextView playerName;
-    private TextView maxTable;
-    private TextView questionCount;
-    private TextView speed;
-    private TextView consistency;
-    private Button done;
-    private RecyclerView results;
     private LinearLayout rosetteContainer;
 
     @Override
@@ -46,13 +38,13 @@ public class EndActivity extends AppCompatActivity {
 
         game = getIntent().getParcelableExtra("game");
 
-        playerName = findViewById(R.id.playerName);
-        maxTable = findViewById(R.id.tableMax);
-        questionCount = findViewById(R.id.questionCount);
-        speed = findViewById(R.id.speed);
-        consistency = findViewById(R.id.standardDeviation);
-        done = findViewById(R.id.done);
-        results = findViewById(R.id.rv_end_questions_list);
+        TextView playerName = findViewById(R.id.playerName);
+        TextView maxTable = findViewById(R.id.tableMax);
+        TextView questionCount = findViewById(R.id.questionCount);
+        TextView speed = findViewById(R.id.speed);
+        TextView consistency = findViewById(R.id.standardDeviation);
+        Button done = findViewById(R.id.done);
+        RecyclerView results = findViewById(R.id.rv_end_questions_list);
         rosetteContainer = findViewById(R.id.ll_rosette_container);
 
         results.setLayoutManager(new LinearLayoutManager(this));
@@ -191,9 +183,7 @@ public class EndActivity extends AppCompatActivity {
         labelTv.setText(label);
         labelTv.setTextColor(color);
 
-        rosetteView.setOnClickListener(v -> {
-            Toast.makeText(this, desc, Toast.LENGTH_SHORT).show();
-        });
+        rosetteView.setOnClickListener(v -> Toast.makeText(this, desc, Toast.LENGTH_SHORT).show());
 
         rosetteContainer.addView(rosetteView);
     }
@@ -213,9 +203,7 @@ public class EndActivity extends AppCompatActivity {
                 rosetteColors[2]
         );
 
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            db.gameHistoryDao().insertGame(newRecord);
-        });
+        AppDatabase.databaseWriteExecutor.execute(() -> db.gameHistoryDao().insertGame(newRecord));
     }
 
     private static class QuestionSummaryAdapter extends RecyclerView.Adapter<QuestionSummaryAdapter.ViewHolder> {
