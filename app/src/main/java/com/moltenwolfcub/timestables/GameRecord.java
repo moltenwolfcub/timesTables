@@ -16,13 +16,20 @@ public class GameRecord {
     private double standardDeviation;
     private long timestamp;
 
-    public GameRecord(String playerName, int maxTable, int totalQuestions, double averageSpeed, double standardDeviation, long timestamp) {
+    private int rosette1;
+    private int rosette2;
+    private int rosette3;
+
+    public GameRecord(String playerName, int maxTable, int totalQuestions, double averageSpeed, double standardDeviation, long timestamp, int rosette1, int rosette2, int rosette3) {
         this.playerName = playerName;
         this.maxTable = maxTable;
         this.totalQuestions = totalQuestions;
         this.averageSpeed = averageSpeed;
         this.standardDeviation = standardDeviation;
         this.timestamp = timestamp;
+        this.rosette1 = rosette1;
+        this.rosette2 = rosette2;
+        this.rosette3 = rosette3;
     }
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
@@ -33,4 +40,7 @@ public class GameRecord {
     public double getAverageSpeed() { return averageSpeed; }
     public double getStandardDeviation() { return standardDeviation; }
     public long getTimestamp() { return timestamp; }
+    public int getRosette1() { return rosette1; }
+    public int getRosette2() { return rosette2; }
+    public int getRosette3() { return rosette3; }
 }

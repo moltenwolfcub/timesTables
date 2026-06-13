@@ -78,7 +78,7 @@ public class EndActivity extends AppCompatActivity {
         double stddev = Math.sqrt(varianceSum / game.QuestionCount());
         consistency.setText(Question.formatDuration(stddev));
 
-        calculateRosettes(avg, stddev);
+        int[] rosetteColors = calculateRosettes(avg, stddev);
 
         done.setOnClickListener(view -> {
             Intent intent = new Intent(this, MainActivity.class);
@@ -89,12 +89,15 @@ public class EndActivity extends AppCompatActivity {
             finish();
         });
         if (game.getGameMode().shouldStore()) {
-            saveResults(game.GetPlayerName(), game.MaxTable(), game.QuestionCount(), avg,stddev);
+            saveResults(game.GetPlayerName(), game.MaxTable(), game.QuestionCount(), avg,stddev, rosetteColors);
         }
     }
 
-    private void calculateRosettes(double rawAvg, double rawStdev) {
+    private int[] calculateRosettes(double rawAvg, double rawStdev) {
         rosetteContainer.removeAllViews();
+
+        int avgColor, allColor, consistencyColor;
+        int[] earnedColors = new int[3];
 
         boolean allSub5 = true;
         boolean allSub3 = true;
@@ -110,37 +113,50 @@ public class EndActivity extends AppCompatActivity {
 
         double avg = rawAvg/1_000_000_000.0;
         if (avg < 1.0) {
-            addRosette("LIGHTNING", getRankedColour(0.9), "Achieved a Sub 1.0s average speed!");
+            addRosette("LIGHTNING", avgColor = getRankedColour(0.9), "Achieved a Sub 1.0s average speed!");
         } else if (avg < 1.5) {
-            addRosette("SIXTH GEAR", getRankedColour(1.4), "Achieved a Sub 1.5s average speed!");
+            addRosette("SIXTH GEAR", avgColor = getRankedColour(1.4), "Achieved a Sub 1.5s average speed!");
         } else if (avg < 3.0) {
-            addRosette("ON FIRE", getRankedColour(2.9), "Achieved a Sub 3.0s average speed!");
+            addRosette("ON FIRE", avgColor = getRankedColour(2.9), "Achieved a Sub 3.0s average speed!");
         } else if (avg < 5.0) {
-            addRosette("GETTING MOVING", getRankedColour(4.9), "Achieved a Sub 5.0s average speed!");
+            addRosette("GETTING MOVING", avgColor = getRankedColour(4.9), "Achieved a Sub 5.0s average speed!");
+        } else {
+            avgColor = -1;
         }
+        earnedColors[0] = avgColor;
 
         if (allSub1) {
-            addRosette("FLAWLESS", getRankedColour(0.9), "All questions answered in under 1.0s!");
+            addRosette("FLAWLESS", allColor = getRankedColour(0.9), "All questions answered in under 1.0s!");
         } else if (allSub15) {
-            addRosette("CLEAN RUN", getRankedColour(1.4), "All questions answered in under 1.5s!");
+            addRosette("CLEAN RUN", allColor = getRankedColour(1.4), "All questions answered in under 1.5s!");
         } else if (allSub3) {
-            addRosette("PERFECT 3", getRankedColour(2.9), "All questions answered in under 3.0s!");
+            addRosette("PERFECT 3", allColor = getRankedColour(2.9), "All questions answered in under 3.0s!");
         } else if (allSub5) {
-            addRosette("UNTOUCHABLE", getRankedColour(4.9), "All questions answered in under 5.0s!");
+            addRosette("UNTOUCHABLE", allColor = getRankedColour(4.9), "All questions answered in under 5.0s!");
+        } else {
+            allColor = -1;
         }
+        earnedColors[1] = allColor;
 
         if (game.GetQuestions().size() >= 20) {
             double stdev = rawStdev/1_000_000_000.0;
             if (stdev < 0.15) {
-                addRosette("FLOW STATE", getRankedColour(0.9), "Consistency of less that 0.15s!");
+                addRosette("FLOW STATE", consistencyColor = getRankedColour(0.9), "Consistency of less that 0.15s!");
             } else if (stdev < 0.35) {
-                addRosette("METRONOME", getRankedColour(1.4), "Consistency of less that 0.35s!");
+                addRosette("METRONOME", consistencyColor = getRankedColour(1.4), "Consistency of less that 0.35s!");
             } else if (stdev < 0.6) {
-                addRosette("UNWAVERING", getRankedColour(2.9), "Consistency of less that 0.6s!");
+                addRosette("UNWAVERING", consistencyColor = getRankedColour(2.9), "Consistency of less that 0.6s!");
             } else if (stdev < 1.2) {
-                addRosette("STEADY RHYTHM", getRankedColour(4.9), "Consistency of less that 1.2s!");
+                addRosette("STEADY RHYTHM", consistencyColor = getRankedColour(4.9), "Consistency of less that 1.2s!");
+            } else {
+                consistencyColor = -1;
             }
+        } else {
+            consistencyColor = -1;
         }
+        earnedColors[2] = consistencyColor;
+
+        return earnedColors;
     }
 
     private static int getRankedColour(double seconds) {
@@ -182,7 +198,7 @@ public class EndActivity extends AppCompatActivity {
         rosetteContainer.addView(rosetteView);
     }
 
-    private void saveResults(String playerName, int maxTable, int totalQuestions, double avgSpeed, double standardDeviation) {
+    private void saveResults(String playerName, int maxTable, int totalQuestions, double avgSpeed, double standardDeviation, int[] rosetteColors) {
         AppDatabase db = AppDatabase.getDatabase(this);
 
         GameRecord newRecord = new GameRecord(
@@ -191,7 +207,10 @@ public class EndActivity extends AppCompatActivity {
                 totalQuestions,
                 avgSpeed,
                 standardDeviation,
-                System.currentTimeMillis()
+                System.currentTimeMillis(),
+                rosetteColors[0],
+                rosetteColors[1],
+                rosetteColors[2]
         );
 
         AppDatabase.databaseWriteExecutor.execute(() -> {

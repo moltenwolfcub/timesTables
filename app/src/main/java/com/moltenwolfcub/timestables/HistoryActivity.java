@@ -1,5 +1,9 @@
 package com.moltenwolfcub.timestables;
 
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,6 +17,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -206,6 +212,44 @@ public class HistoryActivity extends AppCompatActivity {
             h.score.setText(r.getTotalQuestions() + " Questions");
             h.speed.setText(String.format(Locale.UK, "%s avg", Question.formatDuration(r.getAverageSpeed())));
             h.stdev.setText(String.format(Locale.UK, "%s dev", Question.formatDuration(r.getStandardDeviation())));
+
+            Context context = h.rosette1.getContext();
+
+            // ROSETTE 1
+            int colRos1 = r.getRosette1();
+            if (colRos1 == -1) {
+                Drawable emptyShape = ContextCompat.getDrawable(context, R.drawable.ic_rosette_history_empty).mutate();
+                h.rosette1.setBackground(emptyShape);
+                h.rosette1.setBackgroundTintList(null);
+            } else {
+                Drawable filledShape = ContextCompat.getDrawable(context, R.drawable.ic_rosette_history).mutate();
+                h.rosette1.setBackground(filledShape);
+                h.rosette1.setBackgroundTintList(ColorStateList.valueOf(colRos1));
+            }
+
+            // ROSETTE 2
+            int colRos2 = r.getRosette2();
+            if (colRos2 == -1) {
+                Drawable emptyShape = ContextCompat.getDrawable(context, R.drawable.ic_rosette_history_empty).mutate();
+                h.rosette2.setBackground(emptyShape);
+                h.rosette2.setBackgroundTintList(null);
+            } else {
+                Drawable filledShape = ContextCompat.getDrawable(context, R.drawable.ic_rosette_history).mutate();
+                h.rosette2.setBackground(filledShape);
+                h.rosette2.setBackgroundTintList(ColorStateList.valueOf(colRos2));
+            }
+
+            // ROSETTE 3
+            int colRos3 = r.getRosette3();
+            if (colRos3 == -1) {
+                Drawable emptyShape = ContextCompat.getDrawable(context, R.drawable.ic_rosette_history_empty).mutate();
+                h.rosette3.setBackground(emptyShape);
+                h.rosette3.setBackgroundTintList(null);
+            } else {
+                Drawable filledShape = ContextCompat.getDrawable(context, R.drawable.ic_rosette_history).mutate();
+                h.rosette3.setBackground(filledShape);
+                h.rosette3.setBackgroundTintList(ColorStateList.valueOf(colRos3));
+            }
         }
 
         @Override
@@ -215,6 +259,7 @@ public class HistoryActivity extends AppCompatActivity {
 
         static class ViewHolder extends RecyclerView.ViewHolder {
             TextView date, player, table, score, speed, stdev;
+            View rosette1, rosette2, rosette3;
             ViewHolder(View v) {
                 super(v);
                 date = v.findViewById(R.id.row_date);
@@ -223,6 +268,10 @@ public class HistoryActivity extends AppCompatActivity {
                 score = v.findViewById(R.id.row_score);
                 speed = v.findViewById(R.id.row_speed);
                 stdev = v.findViewById(R.id.row_consistency);
+
+                rosette1 = v.findViewById(R.id.rosette_1);
+                rosette2 = v.findViewById(R.id.rosette_2);
+                rosette3 = v.findViewById(R.id.rosette_3);
             }
         }
     }
