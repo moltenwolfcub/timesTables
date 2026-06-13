@@ -51,12 +51,14 @@
         android:layout_marginBottom="24dp"
         android:background="#1E293B"
         android:inputType="number"
+        android:importantForAutofill="no"
         android:paddingVertical="14dp"
         android:textAlignment="center"
         android:textColor="#38BDF8"
         android:textSize="44sp"
         android:textStyle="bold"
-        tools:text="Answer" />
+        tools:text="Answer"
+        tools:ignore="LabelFor"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/keypad"

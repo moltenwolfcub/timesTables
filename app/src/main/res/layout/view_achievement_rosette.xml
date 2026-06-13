@@ -16,6 +16,7 @@
             android:id="@+id/iv_rosette_tails_color"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:contentDescription="@null"
             app:tint="#236E4C"
             android:src="@drawable/ic_rosette_tails_vector" />
 
@@ -23,6 +24,7 @@
             android:id="@+id/iv_rosette_head_color"
             android:layout_width="64dp"
             android:layout_height="64dp"
+            android:contentDescription="@null"
             android:layout_gravity="top|center_horizontal"
             app:tint="#10B981"
             android:src="@drawable/ic_rosette_head_vector" />
@@ -31,6 +33,7 @@
             android:id="@+id/iv_rosette_center_plate"
             android:layout_width="64dp"
             android:layout_height="64dp"
+            android:contentDescription="@null"
             android:layout_gravity="top|center_horizontal"
             android:src="@drawable/ic_rosette_center_plate" />
 
