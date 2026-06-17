@@ -40,6 +40,7 @@
     <string name="game_keypad_delete">⌫</string>
     <string name="game_keypad_clear">[C]</string>
     <string name="game_button_end">End Run</string>
+    <string name="game_ready">Ready…</string>
     
     <string name="history_total_games">Total Games: %1$d</string>
     <string name="history_total_games_empty">Total Games: 0</string>

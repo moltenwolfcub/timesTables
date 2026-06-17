@@ -23,6 +23,8 @@ public class GameActivity extends AppCompatActivity {
     private TextView questionText;
     private EditText typedAnswer;
 
+    private boolean countdownActive;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,11 +80,30 @@ public class GameActivity extends AppCompatActivity {
         keypad.setAdapter(adapter);
 
 
-        game.getCurrentQuestion().Start();
-        updateUI();
+        startCountdown();
+    }
+
+    private void startCountdown() {
+        countdownActive = true;
+
+        questionText.setText(getString(R.string.game_ready));
+
+        questionText.postDelayed(() -> {
+            countdownActive = false;
+
+            questionText.setText("");
+            typedAnswer.setText("");
+
+            game.getCurrentQuestion().Start();
+            updateUI();
+        }, 1000);
     }
 
     private void handleKeyInput(String key) {
+        if (countdownActive) {
+            return;
+        }
+
         String currentText = typedAnswer.getText().toString();
 
         if (key.equals(getString(R.string.game_keypad_delete))) {
