@@ -1,5 +1,7 @@
 package com.moltenwolfcub.timestables;
 
+import android.animation.AnimatorSet;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -106,6 +108,8 @@ public class GameActivity extends AppCompatActivity {
         game.getCurrentQuestion().End();
         typedAnswer.setText("");
         if (game.hasNextQuestion()) {
+            flashAnswerGreen();
+
             game.nextQuestion();
             game.getCurrentQuestion().Start();
             updateUI();
@@ -116,6 +120,21 @@ public class GameActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+    }
+
+    private void flashAnswerGreen() {
+        ValueAnimator fadeIn = ValueAnimator.ofArgb(getColor(R.color.container_primary), getColor(R.color.positive));
+        fadeIn.setDuration(50);
+
+        ValueAnimator fadeOut = ValueAnimator.ofArgb(getColor(R.color.positive), getColor(R.color.container_primary));
+        fadeOut.setDuration(200);
+
+        fadeIn.addUpdateListener(animation -> typedAnswer.setBackgroundColor((Integer) animation.getAnimatedValue()));
+        fadeOut.addUpdateListener(animation -> typedAnswer.setBackgroundColor((Integer) animation.getAnimatedValue()));
+
+        AnimatorSet animSet = new AnimatorSet();
+        animSet.play(fadeIn).before(fadeOut);
+        animSet.start();
     }
 
     private void updateUI() {
