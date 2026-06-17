@@ -171,12 +171,19 @@ public class EndActivity extends AppCompatActivity {
 
         ImageView headView = rosetteView.findViewById(R.id.iv_rosette_head_color);
         ImageView tailsView = rosetteView.findViewById(R.id.iv_rosette_tails_color);
+        ImageView centreView = rosetteView.findViewById(R.id.iv_rosette_center_plate);
         TextView labelTv = rosetteView.findViewById(R.id.tv_rosette_label);
 
         int tintedColor = ColorUtils.blendARGB(color, getColor(R.color.dark_tint), 0.5f);
 
         headView.setImageTintList(android.content.res.ColorStateList.valueOf(color));
         tailsView.setImageTintList(android.content.res.ColorStateList.valueOf(tintedColor));
+
+        if (game.GetQuestions().size() >= 100) {
+            centreView.setImageResource(R.drawable.ic_rosette_center_plate_gold);
+        } else {
+            centreView.setImageResource(R.drawable.ic_rosette_center_plate);
+        }
 
         labelTv.setText(label);
         labelTv.setTextColor(color);
