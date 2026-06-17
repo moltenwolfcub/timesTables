@@ -229,6 +229,12 @@ public class HistoryActivity extends AppCompatActivity {
             h.speed.setText(h.speed.getContext().getString(R.string.history_game_speed, Question.formatDuration(h.speed.getContext(), r.getAverageSpeed())));
             h.stdev.setText(h.stdev.getContext().getString(R.string.history_game_consistency, Question.formatDuration(h.stdev.getContext(), r.getStandardDeviation())));
 
+            if (r.getTotalQuestions() >= 100) {
+                h.questions.setTextColor(h.questions.getContext().getResources().getColor(R.color.rank_golden, null));
+            } else {
+                h.questions.setTextColor(h.questions.getContext().getResources().getColor(R.color.simple_text, null));
+            }
+
             Context context = h.rosette1.getContext();
 
             // ROSETTE 1
