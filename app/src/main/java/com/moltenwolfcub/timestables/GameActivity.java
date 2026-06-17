@@ -52,6 +52,7 @@ public class GameActivity extends AppCompatActivity {
         }
 
         typedAnswer.setShowSoftInputOnFocus(false);
+        typedAnswer.setCursorVisible(false);
 
         List<String> keys = Arrays.asList(
                 getString(R.string.game_keypad_1),
