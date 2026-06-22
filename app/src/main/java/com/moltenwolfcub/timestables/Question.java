@@ -73,8 +73,11 @@ public class Question implements Parcelable {
         return formatDuration(ctx, (double) d);
     }
     public static String formatDuration(Context ctx, double d) {
+        return formatDurationRaw(ctx, d/1_000_000_000.0);
+    }
+    public static String formatDurationRaw(Context ctx, double d) {
         DecimalFormat df = new DecimalFormat("#.###");
-        return ctx.getString(R.string.question_duration, df.format(d/1_000_000_000.0));
+        return ctx.getString(R.string.question_duration, df.format(d));
     }
 
     @Override
