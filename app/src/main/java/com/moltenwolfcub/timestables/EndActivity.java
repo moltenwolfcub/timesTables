@@ -26,6 +26,8 @@ public class EndActivity extends AppCompatActivity {
 
     private LinearLayout rosetteContainer;
 
+    private long thisGameDBID;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +46,7 @@ public class EndActivity extends AppCompatActivity {
         Button done = findViewById(R.id.done);
         RecyclerView results = findViewById(R.id.rv_end_questions_list);
         rosetteContainer = findViewById(R.id.ll_rosette_container);
+        LinearLayout recordsContainer = findViewById(R.id.ll_records_container);
 
         results.setLayoutManager(new LinearLayoutManager(this));
         QuestionSummaryAdapter summaryAdapter = new QuestionSummaryAdapter(game.GetQuestions());
@@ -81,6 +84,31 @@ public class EndActivity extends AppCompatActivity {
         if (game.getGameMode().shouldStore()) {
             saveResults(game.GetPlayerName(), game.MaxTable(), game.QuestionCount(), avg,stddev, rosetteColors);
         }
+
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            AppDatabase db = AppDatabase.getDatabase(this);
+            double highScore = db.gameHistoryDao().getBestMatchSpeedExclude(0, game.MaxTable(), "", thisGameDBID);
+            double personalBest = db.gameHistoryDao().getBestMatchSpeedExclude(0, game.MaxTable(), game.GetPlayerName(), thisGameDBID);
+
+            runOnUiThread(() -> {
+                if (avg < highScore || highScore < 0) {
+                    View record = LayoutInflater.from(this).inflate(R.layout.view_record_text, recordsContainer, false);
+                    TextView text = record.findViewById(R.id.record_text);
+
+                    text.setText(R.string.end_record_overall_best);
+
+                    recordsContainer.addView(record);
+                } else if (avg < personalBest  || personalBest < 0) {
+                    View record = LayoutInflater.from(this).inflate(R.layout.view_record_text, recordsContainer, false);
+                    TextView text = record.findViewById(R.id.record_text);
+
+                    text.setText(R.string.end_record_personal_best);
+
+                    recordsContainer.addView(record);
+
+                }
+            });
+        });
     }
 
     private int[] calculateRosettes(double rawAvg, double rawStdev) {
@@ -207,7 +235,7 @@ public class EndActivity extends AppCompatActivity {
                 rosetteColors[2]
         );
 
-        AppDatabase.databaseWriteExecutor.execute(() -> db.gameHistoryDao().insertGame(newRecord));
+        AppDatabase.databaseWriteExecutor.execute(() -> thisGameDBID = db.gameHistoryDao().insertGame(newRecord));
     }
 
     private static class QuestionSummaryAdapter extends RecyclerView.Adapter<QuestionSummaryAdapter.ViewHolder> {

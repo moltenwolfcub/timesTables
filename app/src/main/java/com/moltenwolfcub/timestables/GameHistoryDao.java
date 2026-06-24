@@ -10,7 +10,7 @@ import java.util.List;
 public interface GameHistoryDao {
 
     @Insert
-    void insertGame(GameRecord record);
+    long insertGame(GameRecord record);
 
     @Query("SELECT * FROM game_history" +
             " WHERE timestamp >= :cuttoffTime" +
@@ -42,4 +42,11 @@ public interface GameHistoryDao {
             " AND (:maxTable = 0 OR maxTable = :maxTable)" +
             " AND (:playerName = '' OR playerName LIKE :playerName || '%')")
     double getBestMatchSpeed(long cutoffTime, int maxTable, String playerName);
+
+    @Query("SELECT COALESCE(MIN(averageSpeed), -1) FROM game_history" +
+            " WHERE timestamp >= :cutoffTime" +
+            " AND (:maxTable = 0 OR maxTable = :maxTable)" +
+            " AND (:playerName = '' OR playerName = :playerName)" +
+            " AND id != :id")
+    double getBestMatchSpeedExclude(long cutoffTime, int maxTable, String playerName, long id);
 }
