@@ -2,6 +2,7 @@ package com.moltenwolfcub.timestables;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
@@ -17,6 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,14 +26,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import info.appdev.charting.charts.LineChart;
+import info.appdev.charting.components.AxisBase;
+import info.appdev.charting.components.XAxis;
+import info.appdev.charting.components.YAxis;
 import info.appdev.charting.data.EntryFloat;
 import info.appdev.charting.data.LineData;
 import info.appdev.charting.data.LineDataSet;
+import info.appdev.charting.formatter.IAxisValueFormatter;
 
 public class HistoryActivity extends AppCompatActivity {
 
@@ -147,6 +156,8 @@ public class HistoryActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {}
         });
 
+        configureChartAesthetics();
+
         setActiveButton(btnAll);
         loadDashboardData();
     }
@@ -243,32 +254,84 @@ public class HistoryActivity extends AppCompatActivity {
             chartEntries.add(new EntryFloat((float) r.getTimestamp(), (float) r.getAverageSpeed()));
         }
 
-        LineDataSet<EntryFloat> dataSet = new LineDataSet<>(chartEntries, "Average Time Per Question");
+        LineDataSet<EntryFloat> dataSet = new LineDataSet<>(chartEntries, "Speed Trend");
 
         int colorPrimary = ContextCompat.getColor(this, R.color.primary);
         int colorSpeed = ContextCompat.getColor(this, R.color.speed);
-        int colorBackground = ContextCompat.getColor(this, R.color.background);
+//        int colorBackground = ContextCompat.getColor(this, R.color.background);
 
         dataSet.setLineMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
-        dataSet.setLineWidth(3f);
+        dataSet.setLineWidth(2.5f);
         dataSet.setColor(colorSpeed);
-
         dataSet.setDrawCircles(false);
-//        dataSet.setCircleColor(colorSpeed);
-//        dataSet.setCircleRadius(5f);
-//        dataSet.setCircleHoleRadius(2.5f);
-//        dataSet.setCircleHoleColor(colorBackground);
 
         dataSet.setDrawValues(false);
-        dataSet.setHighLightColor(colorPrimary);
+        dataSet.setHighlight(false);
 
 
         LineData lineData = new LineData();
         lineData.addDataSet(dataSet);
-        trendLineChart.setData(lineData);
 
+        trendLineChart.setData(lineData);
         trendLineChart.notifyDataSetChanged();
         trendLineChart.invalidate();
+    }
+
+    private void configureChartAesthetics() {
+        int colorSimpleText = ContextCompat.getColor(this, R.color.simple_text);
+//
+        trendLineChart.getDescription().setEnabled(false);
+        trendLineChart.getLegend().setEnabled(false);
+        trendLineChart.setDrawGridBackground(false);
+        trendLineChart.setTouchEnabled(true);
+        trendLineChart.setPinchZoom(true);
+        trendLineChart.setScaleEnabled(false);
+        trendLineChart.setDragEnabled(false);
+        trendLineChart.setHighlightPerDragEnabled(false);
+
+        XAxis xAxis = trendLineChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTextColor(colorSimpleText);
+        xAxis.setTextSize(11);
+        xAxis.setDrawAxisLine(false);
+        xAxis.setDrawGridLines(true);
+        xAxis.setGridColor(Color.parseColor("#1AFFFFFF"));
+        xAxis.setGridLineWidth(1);
+        xAxis.setYOffset(12);
+        xAxis.setLabelCount(4, true);
+        xAxis.setValueFormatter(new TimeAxisFormatter());
+
+        YAxis leftAxis = trendLineChart.getAxisLeft();
+        leftAxis.setTextColor(colorSimpleText);
+        leftAxis.setTextSize(11);
+        leftAxis.setDrawAxisLine(false);
+        leftAxis.setDrawGridLines(true);
+        leftAxis.setGridColor(Color.parseColor("#1AFFFFFF"));
+        leftAxis.setGridLineWidth(1);
+        leftAxis.setXOffset(12);
+        leftAxis.setLabelCount(5, false);
+        leftAxis.setValueFormatter(new DurationAxisFormatter());
+
+        trendLineChart.getAxisRight().setEnabled(false);
+    }
+    private static class TimeAxisFormatter implements IAxisValueFormatter {
+        private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM", java.util.Locale.UK);
+
+        @NonNull
+        @Override
+        public String getFormattedValue(float value, @Nullable AxisBase axisBase) {
+            return dateFormat.format(new Date((long) value));
+        }
+    }
+
+    private static class DurationAxisFormatter implements IAxisValueFormatter {
+        DecimalFormat df = new DecimalFormat("#.###");
+
+        @NonNull
+        @Override
+        public String getFormattedValue(float value, @Nullable AxisBase axisBase) {
+            return df.format(value/1_000_000_000.0);
+        }
     }
 
     private static class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
