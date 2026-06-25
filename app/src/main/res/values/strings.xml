@@ -53,7 +53,8 @@
     <string name="history_average_consistency">Avg Consistency (dev): %1$s</string>
     <string name="history_average_consistency_empty">Avg Consistency (dev): -</string>
     <string name="history_title">Performance Dashboard</string>
-    <string name="history_title_games">Previous Games</string>
+    <string name="history_tab_games">Previous Games</string>
+    <string name="history_tab_graph">Graph</string>
     <string name="history_filter_date_all">All</string>
     <string name="history_filter_date_month">Month</string>
     <string name="history_filter_date_week">Week</string>

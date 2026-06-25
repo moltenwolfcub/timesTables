@@ -140,7 +140,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="12dp"
         android:background="@color/container_primary"
         android:baselineAligned="true"
         android:orientation="horizontal"
@@ -168,8 +168,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/background"
                 android:hint="@string/history_filter_table_hint"
-                android:inputType="number"
                 android:importantForAutofill="no"
+                android:inputType="number"
                 android:padding="10dp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/hint_text"
@@ -197,10 +197,10 @@
                 android:id="@+id/et_filter_player"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:autofillHints="personName"
                 android:background="@color/background"
                 android:hint="@string/history_filter_player_hint"
                 android:inputType="text"
-                android:autofillHints="personName"
                 android:padding="10dp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/hint_text"
@@ -210,16 +210,28 @@
 
     </LinearLayout>
 
-    <TextView
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/historyTabLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:letterSpacing="0.05"
-        android:paddingHorizontal="4dp"
-        android:text="@string/history_title_games"
-        android:textColor="@color/subheading"
-        android:textSize="12sp"
-        android:textStyle="bold" />
+        android:layout_height="40dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/container_primary"
+        app:tabPaddingTop="0dp"
+        app:tabPaddingBottom="0dp"
+        app:tabIndicatorColor="@color/primary"
+        app:tabSelectedTextColor="@color/primary"
+        app:tabTextColor="@color/simple_text">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/history_tab_games" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/history_tab_graph" />
+    </com.google.android.material.tabs.TabLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_history_list"
