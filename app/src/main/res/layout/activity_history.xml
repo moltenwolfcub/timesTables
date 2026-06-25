@@ -233,10 +233,29 @@
             android:text="@string/history_tab_graph" />
     </com.google.android.material.tabs.TabLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_history_list"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        tools:listitem="@layout/item_history_row" />
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_history_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            tools:listitem="@layout/item_history_row" />
+
+        <info.appdev.charting.charts.LineChart
+            android:id="@+id/trendLineChart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/container_primary"
+            android:paddingTop="24dp"
+            android:paddingBottom="16dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+
+    </FrameLayout>
 </LinearLayout>

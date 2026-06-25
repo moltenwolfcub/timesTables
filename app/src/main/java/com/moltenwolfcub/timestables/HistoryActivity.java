@@ -22,9 +22,13 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.tabs.TabLayout;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import info.appdev.charting.charts.LineChart;
 
 public class HistoryActivity extends AppCompatActivity {
 
@@ -60,10 +64,31 @@ public class HistoryActivity extends AppCompatActivity {
         etFilterTable = findViewById(R.id.et_filter_table);
         etFilterPlayer = findViewById(R.id.et_filter_player);
         RecyclerView rvHistory = findViewById(R.id.rv_history_list);
+        LineChart trendLineChart = findViewById(R.id.trendLineChart);
+        TabLayout tabSelector = findViewById(R.id.historyTabLayout);
 
         rvHistory.setLayoutManager(new LinearLayoutManager(this));
         adapter = new HistoryAdapter(new ArrayList<>());
         rvHistory.setAdapter(adapter);
+
+        tabSelector.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 1) {
+                    rvHistory.setVisibility(View.GONE);
+                    trendLineChart.setVisibility(View.VISIBLE);
+                } else {//default page is the history
+                    rvHistory.setVisibility(View.VISIBLE);
+                    trendLineChart.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {}
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {}
+        });
 
         btnAll.setOnClickListener(v -> {
             updateTimeFilter(0);
