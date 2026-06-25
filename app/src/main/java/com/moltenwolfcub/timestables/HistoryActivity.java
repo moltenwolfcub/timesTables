@@ -256,9 +256,7 @@ public class HistoryActivity extends AppCompatActivity {
 
         LineDataSet<EntryFloat> dataSet = new LineDataSet<>(chartEntries, "Speed Trend");
 
-        int colorPrimary = ContextCompat.getColor(this, R.color.primary);
         int colorSpeed = ContextCompat.getColor(this, R.color.speed);
-//        int colorBackground = ContextCompat.getColor(this, R.color.background);
 
         dataSet.setLineMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         dataSet.setLineWidth(2.5f);
@@ -279,7 +277,7 @@ public class HistoryActivity extends AppCompatActivity {
 
     private void configureChartAesthetics() {
         int colorSimpleText = ContextCompat.getColor(this, R.color.simple_text);
-//
+
         trendLineChart.getDescription().setEnabled(false);
         trendLineChart.getLegend().setEnabled(false);
         trendLineChart.setDrawGridBackground(false);
@@ -315,7 +313,7 @@ public class HistoryActivity extends AppCompatActivity {
         trendLineChart.getAxisRight().setEnabled(false);
     }
     private static class TimeAxisFormatter implements IAxisValueFormatter {
-        private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM", java.util.Locale.UK);
+        private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM", java.util.Locale.UK); //TODO adapt for range selected
 
         @NonNull
         @Override
