@@ -29,6 +29,9 @@ import java.util.Calendar;
 import java.util.List;
 
 import info.appdev.charting.charts.LineChart;
+import info.appdev.charting.data.EntryFloat;
+import info.appdev.charting.data.LineData;
+import info.appdev.charting.data.LineDataSet;
 
 public class HistoryActivity extends AppCompatActivity {
 
@@ -36,6 +39,7 @@ public class HistoryActivity extends AppCompatActivity {
     private TextView tvTotalGames, tvAvgSpeed, tvBestSpeed, tvAvgDev;
     private EditText etFilterTable, etFilterPlayer;
     private HistoryAdapter adapter;
+    private LineChart trendLineChart;
     private AppDatabase db;
 
     private long currentCutoffTime = 0;
@@ -64,7 +68,7 @@ public class HistoryActivity extends AppCompatActivity {
         etFilterTable = findViewById(R.id.et_filter_table);
         etFilterPlayer = findViewById(R.id.et_filter_player);
         RecyclerView rvHistory = findViewById(R.id.rv_history_list);
-        LineChart trendLineChart = findViewById(R.id.trendLineChart);
+        trendLineChart = findViewById(R.id.trendLineChart);
         TabLayout tabSelector = findViewById(R.id.historyTabLayout);
 
         rvHistory.setLayoutManager(new LinearLayoutManager(this));
@@ -220,9 +224,51 @@ public class HistoryActivity extends AppCompatActivity {
                 tvAvgSpeed.setText(totalGames > 0 ? getString(R.string.history_average_speed, Question.formatDuration(this, avgSpeed)) : getString(R.string.history_average_speed_empty));
                 tvBestSpeed.setText(totalGames > 0 ? getString(R.string.history_best_speed, Question.formatDuration(this, bestSpeed)) : getString(R.string.history_best_speed_empty));
                 tvAvgDev.setText(totalGames > 0 ? getString(R.string.history_average_consistency, Question.formatDuration(this, avgDev)) : getString(R.string.history_average_consistency_empty));
+
                 adapter.updateList(records);
+                populateTrendGraph(records);
             });
         });
+    }
+
+    private void populateTrendGraph(List<GameRecord> records) {
+        if (records == null || records.isEmpty()) {
+            trendLineChart.clear();
+            return;
+        }
+
+        List<EntryFloat> chartEntries = new ArrayList<>();
+        for (int i = records.size() - 1; i >= 0; i--) {
+            GameRecord r = records.get(i);
+            chartEntries.add(new EntryFloat((float) r.getTimestamp(), (float) r.getAverageSpeed()));
+        }
+
+        LineDataSet<EntryFloat> dataSet = new LineDataSet<>(chartEntries, "Average Time Per Question");
+
+        int colorPrimary = ContextCompat.getColor(this, R.color.primary);
+        int colorSpeed = ContextCompat.getColor(this, R.color.speed);
+        int colorBackground = ContextCompat.getColor(this, R.color.background);
+
+        dataSet.setLineMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        dataSet.setLineWidth(3f);
+        dataSet.setColor(colorSpeed);
+
+        dataSet.setDrawCircles(false);
+//        dataSet.setCircleColor(colorSpeed);
+//        dataSet.setCircleRadius(5f);
+//        dataSet.setCircleHoleRadius(2.5f);
+//        dataSet.setCircleHoleColor(colorBackground);
+
+        dataSet.setDrawValues(false);
+        dataSet.setHighLightColor(colorPrimary);
+
+
+        LineData lineData = new LineData();
+        lineData.addDataSet(dataSet);
+        trendLineChart.setData(lineData);
+
+        trendLineChart.notifyDataSetChanged();
+        trendLineChart.invalidate();
     }
 
     private static class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
