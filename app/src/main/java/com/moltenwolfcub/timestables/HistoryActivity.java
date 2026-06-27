@@ -240,10 +240,36 @@ public class HistoryActivity extends AppCompatActivity {
         }
 
         List<EntryFloat> chartEntries = new ArrayList<>();
+
+        //data for extrapolation
+        long cutoffMin = currentTimeFilter.getCuttoffTime();
+        long currentMax = System.currentTimeMillis();
+        if (currentTimeFilter == TimeFilter.ALL) {
+            cutoffMin = records.get(records.size() - 1).getTimestamp();
+//            currentMax = records.get(0).getTimestamp();
+        }
+
+        //extrapolate forwards
+        GameRecord oldestRecord = records.get(records.size() - 1);
+        if (/*currentTimeFilter != TimeFilter.ALL && */oldestRecord.getTimestamp() > cutoffMin) {
+            chartEntries.add(new EntryFloat((float) cutoffMin, (float) oldestRecord.getAverageSpeed()));
+        }
+
+        // actual data
         for (int i = records.size() - 1; i >= 0; i--) {
             GameRecord r = records.get(i);
             chartEntries.add(new EntryFloat((float) r.getTimestamp(), (float) r.getAverageSpeed()));
         }
+
+        //extrapolate backwards
+        GameRecord newestRecord = records.get(0);
+        if (/*currentTimeFilter != TimeFilter.ALL && */newestRecord.getTimestamp() < currentMax) {
+            chartEntries.add(new EntryFloat((float) currentMax, (float) newestRecord.getAverageSpeed()));
+        }
+
+        XAxis xAxis = trendLineChart.getXAxis();
+        xAxis.setAxisMinimum((float) cutoffMin);
+        xAxis.setAxisMaximum((float) currentMax);
 
         LineDataSet<EntryFloat> dataSet = new LineDataSet<>(chartEntries, "Speed Trend");
 
@@ -279,6 +305,7 @@ public class HistoryActivity extends AppCompatActivity {
         trendLineChart.setDragEnabled(false);
         trendLineChart.setHighlightPerDragEnabled(false);
         trendLineChart.setExtraBottomOffset(15);
+        trendLineChart.setExtraRightOffset(25);
 
         XAxis xAxis = trendLineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
