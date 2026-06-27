@@ -249,7 +249,7 @@ public class HistoryActivity extends AppCompatActivity {
 
         int colorSpeed = ContextCompat.getColor(this, R.color.speed);
 
-        dataSet.setLineMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        dataSet.setLineMode(LineDataSet.Mode.LINEAR);
         dataSet.setLineWidth(2.5f);
         dataSet.setColor(colorSpeed);
 
@@ -278,23 +278,25 @@ public class HistoryActivity extends AppCompatActivity {
         trendLineChart.setScaleEnabled(false);
         trendLineChart.setDragEnabled(false);
         trendLineChart.setHighlightPerDragEnabled(false);
+        trendLineChart.setExtraBottomOffset(15);
 
         XAxis xAxis = trendLineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextColor(colorSimpleText);
         xAxis.setTextSize(11);
-        xAxis.setDrawAxisLine(false);
+        xAxis.setDrawAxisLine(true);
         xAxis.setDrawGridLines(true);
         xAxis.setGridColor(Color.parseColor("#1AFFFFFF"));
         xAxis.setGridLineWidth(1);
         xAxis.setYOffset(12);
         xAxis.setLabelCount(4, true);
+        xAxis.setAvoidFirstLastClipping(true);
         xAxis.setValueFormatter(timeAxisFormatter);
 
         YAxis leftAxis = trendLineChart.getAxisLeft();
         leftAxis.setTextColor(colorSimpleText);
         leftAxis.setTextSize(11);
-        leftAxis.setDrawAxisLine(false);
+        leftAxis.setDrawAxisLine(true);
         leftAxis.setDrawGridLines(true);
         leftAxis.setGridColor(Color.parseColor("#1AFFFFFF"));
         leftAxis.setGridLineWidth(1);
