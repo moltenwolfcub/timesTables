@@ -51,7 +51,7 @@ public class HistoryActivity extends AppCompatActivity {
     private LineChart trendLineChart;
     private AppDatabase db;
 
-    private long currentCutoffTime = 0;
+    private TimeFilter currentTimeFilter = TimeFilter.ALL;
     private int currentMaxTableFilter = 0;
     private String currentPlayerFilter = "";
 
@@ -106,19 +106,19 @@ public class HistoryActivity extends AppCompatActivity {
         });
 
         btnAll.setOnClickListener(v -> {
-            updateTimeFilter(0);
+            updateTimeFilter(TimeFilter.ALL);
             setActiveButton(btnAll);
         });
         btnMonth.setOnClickListener(v -> {
-            updateTimeFilter(getCutoffTimestamp(Calendar.MONTH, -1));
+            updateTimeFilter(TimeFilter.MONTH);
             setActiveButton(btnMonth);
         });
         btnWeek.setOnClickListener(v -> {
-            updateTimeFilter(getCutoffTimestamp(Calendar.WEEK_OF_YEAR, -1));
+            updateTimeFilter(TimeFilter.WEEK);
             setActiveButton(btnWeek);
         });
         btnToday.setOnClickListener(v -> {
-            updateTimeFilter(getCutoffTimestamp(Calendar.DAY_OF_YEAR, 0));
+            updateTimeFilter(TimeFilter.DAY);
             setActiveButton(btnToday);
         });
 
@@ -190,26 +190,10 @@ public class HistoryActivity extends AppCompatActivity {
         return super.dispatchTouchEvent(event);
     }
 
-    private void updateTimeFilter(long newCutoff) {
-        if (newCutoff==getCutoffTimestamp(Calendar.DAY_OF_YEAR, 0)) {
-            this.timeAxisFormatter.changeTimeMode(TimeAxisFormatter.Config.Daily);
-        } else {
-            this.timeAxisFormatter.changeTimeMode(TimeAxisFormatter.Config.Other);
-        }
-        this.currentCutoffTime = newCutoff;
+    private void updateTimeFilter(TimeFilter filter) {
+        this.timeAxisFormatter.setTimeFilter(filter);
+        this.currentTimeFilter = filter;
         loadDashboardData();
-    }
-
-    private long getCutoffTimestamp(int calendarField, int amount) {
-        Calendar cal = Calendar.getInstance();
-        if (calendarField == Calendar.DAY_OF_YEAR && amount == 0) {
-            cal.set(Calendar.HOUR_OF_DAY, 0);
-            cal.set(Calendar.MINUTE, 0);
-            cal.set(Calendar.SECOND, 0);
-            return cal.getTimeInMillis();
-        }
-        cal.add(calendarField, amount);
-        return cal.getTimeInMillis();
     }
 
     private void setActiveButton(Button activeIntent) {
@@ -231,11 +215,11 @@ public class HistoryActivity extends AppCompatActivity {
     private void loadDashboardData() {
         // Run database queries on a background thread
         AppDatabase.databaseWriteExecutor.execute(() -> {
-            int totalGames = db.gameHistoryDao().getGameCount(currentCutoffTime, currentMaxTableFilter, currentPlayerFilter);
-            double avgSpeed = db.gameHistoryDao().getAverageSpeed(currentCutoffTime, currentMaxTableFilter, currentPlayerFilter);
-            double bestSpeed = db.gameHistoryDao().getBestMatchSpeed(currentCutoffTime, currentMaxTableFilter, currentPlayerFilter);
-            double avgDev = db.gameHistoryDao().getAverageSD(currentCutoffTime, currentMaxTableFilter, currentPlayerFilter);
-            List<GameRecord> records = db.gameHistoryDao().getGamesFiltered(currentCutoffTime, currentMaxTableFilter, currentPlayerFilter);
+            int totalGames = db.gameHistoryDao().getGameCount(currentTimeFilter.getCuttoffTime(), currentMaxTableFilter, currentPlayerFilter);
+            double avgSpeed = db.gameHistoryDao().getAverageSpeed(currentTimeFilter.getCuttoffTime(), currentMaxTableFilter, currentPlayerFilter);
+            double bestSpeed = db.gameHistoryDao().getBestMatchSpeed(currentTimeFilter.getCuttoffTime(), currentMaxTableFilter, currentPlayerFilter);
+            double avgDev = db.gameHistoryDao().getAverageSD(currentTimeFilter.getCuttoffTime(), currentMaxTableFilter, currentPlayerFilter);
+            List<GameRecord> records = db.gameHistoryDao().getGamesFiltered(currentTimeFilter.getCuttoffTime(), currentMaxTableFilter, currentPlayerFilter);
 
             runOnUiThread(() -> {
                 tvTotalGames.setText(getString(R.string.history_total_games, totalGames));
@@ -321,30 +305,16 @@ public class HistoryActivity extends AppCompatActivity {
         trendLineChart.getAxisRight().setEnabled(false);
     }
     private static class TimeAxisFormatter implements IAxisValueFormatter {
-        private Config dateConfig = Config.Other;
+        private TimeFilter timeFilter = TimeFilter.ALL;
 
         @NonNull
         @Override
         public String getFormattedValue(float value, @Nullable AxisBase axisBase) {
-            return dateConfig.fmt(value);
+            return timeFilter.formatDate(value);
         }
 
-        public void changeTimeMode(Config cfg) {
-            dateConfig = cfg;
-        }
-
-        public enum Config {
-            Daily(new SimpleDateFormat("HH:mm", java.util.Locale.UK)),
-            Other(new SimpleDateFormat("dd MMM", java.util.Locale.UK));
-
-            private final SimpleDateFormat dateFmt;
-            Config(SimpleDateFormat format) {
-                this.dateFmt = format;
-            }
-
-            public String fmt(float val) {
-                return dateFmt.format(new Date((long) val));
-            }
+        public void setTimeFilter(TimeFilter filter) {
+            timeFilter = filter;
         }
     }
 
@@ -355,6 +325,53 @@ public class HistoryActivity extends AppCompatActivity {
         @Override
         public String getFormattedValue(float value, @Nullable AxisBase axisBase) {
             return df.format(value/1_000_000_000.0);
+        }
+    }
+
+    private enum TimeFilter {
+        ALL,
+        MONTH,
+        WEEK,
+        DAY;
+
+        private long getCuttoffTime() {
+            switch (this) {
+                case MONTH:
+                    return getCutoffTimestamp(Calendar.MONTH, -1);
+                case WEEK:
+                    return getCutoffTimestamp(Calendar.WEEK_OF_YEAR, -1);
+                case DAY:
+                    return getCutoffTimestamp(Calendar.DAY_OF_YEAR, 0);
+                case ALL:
+                default:
+                    return 0;
+            }
+        }
+
+        private String formatDate(float val) {
+            SimpleDateFormat dateFmt;
+            switch (this) {
+                case DAY:
+                    dateFmt = new SimpleDateFormat("HH:mm", java.util.Locale.UK);
+                    break;
+                default:
+                    dateFmt = new SimpleDateFormat("dd MMM", java.util.Locale.UK);
+                    break;
+            }
+
+            return dateFmt.format(new Date((long) val));
+        }
+
+        private static long getCutoffTimestamp(int calendarField, int amount) {
+            Calendar cal = Calendar.getInstance();
+            if (calendarField == Calendar.DAY_OF_YEAR && amount == 0) {
+                cal.set(Calendar.HOUR_OF_DAY, 0);
+                cal.set(Calendar.MINUTE, 0);
+                cal.set(Calendar.SECOND, 0);
+                return cal.getTimeInMillis();
+            }
+            cal.add(calendarField, amount);
+            return cal.getTimeInMillis();
         }
     }
 
