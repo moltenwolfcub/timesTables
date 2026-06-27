@@ -55,6 +55,8 @@ public class HistoryActivity extends AppCompatActivity {
     private int currentMaxTableFilter = 0;
     private String currentPlayerFilter = "";
 
+    private final TimeAxisFormatter timeAxisFormatter = new TimeAxisFormatter();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -189,6 +191,11 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     private void updateTimeFilter(long newCutoff) {
+        if (newCutoff==getCutoffTimestamp(Calendar.DAY_OF_YEAR, 0)) {
+            this.timeAxisFormatter.changeTimeMode(TimeAxisFormatter.Config.Daily);
+        } else {
+            this.timeAxisFormatter.changeTimeMode(TimeAxisFormatter.Config.Other);
+        }
         this.currentCutoffTime = newCutoff;
         loadDashboardData();
     }
@@ -261,7 +268,8 @@ public class HistoryActivity extends AppCompatActivity {
         dataSet.setLineMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         dataSet.setLineWidth(2.5f);
         dataSet.setColor(colorSpeed);
-        dataSet.setDrawCircles(false);
+
+        dataSet.setDrawCircles(true);
 
         dataSet.setDrawValues(false);
         dataSet.setHighlight(false);
@@ -297,7 +305,7 @@ public class HistoryActivity extends AppCompatActivity {
         xAxis.setGridLineWidth(1);
         xAxis.setYOffset(12);
         xAxis.setLabelCount(4, true);
-        xAxis.setValueFormatter(new TimeAxisFormatter());
+        xAxis.setValueFormatter(timeAxisFormatter);
 
         YAxis leftAxis = trendLineChart.getAxisLeft();
         leftAxis.setTextColor(colorSimpleText);
@@ -313,12 +321,30 @@ public class HistoryActivity extends AppCompatActivity {
         trendLineChart.getAxisRight().setEnabled(false);
     }
     private static class TimeAxisFormatter implements IAxisValueFormatter {
-        private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM", java.util.Locale.UK); //TODO adapt for range selected
+        private Config dateConfig = Config.Other;
 
         @NonNull
         @Override
         public String getFormattedValue(float value, @Nullable AxisBase axisBase) {
-            return dateFormat.format(new Date((long) value));
+            return dateConfig.fmt(value);
+        }
+
+        public void changeTimeMode(Config cfg) {
+            dateConfig = cfg;
+        }
+
+        public enum Config {
+            Daily(new SimpleDateFormat("HH:mm", java.util.Locale.UK)),
+            Other(new SimpleDateFormat("dd MMM", java.util.Locale.UK));
+
+            private final SimpleDateFormat dateFmt;
+            Config(SimpleDateFormat format) {
+                this.dateFmt = format;
+            }
+
+            public String fmt(float val) {
+                return dateFmt.format(new Date((long) val));
+            }
         }
     }
 
