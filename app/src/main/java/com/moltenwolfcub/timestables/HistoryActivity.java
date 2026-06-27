@@ -292,6 +292,31 @@ public class HistoryActivity extends AppCompatActivity {
         xAxis.setAxisMinimum((float) cutoffMin);
         xAxis.setAxisMaximum((float) currentMax);
 
+        // line of best fit
+        List<EntryFloat> bestFitEntries = new ArrayList<>();
+        if (chartEntries.size() >= 2) {
+            double sumX = 0, sumY = 0, sumPairs = 0, sumSquares = 0;
+            int n = chartEntries.size();
+
+            for (EntryFloat entry : chartEntries) {
+                float x = entry.getX();
+                float y = entry.getY();
+                sumX += x;
+                sumY += y;
+                sumPairs += (double) x * y;
+                sumSquares += (double) x * x;
+            }
+
+            double denominator = (n * sumSquares) - (sumX * sumX);
+            if (denominator != 0) {
+                double m = ((n * sumPairs) - (sumX * sumY)) / denominator;
+                double c = (sumY - (m * sumX)) / n;
+
+                bestFitEntries.add(new EntryFloat(cutoffMin, (float) ((m * cutoffMin) + c)));
+                bestFitEntries.add(new EntryFloat(currentMax, (float) ((m * currentMax) + c)));
+            }
+        }
+
         LineDataSet<EntryFloat> dataSet = new LineDataSet<>(chartEntries, "Speed Trend");
 
         int colorSpeed = ContextCompat.getColor(this, R.color.speed);
@@ -301,13 +326,26 @@ public class HistoryActivity extends AppCompatActivity {
         dataSet.setColor(colorSpeed);
 
         dataSet.setDrawCircles(false);
-
         dataSet.setDrawValues(false);
         dataSet.setHighlight(false);
 
-
         LineData lineData = new LineData();
         lineData.addDataSet(dataSet);
+
+        if (!bestFitEntries.isEmpty()) {
+            LineDataSet<EntryFloat> bestFitDataSet = new LineDataSet<>(bestFitEntries, "Line of Best Fit");
+            bestFitDataSet.setColor(Color.argb(100, Color.red(colorSpeed), Color.green(colorSpeed), Color.blue(colorSpeed)));
+
+            bestFitDataSet.setLineMode(LineDataSet.Mode.LINEAR);
+            bestFitDataSet.setLineWidth(1.5f);
+            bestFitDataSet.setDrawCircles(false);
+            bestFitDataSet.setDrawValues(false);
+            bestFitDataSet.setHighlight(false);
+
+            bestFitDataSet.enableDashedLine(12f, 12f, 0f);
+
+            lineData.addDataSet(bestFitDataSet);
+        }
 
         trendLineChart.setData(lineData);
         trendLineChart.notifyDataSetChanged();
