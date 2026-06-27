@@ -31,7 +31,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import info.appdev.charting.charts.LineChart;
 import info.appdev.charting.components.AxisBase;
@@ -239,32 +241,51 @@ public class HistoryActivity extends AppCompatActivity {
             return;
         }
 
-        List<EntryFloat> chartEntries = new ArrayList<>();
-
-        //data for extrapolation
+        // data for extrapolation
         long cutoffMin = currentTimeFilter.getCuttoffTime();
         long currentMax = System.currentTimeMillis();
         if (currentTimeFilter == TimeFilter.ALL) {
             cutoffMin = records.get(records.size() - 1).getTimestamp();
-//            currentMax = records.get(0).getTimestamp();
         }
 
-        //extrapolate forwards
-        GameRecord oldestRecord = records.get(records.size() - 1);
-        if (/*currentTimeFilter != TimeFilter.ALL && */oldestRecord.getTimestamp() > cutoffMin) {
-            chartEntries.add(new EntryFloat((float) cutoffMin, (float) oldestRecord.getAverageSpeed()));
-        }
-
-        // actual data
+        // sort data points into buckets
+        long bucketSize = currentTimeFilter.getDownSampleBucket();
+        LinkedHashMap<Long, List<Double>> bucketedData = new LinkedHashMap<>();
         for (int i = records.size() - 1; i >= 0; i--) {
             GameRecord r = records.get(i);
-            chartEntries.add(new EntryFloat((float) r.getTimestamp(), (float) r.getAverageSpeed()));
+            long bucketId = (r.getTimestamp()/bucketSize)*bucketSize;
+
+            if (!bucketedData.containsKey(bucketId)) {
+                bucketedData.put(bucketId, new ArrayList<>());
+            }
+            bucketedData.get(bucketId).add(r.getAverageSpeed());
         }
 
-        //extrapolate backwards
-        GameRecord newestRecord = records.get(0);
-        if (/*currentTimeFilter != TimeFilter.ALL && */newestRecord.getTimestamp() < currentMax) {
-            chartEntries.add(new EntryFloat((float) currentMax, (float) newestRecord.getAverageSpeed()));
+        // average buckets
+        List<EntryFloat> smoothedEntries = new ArrayList<>();
+        for (Map.Entry<Long, List<Double>> bucket : bucketedData.entrySet()) {
+            List<Double> rawEntries = bucket.getValue();
+
+            double bucketAvg = rawEntries.stream().mapToDouble(Double::doubleValue).average().orElse(0);
+
+            float centredTimestamp = (float) (bucket.getKey() + (bucketSize / 2));
+
+            smoothedEntries.add(new EntryFloat(centredTimestamp, (float) bucketAvg));
+        }
+
+        // construct actual graph points
+        List<EntryFloat> chartEntries = new ArrayList<>();
+
+        // extrapolate backwards
+        if (!smoothedEntries.isEmpty() && smoothedEntries.get(0).getX() > cutoffMin) {
+            chartEntries.add(new EntryFloat((float) cutoffMin, smoothedEntries.get(0).getY()));
+        }
+
+        chartEntries.addAll(smoothedEntries);
+
+        // extrapolate forwards
+        if (!smoothedEntries.isEmpty() && smoothedEntries.get(smoothedEntries.size() - 1).getX() < currentMax) {
+            chartEntries.add(new EntryFloat((float) currentMax, smoothedEntries.get(smoothedEntries.size() - 1).getY()));
         }
 
         XAxis xAxis = trendLineChart.getXAxis();
@@ -275,11 +296,11 @@ public class HistoryActivity extends AppCompatActivity {
 
         int colorSpeed = ContextCompat.getColor(this, R.color.speed);
 
-        dataSet.setLineMode(LineDataSet.Mode.LINEAR);
+        dataSet.setLineMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         dataSet.setLineWidth(2.5f);
         dataSet.setColor(colorSpeed);
 
-        dataSet.setDrawCircles(true);
+        dataSet.setDrawCircles(false);
 
         dataSet.setDrawValues(false);
         dataSet.setHighlight(false);
@@ -362,6 +383,20 @@ public class HistoryActivity extends AppCompatActivity {
         MONTH,
         WEEK,
         DAY;
+
+        private long getDownSampleBucket() { // returns in ms
+            switch (this) {
+                case DAY:
+                    return 15 * 60 * 1000L; // 15 minutes
+                case WEEK:
+                    return 2 * 60 * 60 * 1000L; // 2 hours
+                case MONTH:
+                    return 12 * 60 * 60 * 1000L; // 12 hours
+                case ALL:
+                default:
+                    return 24 * 60 * 60 * 1000L; // 1 day
+            }
+        }
 
         private long getCuttoffTime() {
             switch (this) {
